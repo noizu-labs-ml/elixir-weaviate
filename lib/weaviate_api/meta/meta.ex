@@ -1,4 +1,4 @@
-defmodule WeaviateApi.Meta.GetMetaInformation do
+defmodule Noizu.Weaviate.Api.Meta do
   @moduledoc """
   Functions for getting meta information about the Weaviate instance.
   """

@@ -1,4 +1,4 @@
-defmodule WeaviateApi.Nodes.GetInformationAboutNodes do
+defmodule Noizu.Weaviate.Api.Nodes do
   @moduledoc """
   Functions for getting information about the Weaviate nodes.
   """
