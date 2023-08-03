@@ -1,3 +1,0 @@
-defmodule WeaviateApi.Schema.ConfigureVectorIndices do
-  # TODO: Implement API endpoint
-end do

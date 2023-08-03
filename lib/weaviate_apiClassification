@@ -1,3 +1,0 @@
-defmodule WeaviateApi.Backups.CreateBackup do
-  # TODO: Implement API endpoint
-end do
