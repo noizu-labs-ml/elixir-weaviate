@@ -1,8 +1,14 @@
-defmodule Noizu.WeaviateApi.Auth do
+defmodule Noizu.Weaviate.Api.Auth do
   @moduledoc """
   Functions for authentication in the Weaviate API.
   """
 
+  alias Noizu.Weaviate
+  require Noizu.Weaviate
+  import Noizu.Weaviate
+  #-------------------------------
+  #
+  #-------------------------------
   @doc """
   Makes an API call to the Weaviate endpoint with the given method and URL.
 
@@ -18,18 +24,16 @@ defmodule Noizu.WeaviateApi.Auth do
 
   ## Examples
 
-      {:ok, response} = Noizu.WeaviateApi.Auth.api_call(:get, "/v1/.well-known/openid-configuration")
+      {:ok, response} = Noizu.Weaviate.Api.Auth.api_call(:get, "/v1/.well-known/openid-configuration")
   """
   @spec api_call(atom, String.t()) :: {:ok, any()} | {:error, any()}
   def api_call(method, url) do
-    # Make the API request
-    # ...
+    api_call(method, url, nil, :json, nil)
   end
 
-  @moduledoc """
-  Functions for getting the OpenID configuration in Weaviate.
-  """
-
+  #-------------------------------
+  #
+  #-------------------------------
   @doc """
   Get the OpenID configuration in Weaviate.
 
@@ -40,21 +44,20 @@ defmodule Noizu.WeaviateApi.Auth do
 
   ## Examples
 
-      {:ok, response} = Noizu.WeaviateApi.Auth.get_openid_configuration()
+      {:ok, response} = Noizu.Weaviate.Api.Auth.get_openid_configuration()
   """
   @spec get_openid_configuration() :: {:ok, any()} | {:error, any()}
   def get_openid_configuration() do
     # Construct the request URL
-    url = "/v1/.well-known/openid-configuration"
+    url = Weaviate.weaviate_base() <> "/.well-known/openid-configuration"
 
     # Make the API request
-    api_call(:get, url)
+    api_call(:get, url, nil, :json, nil)
   end
 
-  @moduledoc """
-  Functions for checking the liveness of the Weaviate application.
-  """
-
+  #-------------------------------
+  #
+  #-------------------------------
   @doc """
   Check if the Weaviate application is alive.
 
@@ -65,21 +68,20 @@ defmodule Noizu.WeaviateApi.Auth do
 
   ## Examples
 
-      {:ok, response} = Noizu.WeaviateApi.Auth.check_liveness()
+      {:ok, response} = Noizu.Weaviate.Api.Auth.check_liveness()
   """
   @spec check_liveness() :: {:ok, any()} | {:error, any()}
   def check_liveness() do
     # Construct the request URL
-    url = "/v1/.well-known/live"
+    url = Weaviate.weaviate_base() <> "/.well-known/live"
 
     # Make the API request
-    api_call(:get, url)
+    api_call(:get, url, nil, :json, nil)
   end
 
-  @moduledoc """
-  Functions for checking the readiness of the Weaviate application.
-  """
-
+  #-------------------------------
+  #
+  #-------------------------------
   @doc """
   Check if the Weaviate application is ready to receive traffic.
 
@@ -90,14 +92,14 @@ defmodule Noizu.WeaviateApi.Auth do
 
   ## Examples
 
-      {:ok, response} = Noizu.WeaviateApi.Auth.check_readiness()
+      {:ok, response} = Noizu.Weaviate.Api.Auth.check_readiness()
   """
   @spec check_readiness() :: {:ok, any()} | {:error, any()}
   def check_readiness() do
     # Construct the request URL
-    url = "/v1/.well-known/ready"
+    url = Weaviate.weaviate_base() <> "/.well-known/ready"
 
     # Make the API request
-    api_call(:get, url)
+    api_call(:get, url, nil, :json, nil)
   end
 end

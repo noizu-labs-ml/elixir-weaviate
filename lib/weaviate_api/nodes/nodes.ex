@@ -3,6 +3,9 @@ defmodule Noizu.Weaviate.Api.Nodes do
   Functions for getting information about the Weaviate nodes.
   """
 
+  require Noizu.Weaviate
+  import Noizu.Weaviate
+
   @doc """
   Get information about the Weaviate nodes.
 
@@ -13,14 +16,12 @@ defmodule Noizu.Weaviate.Api.Nodes do
 
   ## Examples
 
-      {:ok, response} = WeaviateApi.Nodes.GetInformationAboutNodes.get_information_about_nodes()
+      {:ok, response} = Noizu.Weaviate.Api.Nodes.get_information_about_nodes()
   """
   @spec get_information_about_nodes() :: {:ok, any()} | {:error, any()}
   def get_information_about_nodes() do
-    # Construct the request URL
-    url = "/v1/nodes"
+    url = "#{Noizu.Weaviate.weaviate_base()}nodes"
 
-    # Make the API request
-    api_call(:get, url)
+    Noizu.Weaviate.api_call(:get, url, nil, :json,  nil)
   end
 end

@@ -1,7 +1,11 @@
+
 defmodule Noizu.Weaviate.Api.Batch do
   @moduledoc """
   Functions for batch operations in Weaviate.
   """
+
+  require Noizu.Weaviate
+  import Noizu.Weaviate
 
   @doc """
   Batch create objects in Weaviate.
@@ -43,10 +47,10 @@ defmodule Noizu.Weaviate.Api.Batch do
 
       objects = [object1, object2]
 
-      {:ok, response} = Noizu.Weaviate.Api.Batch.batch_create_objects(objects)
+      {:ok, response} = Noizu.Weaviate.Api.Batch.create_objects(objects)
   """
-  @spec batch_create_objects([map()]) :: {:ok, any()} | {:error, any()}
-  def batch_create_objects(objects) do
+  @spec create_objects([map()]) :: {:ok, any()} | {:error, any()}
+  def create_objects(objects) do
     # Construct the request URL
     url = "/v1/batch/objects"
 
@@ -54,7 +58,7 @@ defmodule Noizu.Weaviate.Api.Batch do
     body = %{objects: objects}
 
     # Make the API request to batch create the objects
-    api_call(:post, url, body)
+    Noizu.Weaviate.api_call(:post, url, body)
   end
 
   @doc """
@@ -83,10 +87,10 @@ defmodule Noizu.Weaviate.Api.Batch do
 
       references = [reference1, reference2]
 
-      {:ok, response} = Noizu.Weaviate.Api.Batch.batch_create_references(references)
+      {:ok, response} = Noizu.Weaviate.Api.Batch.create_references(references)
   """
-  @spec batch_create_references([map()]) :: {:ok, any()} | {:error, any()}
-  def batch_create_references(references) do
+  @spec create_references([map()]) :: {:ok, any()} | {:error, any()}
+  def create_references(references) do
     # Construct the request URL
     url = "/v1/batch/references"
 
@@ -94,7 +98,7 @@ defmodule Noizu.Weaviate.Api.Batch do
     body = %{references: references}
 
     # Make the API request to batch create the references
-    api_call(:post, url, body)
+    Noizu.Weaviate.api_call(:post, url, body)
   end
 
   @doc """
@@ -120,10 +124,10 @@ defmodule Noizu.Weaviate.Api.Batch do
         "where": %{"name": {"equals": "Product 1"}}
       }
 
-      {:ok, response} = Noizu.Weaviate.Api.Batch.batch_delete_objects(match)
+      {:ok, response} = Noizu.Weaviate.Api.Batch.delete_objects(match)
   """
-  @spec batch_delete_objects(map(), String.t(), boolean()) :: {:ok, any()} | {:error, any()}
-  def batch_delete_objects(match, output \\ "minimal", dry_run \\ false) do
+  @spec delete_objects(map(), String.t(), boolean()) :: {:ok, any()} | {:error, any()}
+  def delete_objects(match, output \\ "minimal", dry_run \\ false) do
     # Construct the request URL
     url = "/v1/batch/objects"
 
@@ -135,6 +139,6 @@ defmodule Noizu.Weaviate.Api.Batch do
     }
 
     # Make the API request to batch delete the objects
-    api_call(:delete, url, body)
+    Noizu.Weaviate.api_call(:delete, url, body)
   end
 end
