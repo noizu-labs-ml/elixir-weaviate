@@ -4,8 +4,8 @@ defmodule WeaviateStructs.BatchParams do
   ]
 
   def from_json(%{
-    "consistency_level" => consistency_level
-  }) do
+        "consistency_level" => consistency_level
+      }) do
     %__MODULE__{
       consistency_level: consistency_level
     }

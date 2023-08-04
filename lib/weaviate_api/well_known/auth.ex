@@ -6,9 +6,9 @@ defmodule Noizu.Weaviate.Api.Auth do
   alias Noizu.Weaviate
   require Noizu.Weaviate
   import Noizu.Weaviate
-  #-------------------------------
+  # -------------------------------
   #
-  #-------------------------------
+  # -------------------------------
   @doc """
   Makes an API call to the Weaviate endpoint with the given method and URL.
 
@@ -31,9 +31,9 @@ defmodule Noizu.Weaviate.Api.Auth do
     api_call(method, url, body, response_type, :json, options)
   end
 
-  #-------------------------------
+  # -------------------------------
   #
-  #-------------------------------
+  # -------------------------------
   @doc """
   Get the OpenID configuration in Weaviate.
 
@@ -55,9 +55,9 @@ defmodule Noizu.Weaviate.Api.Auth do
     api_call(:get, url, nil, WeaviateStructs.OpenIDConfiguration, options)
   end
 
-  #-------------------------------
+  # -------------------------------
   #
-  #-------------------------------
+  # -------------------------------
   @doc """
   Check if the Weaviate application is alive.
 
@@ -79,9 +79,9 @@ defmodule Noizu.Weaviate.Api.Auth do
     api_call(:get, url, nil, {}, options)
   end
 
-  #-------------------------------
+  # -------------------------------
   #
-  #-------------------------------
+  # -------------------------------
   @doc """
   Check if the Weaviate application is ready to receive traffic.
 

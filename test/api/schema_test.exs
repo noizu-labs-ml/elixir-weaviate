@@ -4,6 +4,7 @@ defmodule Noizu.Weaviate.Api.SchemaTest do
   describe "configure_class/2" do
     test "returns :ok when successful" do
     end
+
     test "returns :error when unsuccessful" do
     end
   end
@@ -11,6 +12,7 @@ defmodule Noizu.Weaviate.Api.SchemaTest do
   describe "add_property/2" do
     test "returns :ok when successful" do
     end
+
     test "returns :error when unsuccessful" do
     end
   end
@@ -18,6 +20,7 @@ defmodule Noizu.Weaviate.Api.SchemaTest do
   describe "configure_property/3" do
     test "returns :ok when successful" do
     end
+
     test "returns :error when unsuccessful" do
     end
   end
@@ -25,6 +28,7 @@ defmodule Noizu.Weaviate.Api.SchemaTest do
   describe "configure_vector_indices/2" do
     test "returns :ok when successful" do
     end
+
     test "returns :error when unsuccessful" do
     end
   end
@@ -32,6 +36,7 @@ defmodule Noizu.Weaviate.Api.SchemaTest do
   describe "configure_inverted_index/2" do
     test "returns :ok when successful" do
     end
+
     test "returns :error when unsuccessful" do
     end
   end
@@ -39,6 +44,7 @@ defmodule Noizu.Weaviate.Api.SchemaTest do
   describe "configure_stopwords/2" do
     test "returns :ok when successful" do
     end
+
     test "returns :error when unsuccessful" do
     end
   end
@@ -46,6 +52,7 @@ defmodule Noizu.Weaviate.Api.SchemaTest do
   describe "configure_replication/2" do
     test "returns :ok when successful" do
     end
+
     test "returns :error when unsuccessful" do
     end
   end
@@ -53,6 +60,7 @@ defmodule Noizu.Weaviate.Api.SchemaTest do
   describe "api_call/3" do
     test "returns :ok when successful" do
     end
+
     test "returns :error when unsuccessful" do
     end
   end

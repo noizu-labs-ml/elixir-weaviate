@@ -8,23 +8,24 @@ defmodule WeaviateStructs.DataObject do
   @enforce_keys [:class_name, :properties]
 
   @type t :: %__MODULE__{
-    class_name: String.t(),
-    properties: map(),
-    additional_properties: map(),
-    id: String.t(),
-    vector: list(number()),
-    tenant: String.t()
-  }
+          class_name: String.t(),
+          properties: map(),
+          additional_properties: map(),
+          id: String.t(),
+          vector: list(number()),
+          tenant: String.t()
+        }
 
   def from_json(%{
-    "class" => class,
-    "properties" => properties,
-    "additional_properties" => additional_properties,
-    "vector" => vector,
-    "id" => id,
-    "tenant" => tenant
-  }) do
+        "class" => class,
+        "properties" => properties,
+        "additional_properties" => additional_properties,
+        "vector" => vector,
+        "id" => id,
+        "tenant" => tenant
+      }) do
     properties = Enum.map(properties, &WeaviateStructs.Property.from_json/1)
+
     %__MODULE__{
       class: class,
       properties: properties,

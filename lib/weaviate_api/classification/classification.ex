@@ -26,16 +26,18 @@ defmodule Noizu.Weaviate.Api.Classification do
       {:ok, response} = Noizu.Weaviate.Api.Classification.get_classification_status(classification_id)
   """
   @type classification_response() :: map()
-  @type classification_options() :: %{
-                                      optional(:stream) => Noizu.Weaviate.stream_option()
-                                    } | Keyword.t()
+  @type classification_options() ::
+          %{
+            optional(:stream) => Noizu.Weaviate.stream_option()
+          }
+          | Keyword.t()
 
-  @spec get_classification_status(String.t(), options() \\ nil) :: {:ok, classification_response()} | {:error, any()}
+  @spec get_classification_status(String.t(), options() \\ nil) ::
+          {:ok, classification_response()} | {:error, any()}
   def get_classification_status(classification_id, options \\ nil) do
     url = "#{weaviate_base()}/classifications/#{classification_id}"
     api_call(:get, url, nil, WeaviateStructs.RespObj, options)
   end
-
 
   @doc """
   Start a classification in Weaviate.
@@ -58,20 +60,30 @@ defmodule Noizu.Weaviate.Api.Classification do
       {:ok, response} = Noizu.Weaviate.Api.Classification.start_classification("Product", ["name"], ["description"], "knn")
   """
   @type classification_start_response() :: map()
-  @type classification_start_options() :: %{
-                                            optional(:stream) => Noizu.Weaviate.stream_option()
-                                          } | Keyword.t()
+  @type classification_start_options() ::
+          %{
+            optional(:stream) => Noizu.Weaviate.stream_option()
+          }
+          | Keyword.t()
 
-  @spec start_classification(String.t(), [String.t()], [String.t()], String.t(), options() \\ nil) :: {:ok, classification_start_response()} | {:error, any()}
-  def start_classification(class_name, classify_properties, based_on_properties, classification_type, options \\ nil) do
+  @spec start_classification(String.t(), [String.t()], [String.t()], String.t(), options() \\ nil) ::
+          {:ok, classification_start_response()} | {:error, any()}
+  def start_classification(
+        class_name,
+        classify_properties,
+        based_on_properties,
+        classification_type,
+        options \\ nil
+      ) do
     url = "#{weaviate_base()}/classification"
+
     body = %{
       class_name: class_name,
       classify_properties: classify_properties,
       based_on_properties: based_on_properties,
       classification_type: classification_type
     }
+
     api_call(:post, url, body, WeaviateStructs.RespObj, options)
   end
-
 end

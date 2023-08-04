@@ -17,9 +17,9 @@ defmodule Noizu.Weaviate.Api.Schema do
 
   alias Noizu.Weaviate
   import Noizu.Weaviate
-  #-------------------------------
+  # -------------------------------
   # Class Configuration
-  #-------------------------------
+  # -------------------------------
 
   @doc """
   Configures a class in the Weaviate schema.
@@ -39,7 +39,8 @@ defmodule Noizu.Weaviate.Api.Schema do
 
       {:ok, response} = Noizu.Weaviate.Api.Schema.configure_class(class_name, class_config)
   """
-  @spec configure_class(String.t(), WeaviateStructs.Class.t(), options :: any) :: {:ok, any()} | {:error, any()}
+  @spec configure_class(String.t(), WeaviateStructs.Class.t(), options :: any) ::
+          {:ok, any()} | {:error, any()}
   def configure_class(class_name, class_config, options \\ nil) do
     url = weaviate_base() <> "schema/#{class_name}"
     body = class_config
@@ -47,9 +48,9 @@ defmodule Noizu.Weaviate.Api.Schema do
     api_call(:put, url, body, WeaviateStructs.RespObj, options)
   end
 
-  #-------------------------------
+  # -------------------------------
   # Property Configuration
-  #-------------------------------
+  # -------------------------------
 
   @doc """
   Adds a property to a class in the Weaviate schema.
@@ -70,7 +71,8 @@ defmodule Noizu.Weaviate.Api.Schema do
 
       {:ok, response} = Noizu.Weaviate.Api.Schema.add_property(class_name, property)
   """
-  @spec add_property(String.t(), WeaviateStructs.Property.t(), options :: any) :: {:ok, any()} | {:error, any()}
+  @spec add_property(String.t(), WeaviateStructs.Property.t(), options :: any) ::
+          {:ok, any()} | {:error, any()}
   def add_property(class_name, property, options \\ nil) do
     url = weaviate_base() <> "schema/#{class_name}/properties"
     body = property
@@ -78,9 +80,9 @@ defmodule Noizu.Weaviate.Api.Schema do
     api_call(:put, url, body, WeaviateStructs.RespObj, options)
   end
 
-  #-------------------------------
+  # -------------------------------
   # Vector Index Configuration
-  #-------------------------------
+  # -------------------------------
 
   @doc """
   Configures vector indices for a class in the Weaviate schema.
@@ -100,7 +102,8 @@ defmodule Noizu.Weaviate.Api.Schema do
 
       {:ok, response} = Noizu.Weaviate.Api.Schema.configure_vector_indices(class_name, vector_indices)
   """
-  @spec configure_vector_indices(String.t(), map(), options :: any) :: {:ok, any()} | {:error, any()}
+  @spec configure_vector_indices(String.t(), map(), options :: any) ::
+          {:ok, any()} | {:error, any()}
   def configure_vector_indices(class_name, vector_indices, options \\ nil) do
     url = weaviate_base() <> "schema/#{class_name}/vector-index-config"
     body = vector_indices
@@ -108,9 +111,9 @@ defmodule Noizu.Weaviate.Api.Schema do
     api_call(:put, url, body, WeaviateStructs.RespObj, options)
   end
 
-  #-------------------------------
+  # -------------------------------
   # Inverted Index Configuration
-  #-------------------------------
+  # -------------------------------
 
   @doc """
   Configures inverted index for a class in the Weaviate schema.
@@ -130,7 +133,8 @@ defmodule Noizu.Weaviate.Api.Schema do
 
       {:ok, response} = Noizu.Weaviate.Api.Schema.configure_inverted_index(class_name, inverted_index)
   """
-  @spec configure_inverted_index(String.t(), map(), options :: any) :: {:ok, any()} | {:error, any()}
+  @spec configure_inverted_index(String.t(), map(), options :: any) ::
+          {:ok, any()} | {:error, any()}
   def configure_inverted_index(class_name, inverted_index, options \\ nil) do
     url = weaviate_base() <> "schema/#{class_name}/inverted-index-config"
     body = inverted_index
@@ -138,9 +142,9 @@ defmodule Noizu.Weaviate.Api.Schema do
     api_call(:put, url, body, WeaviateStructs.RespObj, options)
   end
 
-  #-------------------------------
+  # -------------------------------
   # Stopwords Configuration
-  #-------------------------------
+  # -------------------------------
 
   @doc """
   Configures stopwords for a class in the Weaviate schema.
@@ -168,9 +172,9 @@ defmodule Noizu.Weaviate.Api.Schema do
     api_call(:put, url, body, WeaviateStructs.RespObj, options)
   end
 
-  #-------------------------------
+  # -------------------------------
   # Replication Configuration
-  #-------------------------------
+  # -------------------------------
 
   @doc """
   Configures replication in the Weaviate schema.

@@ -6,9 +6,9 @@ defmodule Noizu.Weaviate.Api.Meta do
   require Noizu.Weaviate
   import Noizu.Weaviate
 
-  #-------------------------------
+  # -------------------------------
   #
-  #-------------------------------
+  # -------------------------------
   @doc """
   Get meta information about the Weaviate instance.
 

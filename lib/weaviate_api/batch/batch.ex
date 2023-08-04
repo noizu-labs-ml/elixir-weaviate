@@ -1,4 +1,3 @@
-
 defmodule Noizu.Weaviate.Api.Batch do
   @moduledoc """
   Functions for batch operations in Weaviate.
@@ -7,9 +6,9 @@ defmodule Noizu.Weaviate.Api.Batch do
   require Noizu.Weaviate
   import Noizu.Weaviate
 
-  #-------------------------------
+  # -------------------------------
   # Batch create objects
-  #-------------------------------
+  # -------------------------------
 
   @doc """
   Batch create objects in Weaviate.
@@ -54,7 +53,8 @@ defmodule Noizu.Weaviate.Api.Batch do
 
       {:ok, response} = Noizu.Weaviate.Api.Batch.create_objects(objects)
   """
-  @spec create_objects([map()], options() \\ nil) :: {:ok, WeaviateStructs.RespObj} | {:error, any()}
+  @spec create_objects([map()], options() \\ nil) ::
+          {:ok, WeaviateStructs.RespObj} | {:error, any()}
   def create_objects(objects, options \\ nil) do
     # Construct the request URL
     url = "/v1/batch/objects"
@@ -66,9 +66,9 @@ defmodule Noizu.Weaviate.Api.Batch do
     Noizu.Weaviate.api_call(:post, url, body, WeaviateStructs.RespObj, options)
   end
 
-  #-------------------------------
+  # -------------------------------
   # Batch create references
-  #-------------------------------
+  # -------------------------------
 
   @doc """
   Batch create references in Weaviate.
@@ -99,7 +99,8 @@ defmodule Noizu.Weaviate.Api.Batch do
 
       {:ok, response} = Noizu.Weaviate.Api.Batch.create_references(references)
   """
-  @spec create_references([map()], options() \\ nil) :: {:ok, WeaviateStructs.RespObj} | {:error, any()}
+  @spec create_references([map()], options() \\ nil) ::
+          {:ok, WeaviateStructs.RespObj} | {:error, any()}
   def create_references(references, options \\ nil) do
     # Construct the request URL
     url = "/v1/batch/references"
@@ -111,9 +112,9 @@ defmodule Noizu.Weaviate.Api.Batch do
     Noizu.Weaviate.api_call(:post, url, body, WeaviateStructs.RespObj, options)
   end
 
-  #-------------------------------
+  # -------------------------------
   # Batch delete objects
-  #-------------------------------
+  # -------------------------------
 
   @doc """
   Batch delete objects in Weaviate.
@@ -141,7 +142,8 @@ defmodule Noizu.Weaviate.Api.Batch do
 
       {:ok, response} = Noizu.Weaviate.Api.Batch.delete_objects(match)
   """
-  @spec delete_objects(map(), options() \\ nil) :: {:ok, WeaviateStructs.RespObj} | {:error, any()}
+  @spec delete_objects(map(), options() \\ nil) ::
+          {:ok, WeaviateStructs.RespObj} | {:error, any()}
   def delete_objects(match, options \\ nil) do
     # Construct the request URL
     url = "/v1/batch/objects"

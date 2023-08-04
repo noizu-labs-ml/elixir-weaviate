@@ -8,7 +8,7 @@ defmodule Noizu.Weaviate.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      {Finch, name: Noizu.Weaviate.Finch},
+      {Finch, name: Noizu.Weaviate.Finch}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

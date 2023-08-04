@@ -13,9 +13,9 @@ defmodule Noizu.Weaviate do
   """
 
   require Logger
-  #-------------------------------
+  # -------------------------------
   # Global Types
-  #-------------------------------
+  # -------------------------------
   @type error_tuple :: {:error, details :: term}
 
   # option constraints
@@ -33,40 +33,49 @@ defmodule Noizu.Weaviate do
 
   def weaviate_base(), do: @weaviate_base
 
-  #-------------------------------
+  # -------------------------------
   #
-  #-------------------------------
+  # -------------------------------
   def generic_stream_provider(callback) do
     fn event, payload ->
       case event do
-        {:status, code} -> %{payload | status: code}
-        {:headers, headers} -> %{payload | headers: headers}
+        {:status, code} ->
+          %{payload | status: code}
+
+        {:headers, headers} ->
+          %{payload | headers: headers}
+
         {:data, data} ->
-          n = String.split(data, "\n\ndata:")
-              |> Enum.map(fn data ->
-            case Jason.decode(data, keys: :atoms) do
-              {:ok, json} ->
-                case json do
-                  %{:choices => [%{:delta => %{:content => c}, :finish_reason => _} | _]} -> c
-                  _ -> nil
-                end
-              _ -> nil
-            end
-          end)
-              |> Enum.filter(&(&1))
-              |> Enum.join("")
+          n =
+            String.split(data, "\n\ndata:")
+            |> Enum.map(fn data ->
+              case Jason.decode(data, keys: :atoms) do
+                {:ok, json} ->
+                  case json do
+                    %{:choices => [%{:delta => %{:content => c}, :finish_reason => _} | _]} -> c
+                    _ -> nil
+                  end
+
+                _ ->
+                  nil
+              end
+            end)
+            |> Enum.filter(& &1)
+            |> Enum.join("")
 
           payload = %{payload | message: payload.message <> n}
-          callback.(payload) # Call the provided callback function with the payload
+          # Call the provided callback function with the payload
+          callback.(payload)
 
-        _ -> payload
+        _ ->
+          payload
       end
     end
   end
 
-  #-------------------------------
+  # -------------------------------
   #
-  #-------------------------------
+  # -------------------------------
   @doc """
   A helper function to make API calls to the OpenAI API. This function handles both non-stream and stream API calls.
 
@@ -90,21 +99,22 @@ defmodule Noizu.Weaviate do
   def api_call(type, url, body, model, options \\ nil) do
     stream = options[:stream] || false
     raw = options[:raw] || false
+
     if stream do
-      with {:ok, body} <- body && Jason.encode(body) || {:ok, nil},
+      with {:ok, body} <- (body && Jason.encode(body)) || {:ok, nil},
            {:ok, r = %{status: 200, message: _}} <- api_call_stream(type, url, body, options) do
         {:ok, r}
-        #apply(model, :from_json, [json])
+        # apply(model, :from_json, [json])
       else
         error ->
-          Logger.warn("STREAM API ERROR: \n #{inspect error}")
+          Logger.warn("STREAM API ERROR: \n #{inspect(error)}")
           error
       end
     else
-      with {:ok, body} <- body && Jason.encode(body) || {:ok, nil},
-           {:ok, %Finch.Response{status: 200, body: body}} <- api_call_fetch(type, url, body, options),
-           {:ok, json} <- !raw && Jason.decode(body, keys: :atoms) || {:ok, body} do
-
+      with {:ok, body} <- (body && Jason.encode(body)) || {:ok, nil},
+           {:ok, %Finch.Response{status: 200, body: body}} <-
+             api_call_fetch(type, url, body, options),
+           {:ok, json} <- (!raw && Jason.decode(body, keys: :atoms)) || {:ok, body} do
         cond do
           model in [nil, :json] -> {:ok, json}
           raw -> {:ok, apply(model, :from_json, [json])}
@@ -112,33 +122,34 @@ defmodule Noizu.Weaviate do
         end
       else
         error ->
-          Logger.warn("API ERROR: \n #{inspect error}")
+          Logger.warn("API ERROR: \n #{inspect(error)}")
           error
       end
     end
   end
 
-  #-------------------------------
+  # -------------------------------
   #
-  #-------------------------------
+  # -------------------------------
   def headers() do
     [
-      {"Content-Type", "application/json"},
-    ] |> then(
-           fn(headers) ->
-             headers
-           end
-         )
+      {"Content-Type", "application/json"}
+    ]
+    |> then(fn headers ->
+      headers
+    end)
   end
 
-  #-------------------------------
+  # -------------------------------
   #
-  #-------------------------------
+  # -------------------------------
   def put_field(body, field, options, default \\ nil)
+
   def put_field(body, :stream, options, default) do
-    flag = options[:stream] && true || default
+    flag = (options[:stream] && true) || default
     Map.put(body, :stream, flag)
   end
+
   def put_field(body, {field_alias, field}, options, default) do
     if v = options[field_alias] || options[field] || default do
       Map.put(body, field, v)
@@ -146,6 +157,7 @@ defmodule Noizu.Weaviate do
       body
     end
   end
+
   def put_field(body, field, options, default) do
     if v = options[field] || default do
       Map.put(body, field, v)
@@ -154,60 +166,69 @@ defmodule Noizu.Weaviate do
     end
   end
 
-  #-------------------------------
+  # -------------------------------
   #
-  #-------------------------------
+  # -------------------------------
   defp api_call_fetch(type, url, body, options) do
     ts = :os.system_time(:millisecond)
-    request = Finch.build(type, url, headers(), body)
-              |> tap(
-                   fn(finch) ->
-                     case request_log_callback = options[:request_log_callback] do
-                       nil -> :nop
-                       v when is_function(v, 1) -> v.(finch)
-                       {m,f} -> apply(m, f, [finch])
-                       _ -> :nop
-                     end
-                   end)
+
+    request =
+      Finch.build(type, url, headers(), body)
+      |> tap(fn finch ->
+        case request_log_callback = options[:request_log_callback] do
+          nil -> :nop
+          v when is_function(v, 1) -> v.(finch)
+          {m, f} -> apply(m, f, [finch])
+          _ -> :nop
+        end
+      end)
+
     # |> IO.inspect(label: "API_CALL_FETCH", limit: :infinity, printable_limit: :infinity, pretty: true)
     request
-    |> Finch.request(Noizu.Weaviate.Finch, [pool_timeout: 600_000, receive_timeout: 600_000, request_timeout: 600_000])
-    |> tap(fn(finch) ->
+    |> Finch.request(Noizu.Weaviate.Finch,
+      pool_timeout: 600_000,
+      receive_timeout: 600_000,
+      request_timeout: 600_000
+    )
+    |> tap(fn finch ->
       case response_log_callback = options[:response_log_callback] do
         nil -> :nop
         v when is_function(v, 3) -> v.(finch, request, ts)
-        {m,f} -> apply(m, f, [finch, request, ts])
+        {m, f} -> apply(m, f, [finch, request, ts])
         _ -> :nop
       end
     end)
   end
 
-  #-------------------------------
+  # -------------------------------
   #
-  #-------------------------------
+  # -------------------------------
   defp api_call_stream(type, url, body, options) do
     callback = options[:stream]
     raw = options[:raw]
     ts = :os.system_time(:millisecond)
-    request = Finch.build(type, url, headers(), body)
-              |> tap(
-                   fn(finch) ->
-                     case request_log_callback = options[:request_log_callback] do
-                       nil -> :nop
-                       v when is_function(v, 1) -> v.(finch)
-                       {m,f} -> apply(m, f, [finch])
-                       _ -> :nop
-                     end
-                   end)
 
+    request =
+      Finch.build(type, url, headers(), body)
+      |> tap(fn finch ->
+        case request_log_callback = options[:request_log_callback] do
+          nil -> :nop
+          v when is_function(v, 1) -> v.(finch)
+          {m, f} -> apply(m, f, [finch])
+          _ -> :nop
+        end
+      end)
 
     request
-    |> Finch.stream(Noizu.Weaviate.Finch, %{status: nil, raw: raw, message: ""}, callback, [timeout: 600_000, receive_timeout: 600_000])
-    |> tap(fn(finch) ->
+    |> Finch.stream(Noizu.Weaviate.Finch, %{status: nil, raw: raw, message: ""}, callback,
+      timeout: 600_000,
+      receive_timeout: 600_000
+    )
+    |> tap(fn finch ->
       case response_log_callback = options[:response_log_callback] do
         nil -> :nop
         v when is_function(v, 3) -> v.(finch, request, ts)
-        {m,f} -> apply(m, f, [finch, request, ts])
+        {m, f} -> apply(m, f, [finch, request, ts])
         _ -> :nop
       end
     end)

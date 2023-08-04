@@ -1,4 +1,3 @@
-
 defmodule WeaviateStructs.OpenIDConfiguration do
   defstruct [
     :href,
@@ -6,9 +5,9 @@ defmodule WeaviateStructs.OpenIDConfiguration do
   ]
 
   def from_json(%{
-    "href" => href,
-    "clientID" => clientID
-  }) do
+        "href" => href,
+        "clientID" => clientID
+      }) do
     %__MODULE__{
       href: href,
       clientID: clientID

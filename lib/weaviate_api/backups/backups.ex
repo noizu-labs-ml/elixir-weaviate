@@ -6,9 +6,9 @@ defmodule Noizu.Weaviate.Api.Backups do
   require Noizu.Weaviate
   import Noizu.Weaviate
 
-  #-------------------------------
+  # -------------------------------
   # Create Backup
-  #-------------------------------
+  # -------------------------------
   @doc """
   Create a backup in Weaviate.
 
@@ -29,19 +29,22 @@ defmodule Noizu.Weaviate.Api.Backups do
 
       {:ok, response} = Noizu.Weaviate.Api.Backups.create_backup("s3", "my-backup", include: ["Product"], exclude: ["User"])
   """
-  @spec create_backup(String.t(), String.t(), Keyword.t(), map()) :: {:ok, WeaviateStructs.RespObj} | {:error, any()}
+  @spec create_backup(String.t(), String.t(), Keyword.t(), map()) ::
+          {:ok, WeaviateStructs.RespObj} | {:error, any()}
   def create_backup(backend, backup_id, options \\ [], opts \\ %{}) do
     url = weaviate_base() <> "backups"
-    body = %{backend: backend, id: backup_id}
-           |> put_field(:include, options)
-           |> put_field(:exclude, options)
+
+    body =
+      %{backend: backend, id: backup_id}
+      |> put_field(:include, options)
+      |> put_field(:exclude, options)
 
     api_call(:post, url, body, WeaviateStructs.RespObj, opts)
   end
 
-  #-------------------------------
+  # -------------------------------
   # Get Backup status
-  #-------------------------------
+  # -------------------------------
   @doc """
   Get the status of a backup in Weaviate.
 
@@ -60,15 +63,16 @@ defmodule Noizu.Weaviate.Api.Backups do
 
       {:ok, response} = Noizu.Weaviate.Api.Backups.get_status("s3", "my-backup")
   """
-  @spec get_status(String.t(), String.t(), map()) :: {:ok, WeaviateStructs.RespObj} | {:error, any()}
+  @spec get_status(String.t(), String.t(), map()) ::
+          {:ok, WeaviateStructs.RespObj} | {:error, any()}
   def get_status(backend, backup_id, opts \\ %{}) do
     url = weaviate_base() <> "backups/#{backend}/#{backup_id}"
     api_call(:get, url, nil, WeaviateStructs.RespObj, opts)
   end
 
-  #-------------------------------
+  # -------------------------------
   # Restore Backup
-  #-------------------------------
+  # -------------------------------
   @doc """
   Restore a backup in Weaviate.
 
@@ -89,19 +93,22 @@ defmodule Noizu.Weaviate.Api.Backups do
 
       {:ok, response} = Noizu.Weaviate.Api.Backups.restore_backup("s3", "my-backup", include: ["Product"], exclude: ["User"])
   """
-  @spec restore_backup(String.t(), String.t(), Keyword.t(), map()) :: {:ok, WeaviateStructs.RespObj} | {:error, any()}
+  @spec restore_backup(String.t(), String.t(), Keyword.t(), map()) ::
+          {:ok, WeaviateStructs.RespObj} | {:error, any()}
   def restore_backup(backend, backup_id, options \\ [], opts \\ %{}) do
     url = weaviate_base() <> "backups/#{backend}/#{backup_id}/restore"
-    body = %{}
-           |> put_field(:include, options)
-           |> put_field(:exclude, options)
+
+    body =
+      %{}
+      |> put_field(:include, options)
+      |> put_field(:exclude, options)
 
     api_call(:post, url, body, WeaviateStructs.RespObj, opts)
   end
 
-  #-------------------------------
+  # -------------------------------
   # Get Restore Status
-  #-------------------------------
+  # -------------------------------
   @doc """
   Get the status of a restore operation in Weaviate.
 
@@ -120,7 +127,8 @@ defmodule Noizu.Weaviate.Api.Backups do
 
       {:ok, response} = Noizu.Weaviate.Api.Backups.get_restore_status("s3", "my-backup")
   """
-  @spec get_restore_status(String.t(), String.t(), map()) :: {:ok, WeaviateStructs.RespObj} | {:error, any()}
+  @spec get_restore_status(String.t(), String.t(), map()) ::
+          {:ok, WeaviateStructs.RespObj} | {:error, any()}
   def get_restore_status(backend, backup_id, opts \\ []) do
     url = weaviate_base() <> "backups/#{backend}/#{backup_id}/restore"
     api_call(:get, url, nil, WeaviateStructs.RespObj, opts)

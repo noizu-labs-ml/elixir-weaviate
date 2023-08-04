@@ -6,12 +6,12 @@ defmodule WeaviateStructs.Node do
   defstruct name: "", status: "", version: "", gitHash: "", stats: %{}
 
   def from_json(%{
-    "name" => name,
-    "status" => status,
-    "version" => version,
-    "gitHash" => gitHash,
-    "stats" => stats
-  }) do
+        "name" => name,
+        "status" => status,
+        "version" => version,
+        "gitHash" => gitHash,
+        "stats" => stats
+      }) do
     %__MODULE__{
       name: name,
       status: status,
@@ -20,5 +20,4 @@ defmodule WeaviateStructs.Node do
       stats: stats
     }
   end
-
 end
