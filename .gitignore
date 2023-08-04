@@ -25,7 +25,7 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 elixir_weaviate-*.tar
 *.iml
-
+noizu_weaviate-*.tar
 # Ignore assets that are produced by build tools.
 /priv/static/assets/
 

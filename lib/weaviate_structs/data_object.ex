@@ -17,7 +17,7 @@ defmodule WeaviateStructs.DataObject do
         }
 
   def from_json(%{
-        "class" => class,
+        "class_name" => class_name,
         "properties" => properties,
         "additional_properties" => additional_properties,
         "vector" => vector,
@@ -27,7 +27,7 @@ defmodule WeaviateStructs.DataObject do
     properties = Enum.map(properties, &WeaviateStructs.Property.from_json/1)
 
     %__MODULE__{
-      class: class,
+      class_name: class_name,
       properties: properties,
       additional_properties: additional_properties,
       vector: vector,

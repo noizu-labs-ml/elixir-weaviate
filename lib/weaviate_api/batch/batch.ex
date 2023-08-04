@@ -53,7 +53,7 @@ defmodule Noizu.Weaviate.Api.Batch do
 
       {:ok, response} = Noizu.Weaviate.Api.Batch.create_objects(objects)
   """
-  @spec create_objects([map()], options() \\ nil) ::
+  @spec create_objects([map()], options :: any) ::
           {:ok, WeaviateStructs.RespObj} | {:error, any()}
   def create_objects(objects, options \\ nil) do
     # Construct the request URL
@@ -99,7 +99,7 @@ defmodule Noizu.Weaviate.Api.Batch do
 
       {:ok, response} = Noizu.Weaviate.Api.Batch.create_references(references)
   """
-  @spec create_references([map()], options() \\ nil) ::
+  @spec create_references([map()], options :: any) ::
           {:ok, WeaviateStructs.RespObj} | {:error, any()}
   def create_references(references, options \\ nil) do
     # Construct the request URL
@@ -142,7 +142,7 @@ defmodule Noizu.Weaviate.Api.Batch do
 
       {:ok, response} = Noizu.Weaviate.Api.Batch.delete_objects(match)
   """
-  @spec delete_objects(map(), options() \\ nil) ::
+  @spec delete_objects(map(), options :: any) ::
           {:ok, WeaviateStructs.RespObj} | {:error, any()}
   def delete_objects(match, options \\ nil) do
     # Construct the request URL

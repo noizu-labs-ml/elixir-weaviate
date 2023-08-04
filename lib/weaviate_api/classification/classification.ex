@@ -32,7 +32,7 @@ defmodule Noizu.Weaviate.Api.Classification do
           }
           | Keyword.t()
 
-  @spec get_classification_status(String.t(), options() \\ nil) ::
+  @spec get_classification_status(String.t(), options :: any) ::
           {:ok, classification_response()} | {:error, any()}
   def get_classification_status(classification_id, options \\ nil) do
     url = "#{weaviate_base()}/classifications/#{classification_id}"
@@ -66,7 +66,7 @@ defmodule Noizu.Weaviate.Api.Classification do
           }
           | Keyword.t()
 
-  @spec start_classification(String.t(), [String.t()], [String.t()], String.t(), options() \\ nil) ::
+  @spec start_classification(String.t(), [String.t()], [String.t()], String.t(), options :: any) ::
           {:ok, classification_start_response()} | {:error, any()}
   def start_classification(
         class_name,

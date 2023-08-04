@@ -6,30 +6,7 @@ defmodule Noizu.Weaviate.Api.Auth do
   alias Noizu.Weaviate
   require Noizu.Weaviate
   import Noizu.Weaviate
-  # -------------------------------
-  #
-  # -------------------------------
-  @doc """
-  Makes an API call to the Weaviate endpoint with the given method and URL.
 
-  ## Parameters
-
-  - `method` (atom): The HTTP method for the API call, e.g. :get, :post, :put, :delete.
-  - `url` (string): The URL endpoint for the API call.
-
-  ## Returns
-
-  A tuple `{:ok, response}` on successful API call, where `response` is the API response.
-  Returns `{:error, term}` on failure, where `term` contains error details.
-
-  ## Examples
-
-      {:ok, response} = Noizu.Weaviate.Api.Auth.api_call(:get, "/v1/.well-known/openid-configuration")
-  """
-  @spec api_call(atom, String.t(), term, term, options) :: {:ok, any()} | {:error, any()}
-  def api_call(method, url, body, response_type, options) do
-    api_call(method, url, body, response_type, :json, options)
-  end
 
   # -------------------------------
   #
