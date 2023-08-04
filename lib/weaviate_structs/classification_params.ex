@@ -7,10 +7,17 @@ defmodule WeaviateStructs.ClassificationParams do
 
   @enforce_keys [:class_name, :classify_properties, :based_on_properties, :type]
 
-  @type t :: %__MODULE__{
-    class_name: String.t(),
-    classify_properties: list(String.t()),
-    based_on_properties: list(String.t()),
-    type: String.t()
-  }
+  def from_json(%{
+    "class" => class,
+    "classifyProperties" => classifyProperties,
+    "basedOnProperties" => basedOnProperties,
+    "type" => type
+  }) do
+    %__MODULE__{
+      class: class,
+      classify_properties: classifyProperties,
+      based_on_properties: basedOnProperties,
+      type: type
+    }
+  end
 end

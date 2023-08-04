@@ -1,7 +1,17 @@
-defmodule WeaviateStructs.OpenIDConfiguration do
-  @moduledoc """
-  Structs for storing OpenID configuration.
-  """
 
-  defstruct href: "", clientID: ""
+defmodule WeaviateStructs.OpenIDConfiguration do
+  defstruct [
+    :href,
+    :clientID
+  ]
+
+  def from_json(%{
+    "href" => href,
+    "clientID" => clientID
+  }) do
+    %__MODULE__{
+      href: href,
+      clientID: clientID
+    }
+  end
 end

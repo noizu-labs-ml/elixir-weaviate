@@ -39,12 +39,12 @@ defmodule Noizu.Weaviate.Api.Schema do
 
       {:ok, response} = Noizu.Weaviate.Api.Schema.configure_class(class_name, class_config)
   """
-  @spec configure_class(String.t(), map()) :: Weaviate.api_response()
-  def configure_class(class_name, class_config) do
+  @spec configure_class(String.t(), WeaviateStructs.Class.t(), options :: any) :: {:ok, any()} | {:error, any()}
+  def configure_class(class_name, class_config, options \\ nil) do
     url = weaviate_base() <> "schema/#{class_name}"
     body = class_config
 
-    api_call(:put, url, body, :json, nil)
+    api_call(:put, url, body, WeaviateStructs.RespObj, options)
   end
 
   #-------------------------------
@@ -70,12 +70,12 @@ defmodule Noizu.Weaviate.Api.Schema do
 
       {:ok, response} = Noizu.Weaviate.Api.Schema.add_property(class_name, property)
   """
-  @spec add_property(String.t(), Weaviate.Property.t()) :: Weaviate.api_response()
-  def add_property(class_name, property) do
+  @spec add_property(String.t(), WeaviateStructs.Property.t(), options :: any) :: {:ok, any()} | {:error, any()}
+  def add_property(class_name, property, options \\ nil) do
     url = weaviate_base() <> "schema/#{class_name}/properties"
     body = property
 
-    api_call(:put, url, body, :json, nil)
+    api_call(:put, url, body, WeaviateStructs.RespObj, options)
   end
 
   #-------------------------------
@@ -100,12 +100,12 @@ defmodule Noizu.Weaviate.Api.Schema do
 
       {:ok, response} = Noizu.Weaviate.Api.Schema.configure_vector_indices(class_name, vector_indices)
   """
-  @spec configure_vector_indices(String.t(), map()) :: Weaviate.api_response()
-  def configure_vector_indices(class_name, vector_indices) do
+  @spec configure_vector_indices(String.t(), map(), options :: any) :: {:ok, any()} | {:error, any()}
+  def configure_vector_indices(class_name, vector_indices, options \\ nil) do
     url = weaviate_base() <> "schema/#{class_name}/vector-index-config"
     body = vector_indices
 
-    api_call(:put, url, body, :json, nil)
+    api_call(:put, url, body, WeaviateStructs.RespObj, options)
   end
 
   #-------------------------------
@@ -130,12 +130,12 @@ defmodule Noizu.Weaviate.Api.Schema do
 
       {:ok, response} = Noizu.Weaviate.Api.Schema.configure_inverted_index(class_name, inverted_index)
   """
-  @spec configure_inverted_index(String.t(), map()) :: Weaviate.api_response()
-  def configure_inverted_index(class_name, inverted_index) do
+  @spec configure_inverted_index(String.t(), map(), options :: any) :: {:ok, any()} | {:error, any()}
+  def configure_inverted_index(class_name, inverted_index, options \\ nil) do
     url = weaviate_base() <> "schema/#{class_name}/inverted-index-config"
     body = inverted_index
 
-    api_call(:put, url, body, :json, nil)
+    api_call(:put, url, body, WeaviateStructs.RespObj, options)
   end
 
   #-------------------------------
@@ -160,12 +160,12 @@ defmodule Noizu.Weaviate.Api.Schema do
 
       {:ok, response} = Noizu.Weaviate.Api.Schema.configure_stopwords(class_name, stopwords_config)
   """
-  @spec configure_stopwords(String.t(), map()) :: Weaviate.api_response()
-  def configure_stopwords(class_name, stopwords_config) do
+  @spec configure_stopwords(String.t(), map(), options :: any) :: {:ok, any()} | {:error, any()}
+  def configure_stopwords(class_name, stopwords_config, options \\ nil) do
     url = weaviate_base() <> "schema/#{class_name}/stopwords-config"
     body = stopwords_config
 
-    api_call(:put, url, body, :json, nil)
+    api_call(:put, url, body, WeaviateStructs.RespObj, options)
   end
 
   #-------------------------------
@@ -189,11 +189,11 @@ defmodule Noizu.Weaviate.Api.Schema do
 
       {:ok, response} = Noizu.Weaviate.Api.Schema.configure_replication(class_name, replication_config)
   """
-  @spec configure_replication(String.t(), map()) :: Weaviate.api_response()
-  def configure_replication(class_name, replication_config) do
+  @spec configure_replication(String.t(), map(), options :: any) :: {:ok, any()} | {:error, any()}
+  def configure_replication(class_name, replication_config, options \\ nil) do
     url = weaviate_base() <> "schema/#{class_name}/replication-config"
     body = replication_config
 
-    api_call(:put, url, body, :json, nil)
+    api_call(:put, url, body, WeaviateStructs.RespObj, options)
   end
 end

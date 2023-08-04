@@ -17,4 +17,26 @@ defmodule WeaviateStructs.Property do
     module_config: map(),
     keywords: list(String.t())
   }
+
+  def from_json(%{
+    "name" => name,
+    "description" => description,
+    "data_type" => data_type,
+    "text_keyword" => text_keyword,
+    "index_inverted" => index_inverted,
+    "index_vector" => index_vector,
+    "module_config" => module_config,
+    "keywords" => keywords
+  }) do
+    %__MODULE__{
+      name: name,
+      description: description,
+      data_type: data_type,
+      text_keyword: text_keyword,
+      index_inverted: index_inverted,
+      index_vector: index_vector,
+      module_config: module_config,
+      keywords: keywords
+    }
+  end
 end

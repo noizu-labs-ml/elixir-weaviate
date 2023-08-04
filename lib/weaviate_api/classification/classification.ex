@@ -12,6 +12,7 @@ defmodule Noizu.Weaviate.Api.Classification do
     ## Parameters
 
     - `classification_id` (required) - The ID of the classification.
+    - `options` (optional) - Additional options for the API call.
 
   ## Returns
 
@@ -29,10 +30,10 @@ defmodule Noizu.Weaviate.Api.Classification do
                                       optional(:stream) => Noizu.Weaviate.stream_option()
                                     } | Keyword.t()
 
-  @spec get_classification_status(String.t()) :: {:ok, classification_response()} | {:error, any()}
-  def get_classification_status(classification_id) do
+  @spec get_classification_status(String.t(), options() \\ nil) :: {:ok, classification_response()} | {:error, any()}
+  def get_classification_status(classification_id, options \\ nil) do
     url = "#{weaviate_base()}/classifications/#{classification_id}"
-    api_call(:get, url, nil, :json, nil)
+    api_call(:get, url, nil, WeaviateStructs.RespObj, options)
   end
 
 
@@ -45,6 +46,7 @@ defmodule Noizu.Weaviate.Api.Classification do
   - `classify_properties` (required) - List of properties to classify.
   - `based_on_properties` (required) - List of properties the classification is based on.
   - `classification_type` (required) - The type of classification to perform, either "knn" or "zeroshot".
+  - `options` (optional) - Additional options for the API call.
 
   ## Returns
 
@@ -60,8 +62,8 @@ defmodule Noizu.Weaviate.Api.Classification do
                                             optional(:stream) => Noizu.Weaviate.stream_option()
                                           } | Keyword.t()
 
-  @spec start_classification(String.t(), [String.t()], [String.t()], String.t()) :: {:ok, classification_start_response()} | {:error, any()}
-  def start_classification(class_name, classify_properties, based_on_properties, classification_type) do
+  @spec start_classification(String.t(), [String.t()], [String.t()], String.t(), options() \\ nil) :: {:ok, classification_start_response()} | {:error, any()}
+  def start_classification(class_name, classify_properties, based_on_properties, classification_type, options \\ nil) do
     url = "#{weaviate_base()}/classification"
     body = %{
       class_name: class_name,
@@ -69,7 +71,7 @@ defmodule Noizu.Weaviate.Api.Classification do
       based_on_properties: based_on_properties,
       classification_type: classification_type
     }
-    api_call(:post, url, body, :json, nil)
+    api_call(:post, url, body, WeaviateStructs.RespObj, options)
   end
 
 end

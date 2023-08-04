@@ -26,4 +26,40 @@ defmodule WeaviateStructs.Class do
     vector_search_config: map(),
     vector_search_indexer_done: boolean
   }
+
+  def from_json(%{
+    "name" => name,
+    "description" => description,
+    "vectorizer" => vectorizer,
+    "vector_index" => vector_index,
+    "vector_index_config" => vector_index_config,
+    "inverted_index_config" => inverted_index_config,
+    "stopwords_config" => stopwords_config,
+    "replication_config" => replication_config,
+    "module_config" => module_config,
+    "properties" => properties,
+    "inverted_index" => inverted_index,
+    "vector_indexer_done" => vector_indexer_done,
+    "vector_search_available" => vector_search_available,
+    "vector_search_config" => vector_search_config,
+    "vector_search_indexer_done" => vector_search_indexer_done
+  }) do
+    %__MODULE__{
+      name: name,
+      description: description,
+      vectorizer: vectorizer,
+      vector_index: vector_index,
+      vector_index_config: vector_index_config,
+      inverted_index_config: inverted_index_config,
+      stopwords_config: stopwords_config,
+      replication_config: replication_config,
+      module_config: module_config,
+      properties: Enum.map(properties, &WeaviateStructs.Property.from_json/1),
+      inverted_index: inverted_index,
+      vector_indexer_done: vector_indexer_done,
+      vector_search_available: vector_search_available,
+      vector_search_config: vector_search_config,
+      vector_search_indexer_done: vector_search_indexer_done
+    }
+  end
 end

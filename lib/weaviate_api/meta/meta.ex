@@ -21,10 +21,9 @@ defmodule Noizu.Weaviate.Api.Meta do
 
       {:ok, response} = Noizu.Weaviate.Api.Meta.get_meta_information()
   """
-  @spec get_meta_information() :: {:ok, any()} | {:error, any()}
-  def get_meta_information() do
+  @spec get_meta_information(options :: any) :: {:ok, WeaviateStructs.Meta} | {:error, any()}
+  def get_meta_information(options \\ nil) do
     url = weaviate_base() <> "meta"
-
-    api_call(:get, url, nil, :json, nil)
+    api_call(:get, url, nil, WeaviateStructs.Meta, options)
   end
 end

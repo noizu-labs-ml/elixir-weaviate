@@ -1,13 +1,19 @@
 defmodule WeaviateStructs.Meta do
-  @moduledoc """
-  Structs for storing meta information.
-  """
+  defstruct [
+    :hostname,
+    :version,
+    :modules
+  ]
 
-  defmodule Hostname do
-    defstruct name: ""
-  end
-
-  defmodule Version do
-    defstruct version: "", modules: %{}
+  def from_json(%{
+    "hostname" => hostname,
+    "version" => version,
+    "modules" => modules
+  }) do
+    %__MODULE__{
+      hostname: hostname,
+      version: version,
+      modules: modules
+    }
   end
 end

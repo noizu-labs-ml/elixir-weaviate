@@ -18,10 +18,11 @@ defmodule Noizu.Weaviate.Api.Nodes do
 
       {:ok, response} = Noizu.Weaviate.Api.Nodes.get_information_about_nodes()
   """
-  @spec get_information_about_nodes() :: {:ok, any()} | {:error, any()}
-  def get_information_about_nodes() do
+  @spec get_information_about_nodes(options :: any) :: {:ok, any()} | {:error, any()}
+  def get_information_about_nodes(options \\ nil) do
     url = "#{Noizu.Weaviate.weaviate_base()}nodes"
 
-    Noizu.Weaviate.api_call(:get, url, nil, :json,  nil)
+    # NodeList
+    Noizu.Weaviate.api_call(:get, url, nil, WeaviateStructs.Node, options)
   end
 end

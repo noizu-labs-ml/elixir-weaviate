@@ -1,16 +1,22 @@
 defmodule WeaviateStructs.BackupParams do
-  @moduledoc """
-  Struct for representing backup parameters in Weaviate.
-  """
+  defstruct [
+    :backend,
+    :id,
+    :include,
+    :exclude
+  ]
 
-  defstruct [:backend, :id, :include, :exclude]
-
-  @enforce_keys [:backend, :id]
-
-  @type t :: %__MODULE__{
-    backend: String.t(),
-    id: String.t(),
-    include: list(String.t()),
-    exclude: list(String.t())
-  }
+  def from_json(%{
+    "backend" => backend,
+    "id" => id,
+    "include" => include,
+    "exclude" => exclude
+  }) do
+    %__MODULE__{
+      backend: backend,
+      id: id,
+      include: include,
+      exclude: exclude
+    }
+  end
 end

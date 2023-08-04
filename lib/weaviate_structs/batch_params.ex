@@ -1,13 +1,13 @@
 defmodule WeaviateStructs.BatchParams do
-  @moduledoc """
-  Struct for representing batch parameters in Weaviate.
-  """
+  defstruct [
+    :consistency_level
+  ]
 
-  defstruct [:consistency_level]
-
-  @enforce_keys []
-
-  @type t :: %__MODULE__{
-    consistency_level: String.t()
-  }
+  def from_json(%{
+    "consistency_level" => consistency_level
+  }) do
+    %__MODULE__{
+      consistency_level: consistency_level
+    }
+  end
 end
