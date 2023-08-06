@@ -28,6 +28,9 @@ defmodule Noizu.Weaviate.Api.Schema do
   end
 
 
+  #------------------------------------------------
+  # Noizu.Weaviate.Api.Schema.Class
+  #------------------------------------------------
   defmodule Class do
     alias Noizu.Weaviate
     import Noizu.Weaviate
@@ -69,6 +72,9 @@ defmodule Noizu.Weaviate.Api.Schema do
       api_call(:delete, url, nil, :json, options)
     end
 
+    #------------------------------------------------
+    # Noizu.Weaviate.Api.Schema.Class.Properties
+    #------------------------------------------------
     defmodule Properties do
       alias Noizu.Weaviate
       import Noizu.Weaviate
@@ -86,6 +92,9 @@ defmodule Noizu.Weaviate.Api.Schema do
 
     end
 
+    #------------------------------------------------
+    # Noizu.Weaviate.Api.Schema.Class.Shards
+    #------------------------------------------------
     defmodule Shards do
       alias Noizu.Weaviate
       import Noizu.Weaviate
@@ -121,13 +130,12 @@ defmodule Noizu.Weaviate.Api.Schema do
 
     end
 
-
+    #------------------------------------------------
+    # Noizu.Weaviate.Api.Schema.Class.Tenants
+    #------------------------------------------------
     defmodule Tenants do
       alias Noizu.Weaviate
       import Noizu.Weaviate
-
-
-
 
       # -------------------------------
       # Class Tenancy
