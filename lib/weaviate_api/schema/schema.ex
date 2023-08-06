@@ -18,186 +18,170 @@ defmodule Noizu.Weaviate.Api.Schema do
   alias Noizu.Weaviate
   import Noizu.Weaviate
   # -------------------------------
-  # Class Configuration
+  # Schema
   # -------------------------------
-
-  @doc """
-  Configures a class in the Weaviate schema.
-
-  ## Parameters
-
-  - `class_name` (required) - The name of the class.
-  - `class_config` (required) - The configuration settings for the class.
-
-  ## Example
-
-      class_name = "Product"
-      class_config = %{
-        name: class_name,
-        description: "A class for representing products in Weaviate"
-      }
-
-      {:ok, response} = Noizu.Weaviate.Api.Schema.configure_class(class_name, class_config)
-  """
-  @spec configure_class(String.t(), WeaviateStructs.Class.t(), options :: any) ::
+  @spec get(options :: any) ::
           {:ok, any()} | {:error, any()}
-  def configure_class(class_name, class_config, options \\ nil) do
-    url = weaviate_base() <> "schema/#{class_name}"
-    body = class_config
-
-    api_call(:put, url, body, WeaviateStructs.RespObj, options)
+  def get(options \\ nil) do
+    url = api_base() <> "v1/schema"
+    api_call(:get, url, nil, Noizu.Weaviate.Struct.Schema, options)
   end
 
-  # -------------------------------
-  # Property Configuration
-  # -------------------------------
 
-  @doc """
-  Adds a property to a class in the Weaviate schema.
+  defmodule Class do
+    alias Noizu.Weaviate
+    import Noizu.Weaviate
 
-  ## Parameters
 
-  - `class_name` (required) - The name of the class.
-  - `property` (required) - The property to add.
+    @spec create(class :: Noizu.Weaviate.Struct.Class.t, options :: any) ::
+            {:ok, any()} | {:error, any()}
+    def create(class, options \\ nil) do
+      url = api_base() <> "v1/schema"
+      api_call(:post, url, class, Noizu.Weaviate.Struct.Class, options)
+    end
 
-  ## Example
+    @spec get(class :: String.t | Noizu.Weaviate.Struct.Class.t, options :: any) ::
+            {:ok, any()} | {:error, any()}
+    def get(class, options \\ nil) do
+      class = case class do
+        %{name: name} -> name
+        name when is_bitstring(name) -> name
+      end
+      url = api_base() <> "v1/schema/#{class}"
+      api_call(:get, url, nil, Noizu.Weaviate.Struct.Class, options)
+    end
 
-      class_name = "Product"
-      property = %{
-        name: "price",
-        description: "The price of the product",
-        data_type: "number"
-      }
+    @spec update(class :: Noizu.Weaviate.Struct.Class.t, options :: any) ::
+            {:ok, any()} | {:error, any()}
+    def update(class, options \\ nil) do
+      url = api_base() <> "v1/schema/#{class.name}"
+      api_call(:put, url, class, Noizu.Weaviate.Struct.Class, options)
+    end
 
-      {:ok, response} = Noizu.Weaviate.Api.Schema.add_property(class_name, property)
-  """
-  @spec add_property(String.t(), WeaviateStructs.Property.t(), options :: any) ::
-          {:ok, any()} | {:error, any()}
-  def add_property(class_name, property, options \\ nil) do
-    url = weaviate_base() <> "schema/#{class_name}/properties"
-    body = property
+    @spec delete(class :: String.t | Noizu.Weaviate.Struct.Class.t, options :: any) ::
+            {:ok, any()} | {:error, any()}
+    def delete(class, options \\ nil) do
+      class = case class do
+        %{name: name} -> name
+        name when is_bitstring(name) -> name
+      end
+      url = api_base() <> "v1/schema/#{class}"
+      api_call(:delete, url, nil, :json, options)
+    end
 
-    api_call(:put, url, body, WeaviateStructs.RespObj, options)
-  end
+    defmodule Properties do
+      alias Noizu.Weaviate
+      import Noizu.Weaviate
 
-  # -------------------------------
-  # Vector Index Configuration
-  # -------------------------------
+      @spec add(class :: Noizu.Weaviate.Struct.Class.t | String.t, property :: Noizu.Weaviate.Struct.Property.t, options :: any) ::
+              {:ok, any()} | {:error, any()}
+      def add(class, property, options \\ nil) do
+        class = case class do
+          %{name: name} -> name
+          name when is_bitstring(name) -> name
+        end
+        url = api_base() <> "v1/schema/#{class}/properties"
+        api_call(:post, url, property, Noizu.Weaviate.Struct.Property, options)
+      end
 
-  @doc """
-  Configures vector indices for a class in the Weaviate schema.
+    end
 
-  ## Parameters
+    defmodule Shards do
+      alias Noizu.Weaviate
+      import Noizu.Weaviate
 
-  - `class_name` (required) - The name of the class.
-  - `vector_indices` (required) - The configuration settings for the vector indices.
+      @spec get(class :: Noizu.Weaviate.Struct.Class.t | String.t, options :: any) ::
+              {:ok, any()} | {:error, any()}
+      def get(class, options \\ nil) do
+        class = case class do
+          %{name: name} -> name
+          name when is_bitstring(name) -> name
+        end
+        url = api_base() <> "v1/schema/#{class}/shards"
+        api_call(:get, url, nil, :json, options)
+      end
 
-  ## Example
+      @spec update(class :: Noizu.Weaviate.Struct.Class.t | String.t, shard :: any, status :: atom, options :: any) ::
+              {:ok, any()} | {:error, any()}
+      def update(class, shard, status, options \\ nil) do
+        class = case class do
+          %{name: name} -> name
+          name when is_bitstring(name) -> name
+        end
+        shard = case shard do
+          %{name: name} -> name
+          name when is_bitstring(name) -> name
+        end
+        url = api_base() <> "v1/schema/#{class}/shards/#{shard}}"
+        status = %{
+          status: status
+        }
+        api_call(:put, url, status, :json, options)
+      end
 
-      class_name = "Product"
-      vector_indices = %{
-        indexType: "hnsw",
-        ...
-      }
+    end
 
-      {:ok, response} = Noizu.Weaviate.Api.Schema.configure_vector_indices(class_name, vector_indices)
-  """
-  @spec configure_vector_indices(String.t(), map(), options :: any) ::
-          {:ok, any()} | {:error, any()}
-  def configure_vector_indices(class_name, vector_indices, options \\ nil) do
-    url = weaviate_base() <> "schema/#{class_name}/vector-index-config"
-    body = vector_indices
 
-    api_call(:put, url, body, WeaviateStructs.RespObj, options)
-  end
+    defmodule Tenants do
+      alias Noizu.Weaviate
+      import Noizu.Weaviate
 
-  # -------------------------------
-  # Inverted Index Configuration
-  # -------------------------------
 
-  @doc """
-  Configures inverted index for a class in the Weaviate schema.
 
-  ## Parameters
 
-  - `class_name` (required) - The name of the class.
-  - `inverted_index` (required) - The configuration settings for the inverted index.
+      # -------------------------------
+      # Class Tenancy
+      # -------------------------------
+      @spec get(class :: Noizu.Weaviate.Struct.Class.t | String.t, options :: any) ::
+              {:ok, any()} | {:error, any()}
+      def get(class, options \\ nil) do
+        class = case class do
+          %{name: name} -> name
+          name when is_bitstring(name) -> name
+        end
+        url = api_base() <> "v1/schema/#{class}/tenants"
+        api_call(:get, url, nil, :json, options)
+      end
 
-  ## Example
+      @spec add(class :: Noizu.Weaviate.Struct.Class.t | String.t, tenants :: Noizu.Weaviate.Struct.Tenant.t | [Noizu.Weaviate.Struct.Tenant.t], options :: any) ::
+              {:ok, any()} | {:error, any()}
+      def add(class, tenants, options \\ nil) do
+        class = case class do
+          %{name: name} -> name
+          name when is_bitstring(name) -> name
+        end
+        url = api_base() <> "v1/schema/#{class}/tenants"
+        tenants = cond do
+          is_list(tenants) -> tenants
+          :else -> [tenants]
+        end
+        api_call(:get, url, tenants, :json, options)
+      end
 
-      class_name = "Product"
-      inverted_index = %{
-        cleanupIntervalSeconds: 600,
-        maximumCleanupDurationSeconds: 1800
-      }
-
-      {:ok, response} = Noizu.Weaviate.Api.Schema.configure_inverted_index(class_name, inverted_index)
-  """
-  @spec configure_inverted_index(String.t(), map(), options :: any) ::
-          {:ok, any()} | {:error, any()}
-  def configure_inverted_index(class_name, inverted_index, options \\ nil) do
-    url = weaviate_base() <> "schema/#{class_name}/inverted-index-config"
-    body = inverted_index
-
-    api_call(:put, url, body, WeaviateStructs.RespObj, options)
-  end
-
-  # -------------------------------
-  # Stopwords Configuration
-  # -------------------------------
-
-  @doc """
-  Configures stopwords for a class in the Weaviate schema.
-
-  ## Parameters
-
-  - `class_name` (required) - The name of the class.
-  - `stopwords_config` (required) - The configuration settings for the stopwords.
-
-  ## Example
-
-      class_name = "Product"
-      stopwords_config = %{
-        remove: ["is", "the", "and"],
-        additional: ["a", "an", "in"]
-      }
-
-      {:ok, response} = Noizu.Weaviate.Api.Schema.configure_stopwords(class_name, stopwords_config)
-  """
-  @spec configure_stopwords(String.t(), map(), options :: any) :: {:ok, any()} | {:error, any()}
-  def configure_stopwords(class_name, stopwords_config, options \\ nil) do
-    url = weaviate_base() <> "schema/#{class_name}/stopwords-config"
-    body = stopwords_config
-
-    api_call(:put, url, body, WeaviateStructs.RespObj, options)
-  end
-
-  # -------------------------------
-  # Replication Configuration
-  # -------------------------------
-
-  @doc """
-  Configures replication in the Weaviate schema.
-
-  ## Parameters
-
-  - `class_name` (required) - The name of the class.
-  - `replication_config` (required) - The replication configuration settings.
-
-  ## Example
-
-      class_name = "Product"
-      replication_config = %{
-        f: 2
-      }
-
-      {:ok, response} = Noizu.Weaviate.Api.Schema.configure_replication(class_name, replication_config)
-  """
-  @spec configure_replication(String.t(), map(), options :: any) :: {:ok, any()} | {:error, any()}
-  def configure_replication(class_name, replication_config, options \\ nil) do
-    url = weaviate_base() <> "schema/#{class_name}/replication-config"
-    body = replication_config
-
-    api_call(:put, url, body, WeaviateStructs.RespObj, options)
+      @spec remove(class :: Noizu.Weaviate.Struct.Class.t | String.t, tenants :: Noizu.Weaviate.Struct.Tenant.t | [Noizu.Weaviate.Struct.Tenant.t], options :: any) ::
+              {:ok, any()} | {:error, any()}
+      def remove(class, tenants, options \\ nil) do
+        class = case class do
+          %{name: name} -> name
+          name when is_bitstring(name) -> name
+        end
+        url = api_base() <> "v1/schema/#{class}/tenants"
+        tenants = cond do
+          is_list(tenants) ->
+            Enum.map(tenants,
+              fn
+                (%{name: name}) -> name
+                (name) when is_bitstring(name) -> name
+              end
+            )
+          :else ->
+            case tenants do
+              %{name: name} -> [name]
+              name when is_bitstring(name) -> [name]
+            end
+        end
+        api_call(:delete, url, tenants, :json, options)
+      end
+    end
   end
 end

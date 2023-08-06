@@ -1,4 +1,4 @@
-defmodule WeaviateStructs.Class do
+defmodule Noizu.Weaviate.Struct.Class do
   @moduledoc """
   Struct for representing a class in Weaviate schema.
   """
@@ -6,74 +6,67 @@ defmodule WeaviateStructs.Class do
   defstruct [
     :name,
     :description,
-    :vectorizer,
     :vector_index,
     :vector_index_config,
-    :inverted_index_config,
-    :stopwords_config,
-    :replication_config,
+    :vectorizer,
     :module_config,
     :properties,
-    :inverted_index,
-    :vector_indexer_done,
-    :vector_search_available,
-    :vector_search_config,
-    :vector_search_indexer_done
+    :inverted_index_config,
+    :replication_config,
+    :multi_tenancy_config
   ]
 
-  @enforce_keys [:name]
-
   @type t :: %__MODULE__{
-          name: String.t(),
-          description: String.t(),
-          vectorizer: String.t(),
-          vector_index: String.t(),
-          vector_index_config: map(),
-          inverted_index_config: map(),
-          stopwords_config: map(),
-          replication_config: map(),
-          module_config: map(),
-          properties: list(WeaviateStructs.Property.t()),
-          inverted_index: boolean,
-          vector_indexer_done: boolean,
-          vector_search_available: boolean,
-          vector_search_config: map(),
-          vector_search_indexer_done: boolean
-        }
+               name: String.t(),
+               description: String.t(),
+               vector_index: String.t(),
+               vector_index_config: Noizu.Weaviate.Struct.VectorIndexConfig.t,
+               vectorizer: String.t(),
+               module_config: map(),
+               properties: list(Noizu.Weaviate.Struct.Property.t()),
 
-  def from_json(%{
-        "name" => name,
-        "description" => description,
-        "vectorizer" => vectorizer,
-        "vector_index" => vector_index,
-        "vector_index_config" => vector_index_config,
-        "inverted_index_config" => inverted_index_config,
-        "stopwords_config" => stopwords_config,
-        "replication_config" => replication_config,
-        "module_config" => module_config,
-        "properties" => properties,
-        "inverted_index" => inverted_index,
-        "vector_indexer_done" => vector_indexer_done,
-        "vector_search_available" => vector_search_available,
-        "vector_search_config" => vector_search_config,
-        "vector_search_indexer_done" => vector_search_indexer_done
-      }) do
+               inverted_index_config: Noizu.Weaviate.Struct.InvertedIndexConfig.t,
+               replication_config: Noizu.Weaviate.Struct.ReplicationConfig.t,
+               multi_tenancy_config: Noizu.Weaviate.Struct.MultiTenancyConfig.t,
+             }
+
+  def from_json(json) when is_list(json) do
+    Enum.map(json, & from_json(&1))
+  end
+  def from_json(nil), do: nil
+  def from_json(%{} = json) do
     %__MODULE__{
-      name: name,
-      description: description,
-      vectorizer: vectorizer,
-      vector_index: vector_index,
-      vector_index_config: vector_index_config,
-      inverted_index_config: inverted_index_config,
-      stopwords_config: stopwords_config,
-      replication_config: replication_config,
-      module_config: module_config,
-      properties: Enum.map(properties, &WeaviateStructs.Property.from_json/1),
-      inverted_index: inverted_index,
-      vector_indexer_done: vector_indexer_done,
-      vector_search_available: vector_search_available,
-      vector_search_config: vector_search_config,
-      vector_search_indexer_done: vector_search_indexer_done
+      name: json[:class],
+      description: json[:description],
+      vector_index: json[:vectorIndex],
+      vector_index_config: Noizu.Weaviate.Struct.VectorIndexConfig.from_json(json[:vectorIndexConfig]),
+      vectorizer: json[:vectorizer],
+      module_config: json[:moduleConfig],
+      properties: Noizu.Weaviate.Struct.Property.from_json(json[:properties]),
+      inverted_index_config: Noizu.Weaviate.Struct.InvertedIndexConfig.from_json(json[:invertedIndexConfig]),
+      replication_config: Noizu.Weaviate.Struct.ReplicationConfig.from_json(json[:replicationConfig]),
+      multi_tenancy_config: Noizu.Weaviate.Struct.MultiTenancyConfig.from_json(json[:multiTenancyConfig]),
     }
   end
+
+  defimpl Jason.Encoder do
+    def encode(this, opts) do
+      %{
+        class: this.name,
+        description: this.description,
+        vectorIndex: this.vector_index,
+        vectorIndexConfig: this.vector_index_config,
+        vectorizer: this.vectorizer,
+        moduleConfig: this.module_config,
+        properites: this.properties,
+        invertedIndexConfig: this.inverted_index_config,
+        replicationConfig: this.replication_config,
+        multiTenancyConfig: this.multi_tenancy_config
+      }
+      |> Enum.reject(fn {k,v} -> is_nil(v) end)
+      |> Map.new()
+      |> Jason.Encode.map(opts)
+    end
+  end
+
 end

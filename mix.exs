@@ -50,6 +50,8 @@ defmodule Noizu.Weaviate.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:junit_formatter, "~> 3.3", only: :test},
+      {:mimic, "~> 1.0.0", only: :test},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:finch, "~> 0.15"},
       {:jason, "~> 1.2"}

@@ -1,4 +1,4 @@
-defmodule WeaviateStructs.BackupParams do
+defmodule Noizu.Weaviate.Struct.BackupParams do
   defstruct [
     :backend,
     :id,
@@ -6,17 +6,16 @@ defmodule WeaviateStructs.BackupParams do
     :exclude
   ]
 
-  def from_json(%{
-        "backend" => backend,
-        "id" => id,
-        "include" => include,
-        "exclude" => exclude
-      }) do
+  def from_json(json) when is_list(json) do
+    Enum.map(json, & from_json(&1))
+  end
+
+  def from_json(%{} = json) do
     %__MODULE__{
-      backend: backend,
-      id: id,
-      include: include,
-      exclude: exclude
+      backend: json[:backend],
+      id: json[:id],
+      include: json[:include],
+      exclude: json[:exclude]
     }
   end
 end

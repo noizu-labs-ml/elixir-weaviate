@@ -27,11 +27,12 @@ defmodule Noizu.Weaviate do
   # Common Type
   @type options() :: map()
 
-  @weaviate_base "https://api.weaviate.com/v1/"
+  @weaviate_base Application.compile_env(:noizu_weaviate, :endpoint, "http://api.weaviate.com/")
 
   require Finch
 
   def weaviate_base(), do: @weaviate_base
+  def api_base(), do: @weaviate_base
 
   # -------------------------------
   #
@@ -114,11 +115,11 @@ defmodule Noizu.Weaviate do
       with {:ok, body} <- (body && Jason.encode(body)) || {:ok, nil},
            {:ok, %Finch.Response{status: 200, body: body}} <-
              api_call_fetch(type, url, body, options),
-           {:ok, json} <- (!raw && Jason.decode(body, keys: :atoms)) || {:ok, body} do
+           {:ok, json} <- (!raw && ( (String.length(body) > 0) && Jason.decode(body, keys: :atoms) || {:ok, nil} )) || {:ok, body} do
         cond do
           model in [nil, :json] -> {:ok, json}
-          raw -> {:ok, apply(model, :from_json, [json])}
-          :else -> {:ok, apply(model, :from_binary, [json])}
+          raw -> {:ok, apply(model, :from_binary, [json])}
+          :else -> {:ok, apply(model, :from_json, [json])}
         end
       else
         error ->

@@ -54,7 +54,7 @@ defmodule Noizu.Weaviate.Api.Batch do
       {:ok, response} = Noizu.Weaviate.Api.Batch.create_objects(objects)
   """
   @spec create_objects([map()], options :: any) ::
-          {:ok, WeaviateStructs.RespObj} | {:error, any()}
+          {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
   def create_objects(objects, options \\ nil) do
     # Construct the request URL
     url = "/v1/batch/objects"
@@ -63,7 +63,7 @@ defmodule Noizu.Weaviate.Api.Batch do
     body = %{objects: objects}
 
     # Make the API request to batch create the objects
-    Noizu.Weaviate.api_call(:post, url, body, WeaviateStructs.RespObj, options)
+    Noizu.Weaviate.api_call(:post, url, body, Noizu.Weaviate.Struct.RespObj, options)
   end
 
   # -------------------------------
@@ -100,7 +100,7 @@ defmodule Noizu.Weaviate.Api.Batch do
       {:ok, response} = Noizu.Weaviate.Api.Batch.create_references(references)
   """
   @spec create_references([map()], options :: any) ::
-          {:ok, WeaviateStructs.RespObj} | {:error, any()}
+          {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
   def create_references(references, options \\ nil) do
     # Construct the request URL
     url = "/v1/batch/references"
@@ -109,7 +109,7 @@ defmodule Noizu.Weaviate.Api.Batch do
     body = %{references: references}
 
     # Make the API request to batch create the references
-    Noizu.Weaviate.api_call(:post, url, body, WeaviateStructs.RespObj, options)
+    Noizu.Weaviate.api_call(:post, url, body, Noizu.Weaviate.Struct.RespObj, options)
   end
 
   # -------------------------------
@@ -143,7 +143,7 @@ defmodule Noizu.Weaviate.Api.Batch do
       {:ok, response} = Noizu.Weaviate.Api.Batch.delete_objects(match)
   """
   @spec delete_objects(map(), options :: any) ::
-          {:ok, WeaviateStructs.RespObj} | {:error, any()}
+          {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
   def delete_objects(match, options \\ nil) do
     # Construct the request URL
     url = "/v1/batch/objects"
@@ -156,6 +156,6 @@ defmodule Noizu.Weaviate.Api.Batch do
     }
 
     # Make the API request to batch delete the objects
-    Noizu.Weaviate.api_call(:delete, url, body, WeaviateStructs.RespObj, options)
+    Noizu.Weaviate.api_call(:delete, url, body, Noizu.Weaviate.Struct.RespObj, options)
   end
 end

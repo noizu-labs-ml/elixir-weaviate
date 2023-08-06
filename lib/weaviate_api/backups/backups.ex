@@ -22,7 +22,7 @@ defmodule Noizu.Weaviate.Api.Backups do
 
   ## Returns
 
-  A tuple `{:ok, response}` on successful API call, where `response` is of type `WeaviateStructs.RespObj`.
+  A tuple `{:ok, response}` on successful API call, where `response` is of type `Noizu.Weaviate.Struct.RespObj`.
   Returns `{:error, term}` on failure, where `term` contains error details.
 
   ## Examples
@@ -30,7 +30,7 @@ defmodule Noizu.Weaviate.Api.Backups do
       {:ok, response} = Noizu.Weaviate.Api.Backups.create_backup("s3", "my-backup", include: ["Product"], exclude: ["User"])
   """
   @spec create_backup(String.t(), String.t(), Keyword.t(), map()) ::
-          {:ok, WeaviateStructs.RespObj} | {:error, any()}
+          {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
   def create_backup(backend, backup_id, options \\ [], opts \\ %{}) do
     url = weaviate_base() <> "backups"
 
@@ -39,7 +39,7 @@ defmodule Noizu.Weaviate.Api.Backups do
       |> put_field(:include, options)
       |> put_field(:exclude, options)
 
-    api_call(:post, url, body, WeaviateStructs.RespObj, opts)
+    api_call(:post, url, body, Noizu.Weaviate.Struct.RespObj, opts)
   end
 
   # -------------------------------
@@ -56,7 +56,7 @@ defmodule Noizu.Weaviate.Api.Backups do
 
   ## Returns
 
-  A tuple `{:ok, response}` on successful API call, where `response` is of type `WeaviateStructs.RespObj`.
+  A tuple `{:ok, response}` on successful API call, where `response` is of type `Noizu.Weaviate.Struct.RespObj`.
   Returns `{:error, term}` on failure, where `term` contains error details.
 
   ## Examples
@@ -64,10 +64,10 @@ defmodule Noizu.Weaviate.Api.Backups do
       {:ok, response} = Noizu.Weaviate.Api.Backups.get_status("s3", "my-backup")
   """
   @spec get_status(String.t(), String.t(), map()) ::
-          {:ok, WeaviateStructs.RespObj} | {:error, any()}
+          {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
   def get_status(backend, backup_id, opts \\ %{}) do
     url = weaviate_base() <> "backups/#{backend}/#{backup_id}"
-    api_call(:get, url, nil, WeaviateStructs.RespObj, opts)
+    api_call(:get, url, nil, Noizu.Weaviate.Struct.RespObj, opts)
   end
 
   # -------------------------------
@@ -86,7 +86,7 @@ defmodule Noizu.Weaviate.Api.Backups do
 
   ## Returns
 
-  A tuple `{:ok, response}` on successful API call, where `response` is of type `WeaviateStructs.RespObj`.
+  A tuple `{:ok, response}` on successful API call, where `response` is of type `Noizu.Weaviate.Struct.RespObj`.
   Returns `{:error, term}` on failure, where `term` contains error details.
 
   ## Examples
@@ -94,7 +94,7 @@ defmodule Noizu.Weaviate.Api.Backups do
       {:ok, response} = Noizu.Weaviate.Api.Backups.restore_backup("s3", "my-backup", include: ["Product"], exclude: ["User"])
   """
   @spec restore_backup(String.t(), String.t(), Keyword.t(), map()) ::
-          {:ok, WeaviateStructs.RespObj} | {:error, any()}
+          {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
   def restore_backup(backend, backup_id, options \\ [], opts \\ %{}) do
     url = weaviate_base() <> "backups/#{backend}/#{backup_id}/restore"
 
@@ -103,7 +103,7 @@ defmodule Noizu.Weaviate.Api.Backups do
       |> put_field(:include, options)
       |> put_field(:exclude, options)
 
-    api_call(:post, url, body, WeaviateStructs.RespObj, opts)
+    api_call(:post, url, body, Noizu.Weaviate.Struct.RespObj, opts)
   end
 
   # -------------------------------
@@ -120,7 +120,7 @@ defmodule Noizu.Weaviate.Api.Backups do
 
   ## Returns
 
-  A tuple `{:ok, response}` on successful API call, where `response` is of type `WeaviateStructs.RespObj`.
+  A tuple `{:ok, response}` on successful API call, where `response` is of type `Noizu.Weaviate.Struct.RespObj`.
   Returns `{:error, term}` on failure, where `term` contains error details.
 
   ## Examples
@@ -128,9 +128,9 @@ defmodule Noizu.Weaviate.Api.Backups do
       {:ok, response} = Noizu.Weaviate.Api.Backups.get_restore_status("s3", "my-backup")
   """
   @spec get_restore_status(String.t(), String.t(), map()) ::
-          {:ok, WeaviateStructs.RespObj} | {:error, any()}
+          {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
   def get_restore_status(backend, backup_id, opts \\ []) do
     url = weaviate_base() <> "backups/#{backend}/#{backup_id}/restore"
-    api_call(:get, url, nil, WeaviateStructs.RespObj, opts)
+    api_call(:get, url, nil, Noizu.Weaviate.Struct.RespObj, opts)
   end
 end

@@ -1,16 +1,17 @@
-defmodule WeaviateStructs.OpenIDConfiguration do
+defmodule Noizu.Weaviate.Struct.OpenIDConfiguration do
   defstruct [
     :href,
-    :clientID
+    :client_id
   ]
 
-  def from_json(%{
-        "href" => href,
-        "clientID" => clientID
-      }) do
+  def from_json(json) when is_list(json) do
+    Enum.map(json, & from_json(&1))
+  end
+  def from_json(nil), do: nil
+  def from_json(%{} = json) do
     %__MODULE__{
-      href: href,
-      clientID: clientID
+      href: json[:href],
+      client_id: json[:clientID]
     }
   end
 end

@@ -1,0 +1,103 @@
+version: '3.9'
+networks:
+  noizu-test-weaviate-net:
+services:
+  weaviate:
+       container_name: test-weaviate
+       command:
+            - --host
+            - 0.0.0.0
+            - --port
+            - '8080'
+            - --scheme
+            - http
+       image: semitechnologies/weaviate:1.20.4
+       networks:
+            - noizu-test-weaviate-net
+       ports:
+            - 0.0.0.0:9004:8080
+       restart: on-failure:0
+       environment:
+            TRANSFORMERS_INFERENCE_API: 'http://test-weaviate-t2v:8080'
+            QNA_INFERENCE_API: 'http://test-weaviate-qna:8080'
+            IMAGE_INFERENCE_API: 'http://test-weaviate-i2v:8080'
+            NER_INFERENCE_API: 'http://test-weaviate-ner:8080'
+            SUM_INFERENCE_API: 'http://test-weaviate-sum:8080'
+            OPENAI_APIKEY: $OPENAI_API_KEY
+            QUERY_DEFAULTS_LIMIT: 25
+            AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+            PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+            DEFAULT_VECTORIZER_MODULE: 'text2vec-transformers'
+            ENABLE_MODULES: 'text2vec-transformers,qna-transformers,ner-transformers,sum-transformers,img2vec-neural,ref2vec-centroid,generative-openai'
+            CLUSTER_HOSTNAME: 'node1'
+  t2v-transformers:
+       container_name: test-weaviate-t2v
+       networks:
+            - noizu-test-weaviate-net
+       image: semitechnologies/transformers-inference:sentence-transformers-multi-qa-MiniLM-L6-cos-v1
+       environment:
+            ENABLE_CUDA: '1'
+            NVIDIA_VISIBLE_DEVICES: 'all'
+       deploy:
+            resources:
+                 reservations:
+                      devices:
+                           - capabilities:
+                                  - 'gpu'
+
+  qna-transformers:
+       container_name: test-weaviate-qna
+       networks:
+            - noizu-test-weaviate-net
+       image: semitechnologies/qna-transformers:distilbert-base-cased-distilled-squad
+       environment:
+            ENABLE_CUDA: '1'
+            NVIDIA_VISIBLE_DEVICES: 'all'
+       deploy:
+            resources:
+                 reservations:
+                      devices:
+                           - capabilities:
+                                  - 'gpu'
+  ner-transformers:
+       container_name: test-weaviate-ner
+       networks:
+            - noizu-test-weaviate-net
+       image: semitechnologies/ner-transformers:dbmdz-bert-large-cased-finetuned-conll03-english
+       environment:
+            ENABLE_CUDA: '1'
+            NVIDIA_VISIBLE_DEVICES: 'all'
+       deploy:
+            resources:
+                 reservations:
+                      devices:
+                           - capabilities:
+                                  - 'gpu'
+  sum-transformers:
+       container_name: test-weaviate-sum
+       networks:
+            - noizu-test-weaviate-net
+       image: semitechnologies/sum-transformers:facebook-bart-large-cnn-1.0.0
+       environment:
+            ENABLE_CUDA: '1'
+            NVIDIA_VISIBLE_DEVICES: 'all'
+       deploy:
+            resources:
+                 reservations:
+                      devices:
+                           - capabilities:
+                                  - 'gpu'
+  i2v-neural:
+       container_name: test-weaviate-i2v
+       networks:
+            - noizu-test-weaviate-net
+       image: semitechnologies/img2vec-pytorch:resnet50
+       environment:
+            ENABLE_CUDA: '1'
+            NVIDIA_VISIBLE_DEVICES: 'all'
+       deploy:
+            resources:
+                 reservations:
+                      devices:
+                           - capabilities:
+                                  - 'gpu'

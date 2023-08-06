@@ -1,51 +1,47 @@
-defmodule WeaviateStructs.Property do
-  @moduledoc """
-  Struct for representing a property in Weaviate schema.
-  """
-
+defmodule Noizu.Weaviate.Struct.Property do
   defstruct [
-    :name,
-    :description,
     :data_type,
-    :text_keyword,
+    :description,
+    :name,
+    :index_filterable,
+    :index_searchable,
     :index_inverted,
-    :index_vector,
-    :module_config,
-    :keywords
+    :tokenization,
+    :module_config
   ]
 
-  @enforce_keys [:name, :data_type]
-
-  @type t :: %__MODULE__{
-          name: String.t(),
-          description: String.t(),
-          data_type: String.t(),
-          text_keyword: String.t(),
-          index_inverted: boolean,
-          index_vector: boolean,
-          module_config: map(),
-          keywords: list(String.t())
-        }
-
-  def from_json(%{
-        "name" => name,
-        "description" => description,
-        "data_type" => data_type,
-        "text_keyword" => text_keyword,
-        "index_inverted" => index_inverted,
-        "index_vector" => index_vector,
-        "module_config" => module_config,
-        "keywords" => keywords
-      }) do
+  def from_json(json) when is_list(json) do
+    Enum.map(json, & from_json(&1))
+  end
+  def from_json(nil), do: nil
+  def from_json(%{} = json) do
     %__MODULE__{
-      name: name,
-      description: description,
-      data_type: data_type,
-      text_keyword: text_keyword,
-      index_inverted: index_inverted,
-      index_vector: index_vector,
-      module_config: module_config,
-      keywords: keywords
+      data_type: json[:dataType],
+      description: json[:description],
+      name: json[:name],
+      index_filterable: json[:indexFilterable],
+      index_searchable: json[:indexSearchable],
+      index_inverted: json[:indexInverted],
+      tokenization: json[:tokenization],
+      module_config: json[:moduleConfig],
     }
+  end
+
+  defimpl Jason.Encoder do
+    def encode(this, opts) do
+      %{
+        dataType: this.data_type,
+        description: this.description,
+        name: this.name,
+        indexFilterable: this.index_filterable,
+        indexSearchable: this.index_searchable,
+        indexInverted: this.index_inverted,
+        tokenization: this.tokenization,
+        moduleConfig: this.module_config
+      }
+      |> Enum.reject(fn {k,v} -> is_nil(v) end)
+      |> Map.new()
+      |> Jason.Encode.map(opts)
+    end
   end
 end

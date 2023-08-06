@@ -23,6 +23,6 @@ defmodule Noizu.Weaviate.Api.Nodes do
     url = "#{Noizu.Weaviate.weaviate_base()}nodes"
 
     # NodeList
-    Noizu.Weaviate.api_call(:get, url, nil, WeaviateStructs.Node, options)
+    Noizu.Weaviate.api_call(:get, url, nil, Noizu.Weaviate.Struct.Node, options)
   end
 end

@@ -27,12 +27,12 @@ defmodule Noizu.Weaviate.Api.Objects do
       {:ok, response} = Noizu.Weaviate.Api.Objects.add_cross_reference("Person", "12345678-1234-1234-1234-1234567890ab", "friends", "weaviate://localhost/Person/87654321-4321-4321-4321-210987654321")
   """
   @spec add_cross_reference(String.t(), String.t(), String.t(), String.t(), options :: any) ::
-          {:ok, WeaviateStructs.RespObj} | {:error, any()}
+          {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
   def add_cross_reference(class_name, id, property_name, beacon, options \\ nil) do
     url = weaviate_base() <> "objects/#{class_name}/#{id}/references/#{property_name}"
     body = %{beacon: beacon}
 
-    api_call(:post, url, body, WeaviateStructs.RespObj, options)
+    api_call(:post, url, body, Noizu.Weaviate.Struct.RespObj, options)
   end
 
   @doc """
@@ -57,7 +57,7 @@ defmodule Noizu.Weaviate.Api.Objects do
           {:ok, boolean()} | {:error, any()}
   def check_if_data_object_exists(class_name, id, options \\ nil) do
     url = weaviate_base() <> "objects/#{class_name}/#{id}"
-    api_call(:head, url, nil, WeaviateStructs.RespObj, options)
+    api_call(:head, url, nil, Noizu.Weaviate.Struct.RespObj, options)
   end
 
   @doc """
@@ -83,12 +83,12 @@ defmodule Noizu.Weaviate.Api.Objects do
       {:ok, response} = Noizu.Weaviate.Api.Objects.create_data_object("Product", properties)
   """
   @spec create_data_object(String.t(), map(), options :: any) ::
-          {:ok, WeaviateStructs.RespObj} | {:error, any()}
+          {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
   def create_data_object(class_name, properties, options \\ nil) do
     url = weaviate_base() <> "objects"
     data_object = %{class: class_name, properties: properties}
 
-    api_call(:post, url, data_object, WeaviateStructs.RespObj, options)
+    api_call(:post, url, data_object, Noizu.Weaviate.Struct.RespObj, options)
   end
 
   @doc """
@@ -110,10 +110,10 @@ defmodule Noizu.Weaviate.Api.Objects do
       {:ok, response} = Noizu.Weaviate.Api.Objects.get_data_object("Product", "1234-abcd-5678-efgh")
   """
   @spec get_data_object(String.t(), String.t(), options :: any) ::
-          {:ok, WeaviateStructs.RespObj} | {:error, any()}
+          {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
   def get_data_object(class_name, id, options \\ nil) do
     url = weaviate_base() <> "objects/#{class_name}/#{id}"
-    api_call(:get, url, nil, WeaviateStructs.RespObj, options)
+    api_call(:get, url, nil, Noizu.Weaviate.Struct.RespObj, options)
   end
 
   @doc """
@@ -140,10 +140,10 @@ defmodule Noizu.Weaviate.Api.Objects do
       {:ok, response} = Noizu.Weaviate.Api.Objects.list_data_objects()
       {:ok, response} = Noizu.Weaviate.Api.Objects.list_data_objects(class: "Product", limit: 10)
   """
-  @spec list_data_objects(options :: any) :: {:ok, WeaviateStructs.RespObj} | {:error, any()}
+  @spec list_data_objects(options :: any) :: {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
   def list_data_objects(opts \\ %{}) do
     url = weaviate_base() <> "objects"
-    api_call(:get, url, nil, WeaviateStructs.RespObj, opts)
+    api_call(:get, url, nil, Noizu.Weaviate.Struct.RespObj, opts)
   end
 
   @doc """
@@ -167,12 +167,12 @@ defmodule Noizu.Weaviate.Api.Objects do
       {:ok, response} = Noizu.Weaviate.Api.Objects.update_cross_reference("Product", "1234", "relatedProducts", "weaviate://localhost/Product/5678")
   """
   @spec update_cross_reference(String.t(), String.t(), String.t(), String.t(), options :: any) ::
-          {:ok, WeaviateStructs.RespObj} | {:error, any()}
+          {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
   def update_cross_reference(class_name, id, property_name, beacon, options \\ nil) do
     url = weaviate_base() <> "objects/#{class_name}/#{id}/references/#{property_name}"
     body = %{beacon: beacon}
 
-    api_call(:put, url, body, WeaviateStructs.RespObj, options)
+    api_call(:put, url, body, Noizu.Weaviate.Struct.RespObj, options)
   end
 
   @doc """
@@ -200,12 +200,12 @@ defmodule Noizu.Weaviate.Api.Objects do
       {:ok, response} = Noizu.Weaviate.Api.Objects.update_data_object("Person", "12345678-1234-1234-1234-1234567890ab", properties)
   """
   @spec update_data_object(String.t(), String.t(), [map()], options :: any) ::
-          {:ok, WeaviateStructs.RespObj} | {:error, any()}
+          {:ok, WeaviateStruct.RespObj} | {:error, any()}
   def update_data_object(class_name, id, properties, options \\ nil) do
     url = weaviate_base() <> "objects/#{class_name}/#{id}"
     body = %{properties: properties}
 
-    api_call(:put, url, body, WeaviateStructs.RespObj, options)
+    api_call(:put, url, body, WeaviateStruct.RespObj, options)
   end
 
   @doc """
@@ -233,7 +233,7 @@ defmodule Noizu.Weaviate.Api.Objects do
       {:ok, response} = Noizu.Weaviate.Api.Objects.validate_data_object("Person", properties)
   """
   @spec validate_data_object(String.t(), [map()], String.t(), options :: any) ::
-          {:ok, WeaviateStructs.RespObj} | {:error, any()}
+          {:ok, WeaviateStruct.RespObj} | {:error, any()}
   def validate_data_object(class_name, properties, id \\ "", options \\ nil) do
     url = weaviate_base() <> "objects/validate"
 
@@ -243,6 +243,6 @@ defmodule Noizu.Weaviate.Api.Objects do
       id: id
     }
 
-    api_call(:post, url, body, WeaviateStructs.RespObj, options)
+    api_call(:post, url, body, WeaviateStruct.RespObj, options)
   end
 end

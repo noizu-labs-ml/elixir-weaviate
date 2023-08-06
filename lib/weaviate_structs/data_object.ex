@@ -1,4 +1,4 @@
-defmodule WeaviateStructs.DataObject do
+defmodule Noizu.Weaviate.Struct.DataObject do
   @moduledoc """
   Struct for representing a data object in Weaviate.
   """
@@ -16,23 +16,18 @@ defmodule WeaviateStructs.DataObject do
           tenant: String.t()
         }
 
-  def from_json(%{
-        "class_name" => class_name,
-        "properties" => properties,
-        "additional_properties" => additional_properties,
-        "vector" => vector,
-        "id" => id,
-        "tenant" => tenant
-      }) do
-    properties = Enum.map(properties, &WeaviateStructs.Property.from_json/1)
-
+  def from_json(json) when is_list(json) do
+    Enum.map(json, & from_json(&1))
+  end
+  def from_json(nil), do: nil
+  def from_json(%{} = json) do
     %__MODULE__{
-      class_name: class_name,
-      properties: properties,
-      additional_properties: additional_properties,
-      vector: vector,
-      id: id,
-      tenant: tenant
+      class_name: json[:className],
+      properties: Noizu.Weaviate.Struct.Property.from_json(json[:properties]),
+      additional_properties: json[:additionalProperties],
+      vector: json[:vector],
+      id: json[:id],
+      tenant: json[:tenant]
     }
   end
 end

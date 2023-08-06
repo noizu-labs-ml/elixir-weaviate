@@ -29,7 +29,7 @@ defmodule Noizu.Weaviate.Api.Auth do
     url = Weaviate.weaviate_base() <> "/.well-known/openid-configuration"
 
     # Make the API request
-    api_call(:get, url, nil, WeaviateStructs.OpenIDConfiguration, options)
+    api_call(:get, url, nil, Noizu.Weaviate.Struct.OpenIDConfiguration, options)
   end
 
   # -------------------------------

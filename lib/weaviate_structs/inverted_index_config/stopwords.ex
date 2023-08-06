@@ -1,6 +1,8 @@
-defmodule Noizu.Weaviate.Struct.BatchParams do
+defmodule Noizu.Weaviate.Struct.InvertedIndexConfig.Stopwords do
   defstruct [
-    :consistency_level
+    :preset,
+    :additions,
+    :removals
   ]
 
   def from_json(json) when is_list(json) do
@@ -11,14 +13,18 @@ defmodule Noizu.Weaviate.Struct.BatchParams do
   end
   def from_json(%{} = json) do
     %__MODULE__{
-      consistency_level: json[:consistencyLevel]
+      preset: json[:preset],
+      additions: json[:additions],
+      removals: json[:removals]
     }
   end
 
   defimpl Jason.Encoder do
     def encode(this, opts) do
       %{
-        consistencyLevel: this.consistency_level,
+        preset: this.preset,
+        additions: this.additions,
+        removals: this.removals
       }
       |> Enum.reject(fn {k,v} -> is_nil(v) end)
       |> Map.new()
