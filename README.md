@@ -1,69 +1,145 @@
-# Noizu.Weaviate
+# Noizu.Weaviate - README
 
-Noizu.Weaviate is a library providing a simple wrapper around Weaviate's API calls. It handles various API features such as meta information, batch operations, backups, schema operations, nodes information, data objects, and classification.
+Noizu.Weaviate is a library providing a simple wrapper around Weaviate's API calls. With Noizu.Weaviate, you can easily interact with Weaviate's schema and objects.
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+    - [Defining Schema Classes](#defining-schema-classes)
+    - [Creating Objects](#creating-objects)
+    - [Editing Objects](#editing-objects)
+    - [Deleting Objects](#deleting-objects)
+- [API Modules](#api-modules)
+    - [Noizu.Weaviate.Api.Meta](#noizoweaviateapimeta)
+    - [Noizu.Weaviate.Api.Batch](#noizoweaviateapibatch)
+    - [Noizu.Weaviate.Api.Backups](#noizoweaviateapibackups)
+    - [Noizu.Weaviate.Api.Schema](#noizoweaviateapischema)
+    - [Noizu.Weaviate.Api.Nodes](#noizoweaviateapinodes)
+    - [Noizu.Weaviate.Api.Objects](#noizoweaviateapiobjects)
+    - [Noizu.Weaviate.Api.Auth](#noizoweaviateapiauth)
+    - [Noizu.Weaviate.Api.Classification](#noizoweaviateapiclassification)
 
 ## Installation
 
-To install Noizu.Weaviate, add the following to your `mix.exs` file:
+You can install Noizu.Weaviate by adding it as a dependency in your `mix.exs` file:
 
 ```elixir
-defp deps do
+def deps do
   [
     {:noizu_weaviate, "~> 0.1.0"}
   ]
 end
 ```
 
-Then, run `mix deps.get` to fetch the dependencies.
+Then, run `mix deps.get` to fetch the dependency.
 
 ## Configuration
 
-To configure the library, you need to set the Weaviate API key in your application's configuration:
+To configure Noizu.Weaviate, you need to set the Weaviate API key in your application's configuration. Update your `config/config.exs` file with the following configuration:
 
 ```elixir
 config :noizu_weaviate,
   weaviate_api_key: "your_api_key_here"
 ```
 
-Replace `"your_api_key_here"` with your actual Weaviate API key.
-
 ## Usage
 
-Noizu.Weaviate provides modules for different Weaviate API endpoints:
+Noizu.Weaviate provides an easy-to-use API for working with Weaviate schema and objects.
 
-- [Noizu.Weaviate.Api.Meta](weaviate_api/meta/README.md)
-- [Noizu.Weaviate.Api.Batch](weaviate_api/batch/README.md)
-- [Noizu.Weaviate.Api.Backups](weaviate_api/backups/README.md)
-- [Noizu.Weaviate.Api.Schema](weaviate_api/schema/README.md)
-- [Noizu.Weaviate.Api.Nodes](weaviate_api/nodes/README.md)
-- [Noizu.Weaviate.Api.Objects](weaviate_api/objects/README.md)
-- [Noizu.Weaviate.Api.Auth](weaviate_api/auth/README.md)
-- [Noizu.Weaviate.Api.Classification](weaviate_api/classification/README.md)
+### Defining Schema Classes
 
-Each module corresponds to a specific functionality provided by the Weaviate API. You can use the functions in these modules to interact with the respective API endpoints.
-
-Here's an example of using the `Noizu.Weaviate.Api.Meta` module to get meta information about the Weaviate instance:
+To define a schema class, you can use the `Noizu.Weaviate.Class` module and the `weaviate_class` macro. Here's an example:
 
 ```elixir
-alias Noizu.Weaviate.Api.Meta
+defmodule Product do
+  use Noizu.Weaviate.Class
 
-{:ok, response} = Meta.get_meta_information()
+  description "A class for representing products in Weaviate"
+
+  property :name, :string
+  property :price, :number
+  property :description, :text
+end
 ```
 
-Refer to the documentation for each module to learn about the available functions and their usage.
+### Creating Objects
 
-## Documentation
+You can create objects using the `Noizu.Weaviate.Api.Objects.create` function. Here's an example:
 
-You can generate the documentation for this project using ExDoc. Run `mix docs` and open the `doc/index.html` file in your browser.
+```elixir
+object = %Product{name: "iPhone 12", price: 999.99, description: "The latest iPhone model"}
+{:ok, response} = Noizu.Weaviate.Api.Objects.create(object)
+```
 
-## Tests
+### Editing Objects
 
-To run the tests for this project, use the command `mix test`.
+You can edit objects using the `Noizu.Weaviate.Api.Objects.update` function. Here's an example:
 
-## Contributing
+```elixir
+object = %Product{id: "object_id", name: "New iPhone 12", price: 1099.99, description: "The new iPhone model"}
+{:ok, response} = Noizu.Weaviate.Api.Objects.update(object)
+```
 
-If you'd like to contribute to the development of Noizu.Weaviate, please submit a pull request with your changes or open an issue to discuss your proposed changes.
+### Deleting Objects
 
-## License
+You can delete objects using the `Noizu.Weaviate.Api.Objects.delete` function. Here's an example:
 
-Noizu.Weaviate is released under the [MIT License](https://opensource.org/licenses/MIT).
+```elixir
+{:ok, response} = Noizu.Weaviate.Api.Objects.delete("class_name", "object_id")
+```
+
+## API Modules
+
+Noizu.Weaviate provides several API modules for working with Weaviate. Here's an overview of the available modules and their functionalities:
+
+### Noizu.Weaviate.Api.Meta
+
+This module provides functions for getting meta information about the Weaviate instance. You can get information about the Weaviate version, host, and more.
+
+See [Noizu.Weaviate.Api.Meta README](lib/weaviate_api/meta/README.md) for more details.
+
+### Noizu.Weaviate.Api.Batch
+
+This module provides functions for batch operations in Weaviate. You can batch create objects and references, as well as batch delete objects.
+
+See [Noizu.Weaviate.Api.Batch README](lib/weaviate_api/batch/README.md) for more details.
+
+### Noizu.Weaviate.Api.Backups
+
+This module provides functions for working with backups in Weaviate. You can create backups, get backup status, restore backups, and get restore status.
+
+See [Noizu.Weaviate.Api.Backups README](lib/weaviate_api/backups/README.md) for more details.
+
+### Noizu.Weaviate.Api.Schema
+
+This module provides functions for working with the Weaviate schema. You can create, get, update, and delete classes, properties, shards, and tenants.
+
+See [Noizu.Weaviate.Api.Schema README](lib/weaviate_api/schema/README.md) for more details.
+
+### Noizu.Weaviate.Api.Nodes
+
+This module provides functions for getting information about the Weaviate nodes. You can get information about the connected nodes in the Weaviate cluster.
+
+See [Noizu.Weaviate.Api.Nodes README](lib/weaviate_api/nodes/README.md) for more details.
+
+### Noizu.Weaviate.Api.Objects
+
+This module provides functions for interacting with data objects in Weaviate. You can create, get, update, patch, delete, and validate objects.
+
+See [Noizu.Weaviate.Api.Objects README](lib/weaviate_api/objects/README.md) for more details.
+
+### Noizu.Weaviate.Api.Auth
+
+This module provides functions for authentication in the Weaviate API. You can get the OpenID configuration, check the liveness of the Weaviate instance, and check the readiness of the Weaviate instance.
+
+See [Noizu.Weaviate.Api.Auth README](lib/weaviate_api/well_known/README.md) for more details.
+
+### Noizu.Weaviate.Api.Classification
+
+This module provides functions for classification operations in Weaviate. You can start a classification, get the status of a classification, and cancel a classification.
+
+See [Noizu.Weaviate.Api.Classification README](lib/weaviate_api/classification/README.md) for more details.
+
+For more detailed documentation on all available functions and options, please refer to the individual module readmes provided above.
