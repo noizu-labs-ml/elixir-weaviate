@@ -62,7 +62,7 @@ defmodule Noizu.Weaviate.Class do
         tenant: nil,
         classification: nil,
         feature_projection: nil,
-      }] ++ Enum.map(@properties, fn {name, _} -> {name, nil} end)
+      }, id: nil] ++ Enum.map(@properties, fn {name, _} -> {name, nil} end)
 
 
 
@@ -98,14 +98,14 @@ defmodule Noizu.Weaviate.Class do
           feature_projection: json[:featureProjection]
         }
         properties = Enum.map(apply(__MODULE__,:__properties__, []), fn {name, _} -> {name, json[:properties][name]} end)
-        __MODULE__.__struct__([{:meta, meta}|properties])
+        __MODULE__.__struct__([{:meta, meta}, {:id, json[:id]} |properties])
       end
 
 
       defimpl Jason.Encoder do
         def encode(this, opts) do
           [
-            id: this.meta.id,
+            id: this.id,
             class: this.meta.class,
             vector: this.meta.vector,
             tenant: this.meta.tenant,
