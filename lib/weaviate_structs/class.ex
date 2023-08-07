@@ -58,7 +58,7 @@ defmodule Noizu.Weaviate.Struct.Class do
         vectorIndexConfig: this.vector_index_config,
         vectorizer: this.vectorizer,
         moduleConfig: this.module_config,
-        properites: this.properties,
+        properties: this.properties,
         invertedIndexConfig: this.inverted_index_config,
         replicationConfig: this.replication_config,
         multiTenancyConfig: this.multi_tenancy_config
