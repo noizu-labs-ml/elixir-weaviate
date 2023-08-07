@@ -29,7 +29,7 @@ defmodule Noizu.Weaviate.Api.Objects do
     api_call(:get, url, nil, :json, options)
   end
 
-  def exists?(options \\ nil) do
+  def exists?(object, options \\ nil) do
     query_params =
       []
       |> then(& options[:consistency_level] && [{"consistency_level", options[:consistency_level]}| &1] || &1)
@@ -37,11 +37,11 @@ defmodule Noizu.Weaviate.Api.Objects do
       |> Enum.map(fn {k,v} -> "#{k}=#{v}" end)
       |> Enum.join("&")
 
-    url = api_base() <> "v1/objects/#{class}/#{object}#{query_params && "?" <> query_params || ""}"
+    url = api_base() <> "v1/objects/#{object.meta.class}/#{object.meta.id}#{query_params && "?" <> query_params || ""}"
     api_call(:head, url, nil, :json, options)
   end
 
-  def validate?(options \\ nil) do
+  def validate?(object, options \\ nil) do
     query_params =
       []
       |> then(& options[:consistency_level] && [{"consistency_level", options[:consistency_level]}| &1] || &1)
@@ -82,7 +82,7 @@ defmodule Noizu.Weaviate.Api.Objects do
       |> Enum.map(fn {k,v} -> "#{k}=#{v}" end)
       |> Enum.join("&")
 
-    url = api_base() <> "v1/objects/#{object.class}/#{object.id}#{query_params && "?" <> query_params || ""}"
+    url = api_base() <> "v1/objects/#{object.meta.class}/#{object.meta.id}#{query_params && "?" <> query_params || ""}"
     api_call(:put, url, object, :json, options)
   end
 
@@ -93,11 +93,11 @@ defmodule Noizu.Weaviate.Api.Objects do
       |> Enum.map(fn {k,v} -> "#{k}=#{v}" end)
       |> Enum.join("&")
 
-    url = api_base() <> "v1/objects/#{object.class}/#{object.id}#{query_params && "?" <> query_params || ""}"
+    url = api_base() <> "v1/objects/#{object.meta.class}/#{object.meta.id}#{query_params && "?" <> query_params || ""}"
     api_call(:patch, url, object, :json, options)
   end
 
-  def delete(class, object, options \\ nil) do
+  def delete(object, options \\ nil) do
     query_params =
       []
       |> then(& options[:consistency_level] && [{"consistency_level", options[:consistency_level]}| &1] || &1)
@@ -105,7 +105,7 @@ defmodule Noizu.Weaviate.Api.Objects do
       |> Enum.map(fn {k,v} -> "#{k}=#{v}" end)
       |> Enum.join("&")
 
-    url = api_base() <> "v1/objects/#{class}/#{object}#{query_params && "?" <> query_params || ""}"
+    url = api_base() <> "v1/objects/#{object.meta.class}/#{object.meta.id}#{query_params && "?" <> query_params || ""}"
     api_call(:delete, url, nil, :json, options)
   end
 
@@ -120,7 +120,7 @@ defmodule Noizu.Weaviate.Api.Objects do
         |> Enum.map(fn {k,v} -> "#{k}=#{v}" end)
         |> Enum.join("&")
 
-      url = api_base() <> "v1/objects/#{object.class}/#{object.id}/references/#{reference}#{query_params && "?" <> query_params || ""}"
+      url = api_base() <> "v1/objects/#{object.meta.class}/#{object.meta.id}/references/#{reference}#{query_params && "?" <> query_params || ""}"
       api_call(:post, url, %{beacon: beacon}, :json, options)
     end
 
@@ -132,7 +132,7 @@ defmodule Noizu.Weaviate.Api.Objects do
         |> Enum.map(fn {k,v} -> "#{k}=#{v}" end)
         |> Enum.join("&")
 
-      url = api_base() <> "v1/objects/#{object.class}/#{object.id}/references/#{reference}#{query_params && "?" <> query_params || ""}"
+      url = api_base() <> "v1/objects/#{object.meta.class}/#{object.meta.id}/references/#{reference}#{query_params && "?" <> query_params || ""}"
       api_call(:put, url, beacons, :json, options)
     end
 
@@ -144,7 +144,7 @@ defmodule Noizu.Weaviate.Api.Objects do
         |> Enum.map(fn {k,v} -> "#{k}=#{v}" end)
         |> Enum.join("&")
 
-      url = api_base() <> "v1/objects/#{object.class}/#{object.id}/references/#{reference}#{query_params && "?" <> query_params || ""}"
+      url = api_base() <> "v1/objects/#{object.meta.class}/#{object.meta.id}/references/#{reference}#{query_params && "?" <> query_params || ""}"
       api_call(:delete, url, %{beacon: beacon}, :json, options)
     end
   end

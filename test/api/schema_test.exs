@@ -29,19 +29,8 @@ defmodule Noizu.Weaviate.Api.SchemaTest do
           |> String.trim()
         }}
       end)
-      {:ok, sut} = %Noizu.Weaviate.Struct.Class{
-                     name: "Article",
-                     description: "Testing Create Class",
-                     properties: [
-                       %Noizu.Weaviate.Struct.Property{
-                         name: "title",
-                         description: "title of class",
-                         data_type: ["string"],
-                       }
-                     ]
-                   }
-                   |> Noizu.Weaviate.Api.Schema.Class.create()
-      assert sut.name == "Article"
+      {:ok, sut} = Noizu.Weaviate.Api.Schema.Class.create(Noizu.Weaviate.Test.Article)
+      assert sut.meta.class == "Article"
     end
 
     test "Get" do
@@ -53,7 +42,7 @@ defmodule Noizu.Weaviate.Api.SchemaTest do
           |> String.trim()
         }}
       end)
-      {:ok, sut} = Noizu.Weaviate.Api.Schema.Class.get("Article")
+      {:ok, sut} = Noizu.Weaviate.Api.Schema.Class.get(Noizu.Weaviate.Test.Article)
       assert sut.name == "Article"
     end
 
@@ -66,18 +55,7 @@ defmodule Noizu.Weaviate.Api.SchemaTest do
           |> String.trim()
         }}
       end)
-      {:ok, sut} = %Noizu.Weaviate.Struct.Class{
-              name: "TestSchema_#{@suffix}",
-              description: "Testing Create Class",
-              properties: [
-                %Noizu.Weaviate.Struct.Property{
-                  name: "title",
-                  description: "title of class",
-                  data_type: ["string"],
-                }
-              ]
-            }
-            |> Noizu.Weaviate.Api.Schema.Class.update()
+      {:ok, sut} = Noizu.Weaviate.Api.Schema.Class.update(Noizu.Weaviate.Test.Article)
       assert sut.name == "Article"
     end
 
@@ -85,7 +63,7 @@ defmodule Noizu.Weaviate.Api.SchemaTest do
       Mimic.stub(Finch, :request, fn(request, handler, options) ->
         {:ok, %Finch.Response{status: 200, body: ""}}
       end)
-      {:ok, sut} = Noizu.Weaviate.Api.Schema.Class.delete("TestSchema_#{@suffix}")
+      {:ok, sut} = Noizu.Weaviate.Api.Schema.Class.delete(Noizu.Weaviate.Test.Article)
       assert sut == nil
     end
   end
@@ -100,7 +78,7 @@ defmodule Noizu.Weaviate.Api.SchemaTest do
           |> String.trim()
         }}
       end)
-      {:ok, sut} = Noizu.Weaviate.Api.Schema.Class.Properties.add("Article", %Noizu.Weaviate.Struct.Property{})
+      {:ok, sut} = Noizu.Weaviate.Api.Schema.Class.Properties.add(Noizu.Weaviate.Test.Article, Noizu.Weaviate.Test.Article.__property__(:body))
       assert sut.name == "onHomepage"
 
 

@@ -36,37 +36,43 @@ defmodule Noizu.Weaviate.Api.Schema do
     import Noizu.Weaviate
 
 
-    @spec create(class :: Noizu.Weaviate.Struct.Class.t, options :: any) ::
+    @spec create(class :: module, options :: any) ::
             {:ok, any()} | {:error, any()}
     def create(class, options \\ nil) do
       url = api_base() <> "v1/schema"
-      api_call(:post, url, class, Noizu.Weaviate.Struct.Class, options)
+      api_call(:post, url, Noizu.Weaviate.Class.definition(class), Noizu.Weaviate.Class.json_handler(class), options)
     end
 
-    @spec get(class :: String.t | Noizu.Weaviate.Struct.Class.t, options :: any) ::
+    @spec get(class :: String.t | module, options :: any) ::
             {:ok, any()} | {:error, any()}
     def get(class, options \\ nil) do
       class = case class do
-        %{name: name} -> name
+        %Noizu.Weaviate.Struct.Class{name: name} -> name
         name when is_bitstring(name) -> name
+        m -> Noizu.Weaviate.Class.definition(class).name
       end
       url = api_base() <> "v1/schema/#{class}"
-      api_call(:get, url, nil, Noizu.Weaviate.Struct.Class, options)
+      api_call(:get, url, nil, Noizu.Weaviate.Class.json_handler(class), options)
     end
 
-    @spec update(class :: Noizu.Weaviate.Struct.Class.t, options :: any) ::
+    @spec update(class :: module, options :: any) ::
             {:ok, any()} | {:error, any()}
     def update(class, options \\ nil) do
+      class = case class do
+        %Noizu.Weaviate.Struct.Class{} -> class
+        m -> Noizu.Weaviate.Class.definition(class)
+      end
       url = api_base() <> "v1/schema/#{class.name}"
-      api_call(:put, url, class, Noizu.Weaviate.Struct.Class, options)
+      api_call(:put, url, Noizu.Weaviate.Class.definition(class), Noizu.Weaviate.Class.json_handler(class), options)
     end
 
-    @spec delete(class :: String.t | Noizu.Weaviate.Struct.Class.t, options :: any) ::
+    @spec delete(class :: String.t | module, options :: any) ::
             {:ok, any()} | {:error, any()}
     def delete(class, options \\ nil) do
       class = case class do
-        %{name: name} -> name
+        %Noizu.Weaviate.Struct.Class{name: name} -> name
         name when is_bitstring(name) -> name
+        m -> Noizu.Weaviate.Class.definition(class).name
       end
       url = api_base() <> "v1/schema/#{class}"
       api_call(:delete, url, nil, :json, options)
@@ -79,12 +85,13 @@ defmodule Noizu.Weaviate.Api.Schema do
       alias Noizu.Weaviate
       import Noizu.Weaviate
 
-      @spec add(class :: Noizu.Weaviate.Struct.Class.t | String.t, property :: Noizu.Weaviate.Struct.Property.t, options :: any) ::
+      @spec add(class :: module | String.t, property :: Noizu.Weaviate.Struct.Property.t, options :: any) ::
               {:ok, any()} | {:error, any()}
       def add(class, property, options \\ nil) do
         class = case class do
-          %{name: name} -> name
+          %Noizu.Weaviate.Struct.Class{name: name} -> name
           name when is_bitstring(name) -> name
+          m -> Noizu.Weaviate.Class.definition(class).name
         end
         url = api_base() <> "v1/schema/#{class}/properties"
         api_call(:post, url, property, Noizu.Weaviate.Struct.Property, options)
@@ -99,23 +106,25 @@ defmodule Noizu.Weaviate.Api.Schema do
       alias Noizu.Weaviate
       import Noizu.Weaviate
 
-      @spec get(class :: Noizu.Weaviate.Struct.Class.t | String.t, options :: any) ::
+      @spec get(class :: module | String.t, options :: any) ::
               {:ok, any()} | {:error, any()}
       def get(class, options \\ nil) do
         class = case class do
-          %{name: name} -> name
+          %Noizu.Weaviate.Struct.Class{name: name} -> name
           name when is_bitstring(name) -> name
+          m -> Noizu.Weaviate.Class.definition(class).name
         end
         url = api_base() <> "v1/schema/#{class}/shards"
         api_call(:get, url, nil, :json, options)
       end
 
-      @spec update(class :: Noizu.Weaviate.Struct.Class.t | String.t, shard :: any, status :: atom, options :: any) ::
+      @spec update(class :: module | String.t, shard :: any, status :: atom, options :: any) ::
               {:ok, any()} | {:error, any()}
       def update(class, shard, status, options \\ nil) do
         class = case class do
-          %{name: name} -> name
+          %Noizu.Weaviate.Struct.Class{name: name} -> name
           name when is_bitstring(name) -> name
+          m -> Noizu.Weaviate.Class.definition(class).name
         end
         shard = case shard do
           %{name: name} -> name
@@ -140,38 +149,41 @@ defmodule Noizu.Weaviate.Api.Schema do
       # -------------------------------
       # Class Tenancy
       # -------------------------------
-      @spec get(class :: Noizu.Weaviate.Struct.Class.t | String.t, options :: any) ::
+      @spec get(class :: module | String.t, options :: any) ::
               {:ok, any()} | {:error, any()}
       def get(class, options \\ nil) do
         class = case class do
-          %{name: name} -> name
+          %Noizu.Weaviate.Struct.Class{name: name} -> name
           name when is_bitstring(name) -> name
+          m -> Noizu.Weaviate.Class.definition(class).name
         end
         url = api_base() <> "v1/schema/#{class}/tenants"
         api_call(:get, url, nil, :json, options)
       end
 
-      @spec add(class :: Noizu.Weaviate.Struct.Class.t | String.t, tenants :: Noizu.Weaviate.Struct.Tenant.t | [Noizu.Weaviate.Struct.Tenant.t], options :: any) ::
+      @spec add(class :: module | String.t, tenants :: Noizu.Weaviate.Struct.Tenant.t | [Noizu.Weaviate.Struct.Tenant.t], options :: any) ::
               {:ok, any()} | {:error, any()}
       def add(class, tenants, options \\ nil) do
         class = case class do
-          %{name: name} -> name
+          %Noizu.Weaviate.Struct.Class{name: name} -> name
           name when is_bitstring(name) -> name
+          m -> Noizu.Weaviate.Class.definition(class).name
         end
         url = api_base() <> "v1/schema/#{class}/tenants"
         tenants = cond do
           is_list(tenants) -> tenants
           :else -> [tenants]
         end
-        api_call(:get, url, tenants, :json, options)
+        api_call(:post, url, tenants, :json, options)
       end
 
-      @spec remove(class :: Noizu.Weaviate.Struct.Class.t | String.t, tenants :: Noizu.Weaviate.Struct.Tenant.t | [Noizu.Weaviate.Struct.Tenant.t], options :: any) ::
+      @spec remove(class :: module | String.t, tenants :: Noizu.Weaviate.Struct.Tenant.t | [Noizu.Weaviate.Struct.Tenant.t], options :: any) ::
               {:ok, any()} | {:error, any()}
       def remove(class, tenants, options \\ nil) do
         class = case class do
-          %{name: name} -> name
+          %Noizu.Weaviate.Struct.Class{name: name} -> name
           name when is_bitstring(name) -> name
+          m -> Noizu.Weaviate.Class.definition(class).name
         end
         url = api_base() <> "v1/schema/#{class}/tenants"
         tenants = cond do
