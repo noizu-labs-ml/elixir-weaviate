@@ -11,15 +11,16 @@ Here's an example of how to define a class schema using the Noizu.Weaviate.Class
 ```elixir
 defmodule Product do
   use Noizu.Weaviate.Class
-
-  description "A class for representing products in Weaviate"
+  weaviate_class("Product") do
+    description "A class for representing products in Weaviate"
+    
+    vector_index_type "hnsw"
+    vector_index_config %{efConstruction: 200}
   
-  vector_index_type "hnsw"
-  vector_index_config %{efConstruction: 200}
-
-  property :name, :string, description: "The name of the product"
-  property :price, :number, description: "The price of the product"
-  property :description, :text, description: "The description of the product"
+    property :name, :string, description: "The name of the product"
+    property :price, :number, description: "The price of the product"
+    property :description, :text, description: "The description of the product"
+  end
 end
 ```
 
@@ -72,10 +73,7 @@ In this example, we update an existing object of the "Product" class by providin
 ### Delete an Object
 
 ```elixir
-class = "Product"
-id = "<object_id>"
-
-{:ok, response} = Noizu.Weaviate.Api.Objects.delete(class, id)
+{:ok, response} = Noizu.Weaviate.Api.Objects.delete(Product, id)
 ```
 
 In this example, we use the `delete/2` function from the `Noizu.Weaviate.Api.Objects` module to delete an object of the specified class with the given ID.

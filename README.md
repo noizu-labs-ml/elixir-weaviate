@@ -55,12 +55,13 @@ To define a schema class, you can use the `Noizu.Weaviate.Class` module and the 
 ```elixir
 defmodule Product do
   use Noizu.Weaviate.Class
-
-  description "A class for representing products in Weaviate"
-
-  property :name, :string
-  property :price, :number
-  property :description, :text
+  weaviate_class("Product") do
+      description "A class for representing products in Weaviate"
+    
+      property :name, :string
+      property :price, :number
+      property :description, :text
+  end
 end
 ```
 
