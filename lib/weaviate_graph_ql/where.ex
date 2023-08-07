@@ -1,7 +1,4 @@
 defmodule Noizu.Weaviate.GraphQL.Where do
-  defstruct [
-    operator: nil
-  ]
 
   @value_types [
     :value_int,
@@ -21,16 +18,87 @@ defmodule Noizu.Weaviate.GraphQL.Where do
     date: :value_date
   }
 
+  defstruct [
+    operator: nil
+  ]
+
+  defimpl Jason.Encoder do
+    defp nest(string, prefix) do
+      prepared = String.trim(string)
+                 |> String.split("\n")
+                 |> Enum.join("\n#{prefix}")
+      prepared
+    end
+
+    def encode(this, opts) do
+      Jason.encode!(this.operator) |> String.trim()
+    end
+  end
+
   defmodule And do
     defstruct [
       operands: nil
     ]
+
+
+    defimpl Jason.Encoder do
+      defp nest(string, prefix) do
+        prepared = String.trim(string)
+                   |> String.split("\n")
+                   |> Enum.join("\n#{prefix}")
+        prepared
+      end
+
+      def encode(this, opts) do
+        contents =
+          this.operands
+          |> Enum.map(fn
+            {k} -> "#{nest(Jason.encode!(k), "  ")}"
+          end)
+          |> Enum.join(",\n")
+        """
+        {
+          operator: And,
+          operands: [
+            #{nest(contents, "    ")}
+          ]
+        }
+        """ |> String.trim()
+      end
+    end
+
   end
 
   defmodule Or do
     defstruct [
       operands: nil
     ]
+
+    defimpl Jason.Encoder do
+      defp nest(string, prefix) do
+        prepared = String.trim(string)
+                   |> String.split("\n")
+                   |> Enum.join("\n#{prefix}")
+        prepared
+      end
+
+      def encode(this, opts) do
+        contents =
+          this.operands
+          |> Enum.map(fn
+            {k} -> "#{nest(Jason.encode!(k), "  ")}"
+          end)
+          |> Enum.join(",\n")
+        """
+        {
+          operator: Or,
+          operands: [
+            #{nest(contents, "    ")}
+          ]
+        }
+        """ |> String.trim()
+      end
+    end
   end
 
   defmodule WithinGeoRange do
@@ -39,6 +107,37 @@ defmodule Noizu.Weaviate.GraphQL.Where do
       distance: nil,
       path: nil
     ]
+
+
+    defimpl Jason.Encoder do
+      defp nest(string, prefix) do
+        prepared = String.trim(string)
+                   |> String.split("\n")
+                   |> Enum.join("\n#{prefix}")
+        prepared
+      end
+
+      def encode(this, opts) do
+        contents =
+          this.operands
+          |> Enum.map(fn
+            {k} -> "#{nest(Jason.encode!(k), "  ")}"
+          end)
+          |> Enum.join(",\n")
+        """
+        {
+          operator: WithinGeoRange,
+          valueGeoRange: {
+            latitude: #{this.coordinates.latitude},
+            longitude: #{this.coordinates.longitude},
+          }
+          distance: #{Jason.encode(this.distance) |> nest("  ")}
+          path: #{inspect this.path}
+        }
+        """ |> String.trim()
+      end
+    end
+
   end
 
   defmodule Condition do
@@ -48,6 +147,35 @@ defmodule Noizu.Weaviate.GraphQL.Where do
       value: nil,
       value_type: nil
     ]
+
+
+    defimpl Jason.Encoder do
+      defp nest(string, prefix) do
+        prepared = String.trim(string)
+                   |> String.split("\n")
+                   |> Enum.join("\n#{prefix}")
+        prepared
+      end
+
+      def encode(this, opts) do
+        value_type = case this.value_type do
+          :value_int -> "valueInt"
+          :value_boolean -> "valueBoolean"
+          :value_string -> "valueString"
+          :value_text -> "valueText"
+          :value_number -> "valueNumber"
+          :value_date -> "valueDate"
+        end
+        """
+        {
+          operator: #{this.operator},
+          #{value_type}: #{inspect(this.value)},
+          path: #{inspect this.path}
+        }
+        """ |> String.trim()
+      end
+    end
+
   end
 
   def extract_path(path) do

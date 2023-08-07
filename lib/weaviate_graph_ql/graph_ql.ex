@@ -1,19 +1,12 @@
 defmodule Noizu.Weaviate.GraphQL do
-
   def get(class) do
     %Noizu.Weaviate.GraphQL.Get{class: class}
   end
 
-  #    consistency_level: nil, # ONE, QUORUM, ALL
-  #    search_operator: nil, # nearObject nearVector nearText nearImage hybrid bm25 ask group
-  #    group_by: nil,
-  #    limit: nil,
-  #    offset: nil,
-  #    after: nil,
-  #    autocut: nil,
-  #    sort: nil, # {path: [], order: asc | desc}
-  #    additional: nil,
-  #    properties: []
+  def additional(%Noizu.Weaviate.GraphQL.Get{} = container, properties) do
+    value = Noizu.Weaviate.GraphQL.Additional.additional(properties)
+    Noizu.Weaviate.GraphQL.Get.additional(container, value)
+  end
 
   def consistency_level(%Noizu.Weaviate.GraphQL.Get{} = container, value) do
     Noizu.Weaviate.GraphQL.Get.consistency_level(container, value)
@@ -49,6 +42,10 @@ defmodule Noizu.Weaviate.GraphQL do
 
   def property(%Noizu.Weaviate.GraphQL.Get{} = get, property) do
     Noizu.Weaviate.GraphQL.Get.property(get, property)
+  end
+
+  def properties(%Noizu.Weaviate.GraphQL.Get{} = get, property) do
+    Noizu.Weaviate.GraphQL.Get.properties(get, property)
   end
 
   def where(container, clause), do: Noizu.Weaviate.GraphQL.Where.where(container, clause)
