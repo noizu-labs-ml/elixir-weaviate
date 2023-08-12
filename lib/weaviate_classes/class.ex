@@ -65,9 +65,10 @@ defmodule Noizu.Weaviate.Class do
       }, id: nil] ++ Enum.map(@properties, fn {name, _} -> {name, nil} end)
 
 
-
+      @derive Noizu.Weaviate.Class.Protocol
       defstruct struct_params
 
+      def __class__(), do: unquote(class_name)
       def __properties__(), do: @properties
       def __property__(name), do: Enum.find_value(@properties, fn {k,v} -> k == name && v end)
 

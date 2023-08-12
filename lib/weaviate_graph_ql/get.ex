@@ -113,11 +113,16 @@ defmodule Noizu.Weaviate.GraphQL.Get do
 
       additional = this.additional && Jason.encode!(this.additional) || nil
 
+      class = case this.class do
+        v when is_bitstring(v) -> v
+        v when is_atom(v) -> v.__class__
+      end
+
       query = if class_attributes do
         """
         {
           Get {
-            #{this.class} (
+            #{class} (
                #{nest(class_attributes, "       ")}
             ) {
                #{nest(properties, "       ")}#{additional && "\n       " <> nest(additional, "       ") || ""}
@@ -129,7 +134,7 @@ defmodule Noizu.Weaviate.GraphQL.Get do
         """
         {
           Get {
-            #{this.class} {
+            #{class} {
                #{nest(properties, "       ")}#{additional && "\n       " <> nest(additional, "       ") || ""}
             }
           }

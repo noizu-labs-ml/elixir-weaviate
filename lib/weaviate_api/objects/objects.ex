@@ -9,13 +9,22 @@ defmodule Noizu.Weaviate.Api.Objects do
 
   def query(query, options \\ nil) do
     url = api_base() <> "v1/graphql"
+#    decoder = options[:decoder] || (case query do
+#      %{class: class} when is_atom(class) -> class
+#      _ -> :json
+#    end)
     api_call(:post, url, query, :json, options)
   end
 
   def list(class, options \\ nil) do
+    class_name = case class do
+      %{meta: %{class: class}} -> class
+      v when is_bitstring(class) -> class
+    end
+    decoder = options[:decoder] || Noizu.Weaviate.Class.Protocol.decoder(class, options)
     query_params =
       []
-      |> then(& [{"class", class}| &1])
+      |> then(& [{"class", class_name}| &1])
       |> then(& options[:limit] && [{"limit", options[:limit]}| &1] || &1)
       |> then(& options[:offset] && [{"offset", options[:offset]}| &1] || &1)
       |> then(& options[:after] && [{"after", options[:after]}| &1] || &1)
@@ -26,7 +35,7 @@ defmodule Noizu.Weaviate.Api.Objects do
       |> Enum.join("&")
 
     url = api_base() <> "v1/objects#{query_params && "?" <> query_params || ""}"
-    api_call(:get, url, nil, :json, options)
+    api_call(:get, url, nil, decoder, options)
   end
 
   def exists?(object, options \\ nil) do
@@ -37,8 +46,12 @@ defmodule Noizu.Weaviate.Api.Objects do
       |> Enum.map(fn {k,v} -> "#{k}=#{v}" end)
       |> Enum.join("&")
 
-    url = api_base() <> "v1/objects/#{object.meta.class}/#{object.meta.id}#{query_params && "?" <> query_params || ""}"
-    api_call(:head, url, nil, :json, options)
+    decoder = options[:decoder] || Noizu.Weaviate.Class.Protocol.decoder(object, options)
+    class = Noizu.Weaviate.Class.Protocol.class(object, options)
+    id = Noizu.Weaviate.Class.Protocol.id(object, options)
+
+    url = api_base() <> "v1/objects/#{class}/#{id}#{query_params && "?" <> query_params || ""}"
+    api_call(:head, url, nil, decoder, options)
   end
 
   def validate?(object, options \\ nil) do
@@ -49,7 +62,10 @@ defmodule Noizu.Weaviate.Api.Objects do
       |> Enum.join("&")
 
     url = api_base() <> "v1/objects/validate#{query_params && "?" <> query_params || ""}"
-    api_call(:post, url, object, :json, options)
+
+    decoder = options[:decoder] || Noizu.Weaviate.Class.Protocol.decoder(object, options)
+
+    api_call(:post, url, object, decoder, options)
   end
 
   def create(object, options \\ nil) do
@@ -60,10 +76,26 @@ defmodule Noizu.Weaviate.Api.Objects do
       |> Enum.join("&")
 
     url = api_base() <> "v1/objects#{query_params && "?" <> query_params || ""}"
-    api_call(:post, url, object, :json, options)
+    decoder = options[:decoder] || Noizu.Weaviate.Class.Protocol.decoder(object, options)
+    api_call(:post, url, object, decoder, options)
   end
 
-  def get(class, object, options \\ nil) do
+  def get(object, options \\ nil) do
+    query_params =
+      []
+      |> then(& options[:consistency_level] && [{"consistency_level", options[:consistency_level]}| &1] || &1)
+      |> then(& options[:tenant] && [{"tenant", options[:tenant]}| &1] || &1)
+      |> Enum.map(fn {k,v} -> "#{k}=#{v}" end)
+      |> Enum.join("&")
+
+    decoder = options[:decoder] || Noizu.Weaviate.Class.Protocol.decoder(object, options)
+    class = Noizu.Weaviate.Class.Protocol.class(object, options)
+    id = Noizu.Weaviate.Class.Protocol.id(object, options)
+    url = api_base() <> "v1/objects/#{class}/#{id}#{query_params && "?" <> query_params || ""}"
+    api_call(:get, url, nil, decoder, options)
+  end
+
+  def get(class, object, options) when is_bitstring(class) and is_bitstring(object) do
     query_params =
       []
       |> then(& options[:consistency_level] && [{"consistency_level", options[:consistency_level]}| &1] || &1)
@@ -72,7 +104,8 @@ defmodule Noizu.Weaviate.Api.Objects do
       |> Enum.join("&")
 
     url = api_base() <> "v1/objects/#{class}/#{object}#{query_params && "?" <> query_params || ""}"
-    api_call(:get, url, nil, :json, options)
+    decoder = options[:decoder] || :json
+    api_call(:get, url, nil, decoder, options)
   end
 
   def update(object, options \\ nil) do
@@ -82,8 +115,11 @@ defmodule Noizu.Weaviate.Api.Objects do
       |> Enum.map(fn {k,v} -> "#{k}=#{v}" end)
       |> Enum.join("&")
 
-    url = api_base() <> "v1/objects/#{object.meta.class}/#{object.meta.id}#{query_params && "?" <> query_params || ""}"
-    api_call(:put, url, object, :json, options)
+    decoder = options[:decoder] || Noizu.Weaviate.Class.Protocol.decoder(object, options)
+    class = Noizu.Weaviate.Class.Protocol.class(object, options)
+    id = Noizu.Weaviate.Class.Protocol.id(object, options)
+    url = api_base() <> "v1/objects/#{class}/#{id}#{query_params && "?" <> query_params || ""}"
+    api_call(:put, url, object, decoder, options)
   end
 
   def patch(object, options \\ nil) do
@@ -92,9 +128,11 @@ defmodule Noizu.Weaviate.Api.Objects do
       |> then(& options[:consistency_level] && [{"consistency_level", options[:consistency_level]}| &1] || &1)
       |> Enum.map(fn {k,v} -> "#{k}=#{v}" end)
       |> Enum.join("&")
-
-    url = api_base() <> "v1/objects/#{object.meta.class}/#{object.meta.id}#{query_params && "?" <> query_params || ""}"
-    api_call(:patch, url, object, :json, options)
+    decoder = options[:decoder] || Noizu.Weaviate.Class.Protocol.decoder(object, options)
+    class = Noizu.Weaviate.Class.Protocol.class(object, options)
+    id = Noizu.Weaviate.Class.Protocol.id(object, options)
+    url = api_base() <> "v1/objects/#{class}/#{id}#{query_params && "?" <> query_params || ""}"
+    api_call(:patch, url, object, decoder, options)
   end
 
   def delete(object, options \\ nil) do
@@ -104,8 +142,9 @@ defmodule Noizu.Weaviate.Api.Objects do
       |> then(& options[:tenant] && [{"tenant", options[:tenant]}| &1] || &1)
       |> Enum.map(fn {k,v} -> "#{k}=#{v}" end)
       |> Enum.join("&")
-
-    url = api_base() <> "v1/objects/#{object.meta.class}/#{object.meta.id}#{query_params && "?" <> query_params || ""}"
+    class = Noizu.Weaviate.Class.Protocol.class(object, options)
+    id = Noizu.Weaviate.Class.Protocol.id(object, options)
+    url = api_base() <> "v1/objects/#{class}/#{id}#{query_params && "?" <> query_params || ""}"
     api_call(:delete, url, nil, :json, options)
   end
 
@@ -120,7 +159,10 @@ defmodule Noizu.Weaviate.Api.Objects do
         |> Enum.map(fn {k,v} -> "#{k}=#{v}" end)
         |> Enum.join("&")
 
-      url = api_base() <> "v1/objects/#{object.meta.class}/#{object.meta.id}/references/#{reference}#{query_params && "?" <> query_params || ""}"
+      class = Noizu.Weaviate.Class.Protocol.class(object, options)
+      id = Noizu.Weaviate.Class.Protocol.id(object, options)
+
+      url = api_base() <> "v1/objects/#{class}/#{id}/references/#{reference}#{query_params && "?" <> query_params || ""}"
       api_call(:post, url, %{beacon: beacon}, :json, options)
     end
 
@@ -131,8 +173,9 @@ defmodule Noizu.Weaviate.Api.Objects do
         |> then(& options[:tenant] && [{"tenant", options[:tenant]}| &1] || &1)
         |> Enum.map(fn {k,v} -> "#{k}=#{v}" end)
         |> Enum.join("&")
-
-      url = api_base() <> "v1/objects/#{object.meta.class}/#{object.meta.id}/references/#{reference}#{query_params && "?" <> query_params || ""}"
+      class = Noizu.Weaviate.Class.Protocol.class(object, options)
+      id = Noizu.Weaviate.Class.Protocol.id(object, options)
+      url = api_base() <> "v1/objects/#{class}/#{id}/references/#{reference}#{query_params && "?" <> query_params || ""}"
       api_call(:put, url, beacons, :json, options)
     end
 
@@ -143,8 +186,9 @@ defmodule Noizu.Weaviate.Api.Objects do
         |> then(& options[:tenant] && [{"tenant", options[:tenant]}| &1] || &1)
         |> Enum.map(fn {k,v} -> "#{k}=#{v}" end)
         |> Enum.join("&")
-
-      url = api_base() <> "v1/objects/#{object.meta.class}/#{object.meta.id}/references/#{reference}#{query_params && "?" <> query_params || ""}"
+      class = Noizu.Weaviate.Class.Protocol.class(object, options)
+      id = Noizu.Weaviate.Class.Protocol.id(object, options)
+      url = api_base() <> "v1/objects/#{class}/#{id}/references/#{reference}#{query_params && "?" <> query_params || ""}"
       api_call(:delete, url, %{beacon: beacon}, :json, options)
     end
   end

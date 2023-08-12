@@ -199,7 +199,7 @@ defmodule Noizu.Weaviate.GraphQL.Where do
   end
 
 
-  def where(container, [filter: filter]) do
+  def where(container, filter) do
     container.__struct__.where(container, %__MODULE__{operator: filter})
   end
 

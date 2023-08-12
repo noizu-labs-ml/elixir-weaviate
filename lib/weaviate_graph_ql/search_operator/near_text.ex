@@ -65,7 +65,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearText do
 
 
   def filter(container, concepts, options \\ nil) do
-    concepts = case options[:concepts] do
+    concepts = case concepts do
       v when is_bitstring(v) -> [v]
       v when is_list(v) -> v
     end
