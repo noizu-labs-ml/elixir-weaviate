@@ -29,7 +29,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.Group do
         |> then(& this.type && [{:type, this.type} | &1] || &1)
         |> then(& this.force && [{:force, this.force} | &1] || &1)
         |> Enum.map(fn
-          {k,v} -> "#{k}: #{inspect v}"
+          {k,v} -> "#{k}: #{Noizu.Weaviate.GraphQL.encode_value(v)}"
           {k} -> k
         end)
         |> Enum.join(",\n")

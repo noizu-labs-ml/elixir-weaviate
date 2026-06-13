@@ -2,6 +2,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.BM25 do
   defstruct [
     query: nil,
     properties: nil,
+    search_operator: nil
   ]
 
 
@@ -14,6 +15,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.BM25 do
     operator = %__MODULE__{
       query: query,
       properties: properties,
+      search_operator: options[:search_operator]
     }
     container.__struct__.search_operator(container, operator)
   end
@@ -26,7 +28,8 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.BM25 do
         []
         |> then(& this.query && [{:query, this.query} | &1] || &1)
         |> then(& this.properties && [{:properties, this.properties} | &1] || &1)
-        |> Enum.map(fn {k,v} -> "#{k}: #{inspect v}" end)
+        |> then(& this.search_operator && [{:searchOperator, this.search_operator} | &1] || &1)
+        |> Enum.map(fn {k,v} -> "#{k}: #{Noizu.Weaviate.GraphQL.encode_value(v)}" end)
         |> Enum.join(",\n  ")
       """
       bm25: {

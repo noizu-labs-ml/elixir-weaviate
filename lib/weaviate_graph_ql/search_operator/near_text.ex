@@ -27,6 +27,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearText do
     move_away_from__concepts: nil,
     move_away_from__objects: nil,
     move_away_from__force: nil,
+    target_vectors: nil,
   ]
 
   defp from_option(nil), do: nil
@@ -90,6 +91,12 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearText do
       v -> [v]
     end
 
+    target_vectors = case options[:target_vectors] do
+      v when is_bitstring(v) -> [v]
+      v when is_list(v) -> v
+      _ -> nil
+    end
+
     operator = %__MODULE__{
       concepts: concepts,
       certainty: options[:certainty],
@@ -103,6 +110,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearText do
       move_away_from__concepts: move_away_from__concepts,
       move_away_from__objects: move_away_from__objects,
       move_away_from__force: options[:"move_away_from{force}"],
+      target_vectors: target_vectors,
     }
     container.__struct__.search_operator(container, operator)
   end
@@ -129,8 +137,9 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearText do
         |> then(& this.move_away_from__concepts && [{:"moveAwayFrom{concepts}", this.move_away_from__concepts} | &1] || &1)
         |> then(& this.move_away_from__objects && [{:"moveAwayFrom{objects}", this.move_away_from__objects} | &1] || &1)
         |> then(& this.move_away_from__force && [{:"moveAwayFrom{force}", this.move_away_from__force} | &1] || &1)
+        |> then(& this.target_vectors && [{:targetVectors, this.target_vectors} | &1] || &1)
         |> Enum.map(fn
-          {k,v} -> "#{k}: #{inspect v}"
+          {k,v} -> "#{k}: #{Noizu.Weaviate.GraphQL.encode_value(v)}"
           {k} -> k
         end)
         |> Enum.join(",\n")

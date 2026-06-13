@@ -11,6 +11,8 @@ defmodule Noizu.Weaviate.Struct.VectorIndexConfig do
     :flat_search_cutoff,
     :cleanup_interval_seconds,
     :pq,
+    :bq,
+    :sq,
     :skip
   ]
 
@@ -31,6 +33,8 @@ defmodule Noizu.Weaviate.Struct.VectorIndexConfig do
       flat_search_cutoff: json[:flatSearchCutoff],
       cleanup_interval_seconds: json[:cleanupIntervalSeconds],
       pq: json[:pq],
+      bq: json[:bq],
+      sq: json[:sq],
       skip: json[:skip]
     }
   end
@@ -49,6 +53,8 @@ defmodule Noizu.Weaviate.Struct.VectorIndexConfig do
         flatSearchCutoff: this.flat_search_cutoff,
         cleanupIntervalSeconds: this.cleanup_interval_seconds,
         pq: this.pq,
+        bq: this.bq,
+        sq: this.sq,
         skip: this.skip
       }
       |> Enum.reject(fn {k,v} -> is_nil(v) end)

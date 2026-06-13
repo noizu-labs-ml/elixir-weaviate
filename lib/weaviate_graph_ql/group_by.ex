@@ -29,7 +29,7 @@ defmodule Noizu.Weaviate.GraphQL.GroupBy do
         |> then(& this.groups && [{:groups, this.groups} | &1] || &1)
         |> then(& this.objects_per_group && [{:objectsPerGroup, this.objects_per_group} | &1] || &1)
         |> Enum.map(fn
-          {k,v} -> "#{k}: #{inspect v}"
+          {k,v} -> "#{k}: #{Noizu.Weaviate.GraphQL.encode_value(v)}"
           {k} -> k
         end)
         |> Enum.join(",\n")

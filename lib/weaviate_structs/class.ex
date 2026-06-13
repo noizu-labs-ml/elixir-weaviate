@@ -13,7 +13,9 @@ defmodule Noizu.Weaviate.Struct.Class do
     :properties,
     :inverted_index_config,
     :replication_config,
-    :multi_tenancy_config
+    :multi_tenancy_config,
+    :vector_config,
+    :sharding_config
   ]
 
   @type t :: %__MODULE__{
@@ -28,6 +30,8 @@ defmodule Noizu.Weaviate.Struct.Class do
                inverted_index_config: Noizu.Weaviate.Struct.InvertedIndexConfig.t,
                replication_config: Noizu.Weaviate.Struct.ReplicationConfig.t,
                multi_tenancy_config: Noizu.Weaviate.Struct.MultiTenancyConfig.t,
+               vector_config: map(),
+               sharding_config: map(),
              }
 
   def from_json(json) when is_list(json) do
@@ -46,6 +50,8 @@ defmodule Noizu.Weaviate.Struct.Class do
       inverted_index_config: Noizu.Weaviate.Struct.InvertedIndexConfig.from_json(json[:invertedIndexConfig]),
       replication_config: Noizu.Weaviate.Struct.ReplicationConfig.from_json(json[:replicationConfig]),
       multi_tenancy_config: Noizu.Weaviate.Struct.MultiTenancyConfig.from_json(json[:multiTenancyConfig]),
+      vector_config: json[:vectorConfig],
+      sharding_config: json[:shardingConfig],
     }
   end
 
@@ -61,7 +67,9 @@ defmodule Noizu.Weaviate.Struct.Class do
         properties: this.properties,
         invertedIndexConfig: this.inverted_index_config,
         replicationConfig: this.replication_config,
-        multiTenancyConfig: this.multi_tenancy_config
+        multiTenancyConfig: this.multi_tenancy_config,
+        vectorConfig: this.vector_config,
+        shardingConfig: this.sharding_config
       }
       |> Enum.reject(fn {k,v} -> is_nil(v) end)
       |> Map.new()

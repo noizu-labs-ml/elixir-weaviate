@@ -35,8 +35,8 @@ defmodule Noizu.Weaviate.Api.Classification do
   @spec get_classification_status(String.t(), options :: any) ::
           {:ok, classification_response()} | {:error, any()}
   def get_classification_status(classification_id, options \\ nil) do
-    url = "#{weaviate_base()}/classifications/#{classification_id}"
-    api_call(:get, url, nil, Noizu.Weaviate.Struct.RespObj, options)
+    url = "#{weaviate_base()}v1/classifications/#{classification_id}"
+    api_call(:get, url, nil, :json, options)
   end
 
   @doc """
@@ -75,7 +75,7 @@ defmodule Noizu.Weaviate.Api.Classification do
         classification_type,
         options \\ nil
       ) do
-    url = "#{weaviate_base()}/classification"
+    url = "#{weaviate_base()}v1/classifications"
 
     body = %{
       class_name: class_name,
@@ -84,6 +84,6 @@ defmodule Noizu.Weaviate.Api.Classification do
       classification_type: classification_type
     }
 
-    api_call(:post, url, body, Noizu.Weaviate.Struct.RespObj, options)
+    api_call(:post, url, body, :json, options)
   end
 end

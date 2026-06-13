@@ -113,7 +113,7 @@ defmodule Noizu.Weaviate do
       end
     else
       with {:ok, body} <- (body && Jason.encode(body)) || {:ok, nil},
-           {:ok, %Finch.Response{status: 200, body: body}} <-
+           {:ok, %Finch.Response{status: status, body: body}} when status in [200, 204] <-
              api_call_fetch(type, url, body, options),
            {:ok, json} <- (!raw && ( (String.length(body) > 0) && Jason.decode(body, keys: :atoms) || {:ok, nil} )) || {:ok, body} do
         cond do
@@ -137,7 +137,10 @@ defmodule Noizu.Weaviate do
       {"Content-Type", "application/json"}
     ]
     |> then(fn headers ->
-      headers
+      case Application.get_env(:noizu_weaviate, :weaviate_api_key) do
+        nil -> headers
+        key -> [{"Authorization", "Bearer #{key}"} | headers]
+      end
     end)
   end
 

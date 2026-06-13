@@ -23,7 +23,7 @@ defmodule Noizu.Weaviate.Api.Meta do
   """
   @spec get_meta_information(options :: any) :: {:ok, Noizu.Weaviate.Struct.Meta} | {:error, any()}
   def get_meta_information(options \\ nil) do
-    url = weaviate_base() <> "meta"
+    url = weaviate_base() <> "v1/meta"
     api_call(:get, url, nil, Noizu.Weaviate.Struct.Meta, options)
   end
 end

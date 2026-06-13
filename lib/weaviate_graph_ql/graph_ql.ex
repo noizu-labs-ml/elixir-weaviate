@@ -1,6 +1,23 @@
 defmodule Noizu.Weaviate.GraphQL do
+  def encode_value(v) when is_atom(v) and v not in [nil, true, false], do: "#{v}"
+  def encode_value(v), do: inspect(v)
   def get(class) do
     %Noizu.Weaviate.GraphQL.Get{class: class}
+  end
+
+  def aggregate(class) do
+    %Noizu.Weaviate.GraphQL.Aggregate{class: class}
+  end
+
+  def explore() do
+    %Noizu.Weaviate.GraphQL.Explore{}
+  end
+
+  def tenant(%Noizu.Weaviate.GraphQL.Get{} = container, value) do
+    Noizu.Weaviate.GraphQL.Get.tenant(container, value)
+  end
+  def tenant(%Noizu.Weaviate.GraphQL.Aggregate{} = container, value) do
+    Noizu.Weaviate.GraphQL.Aggregate.tenant(container, value)
   end
 
   def additional(%Noizu.Weaviate.GraphQL.Get{} = container, properties) do

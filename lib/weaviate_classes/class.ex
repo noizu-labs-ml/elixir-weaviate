@@ -22,6 +22,7 @@ defmodule Noizu.Weaviate.Class do
       creation_time_unix: nil,
       last_update_time_unix: nil,
       vector: nil,
+      vectors: nil,
       tenant: nil,
       classification: nil,
       feature_projection: nil,
@@ -39,6 +40,8 @@ defmodule Noizu.Weaviate.Class do
       Module.register_attribute(__MODULE__, :class_inverted_index_config, accumulate: false)
       Module.register_attribute(__MODULE__, :class_replication_config, accumulate: false)
       Module.register_attribute(__MODULE__, :class_multi_tenancy_config, accumulate: false)
+      Module.register_attribute(__MODULE__, :class_vector_config, accumulate: false)
+      Module.register_attribute(__MODULE__, :class_sharding_config, accumulate: false)
 
       require Noizu.Weaviate.Class
       import Noizu.Weaviate.Class, only: [weaviate_class: 2]
@@ -59,6 +62,7 @@ defmodule Noizu.Weaviate.Class do
         creation_time_unix: nil,
         last_update_time_unix: nil,
         vector: nil,
+        vectors: nil,
         tenant: nil,
         classification: nil,
         feature_projection: nil,
@@ -83,6 +87,8 @@ defmodule Noizu.Weaviate.Class do
           inverted_index_config: @class_inverted_index_config,
           replication_config: @class_replication_config,
           multi_tenancy_config: @class_multi_tenancy_config,
+          vector_config: @class_vector_config,
+          sharding_config: @class_sharding_config,
           properties: Enum.map(@properties, fn({_, v}) -> v end),
         }
       end
@@ -94,6 +100,7 @@ defmodule Noizu.Weaviate.Class do
           creation_time_unix: json[:creationTimeUnix],
           last_update_time_unix: json[:lastUpdateTimeUnix],
           vector: json[:vector],
+          vectors: json[:vectors],
           tenant: json[:tenant],
           classification: json[:classification],
           feature_projection: json[:featureProjection]
@@ -109,6 +116,7 @@ defmodule Noizu.Weaviate.Class do
             id: this.id,
             class: this.meta.class,
             vector: this.meta.vector,
+            vectors: this.meta.vectors,
             tenant: this.meta.tenant,
             properties:
               Enum.map(apply(this.__struct__,:__properties__, []), fn({k, _}) -> {k, get_in(this, [Access.key(k)])} end)
@@ -181,6 +189,16 @@ defmodule Noizu.Weaviate.Class do
   defmacro multi_tenancy_config(value) do
     quote do
       Module.put_attribute(__MODULE__, :class_multi_tenancy_config, unquote(value))
+    end
+  end
+  defmacro vector_config(value) do
+    quote do
+      Module.put_attribute(__MODULE__, :class_vector_config, unquote(value))
+    end
+  end
+  defmacro sharding_config(value) do
+    quote do
+      Module.put_attribute(__MODULE__, :class_sharding_config, unquote(value))
     end
   end
 

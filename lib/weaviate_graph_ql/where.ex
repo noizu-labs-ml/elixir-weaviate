@@ -54,6 +54,7 @@ defmodule Noizu.Weaviate.GraphQL.Where do
           this.operands
           |> Enum.map(fn
             {k} -> "#{nest(Jason.encode!(k), "  ")}"
+            k -> "#{nest(Jason.encode!(k), "  ")}"
           end)
           |> Enum.join(",\n")
         """
@@ -87,6 +88,7 @@ defmodule Noizu.Weaviate.GraphQL.Where do
           this.operands
           |> Enum.map(fn
             {k} -> "#{nest(Jason.encode!(k), "  ")}"
+            k -> "#{nest(Jason.encode!(k), "  ")}"
           end)
           |> Enum.join(",\n")
         """
@@ -95,6 +97,122 @@ defmodule Noizu.Weaviate.GraphQL.Where do
           operands: [
             #{nest(contents, "    ")}
           ]
+        }
+        """ |> String.trim()
+      end
+    end
+  end
+
+  defmodule Not do
+    defstruct [
+      operands: nil
+    ]
+
+    defimpl Jason.Encoder do
+      defp nest(string, prefix) do
+        prepared = String.trim(string)
+                   |> String.split("\n")
+                   |> Enum.join("\n#{prefix}")
+        prepared
+      end
+
+      def encode(this, opts) do
+        contents =
+          this.operands
+          |> Enum.map(fn
+            {k} -> "#{nest(Jason.encode!(k), "  ")}"
+          end)
+          |> Enum.join(",\n")
+        """
+        {
+          operator: Not,
+          operands: [
+            #{nest(contents, "    ")}
+          ]
+        }
+        """ |> String.trim()
+      end
+    end
+  end
+
+  defmodule ContainsAny do
+    defstruct [
+      path: nil,
+      value: nil,
+      value_type: nil
+    ]
+
+    defimpl Jason.Encoder do
+      def encode(this, opts) do
+        value_type = case this.value_type do
+          :value_int -> "valueInt"
+          :value_boolean -> "valueBoolean"
+          :value_string -> "valueString"
+          :value_text -> "valueText"
+          :value_number -> "valueNumber"
+          :value_date -> "valueDate"
+        end
+        """
+        {
+          operator: ContainsAny,
+          #{value_type}: #{inspect(this.value)},
+          path: #{inspect this.path}
+        }
+        """ |> String.trim()
+      end
+    end
+  end
+
+  defmodule ContainsAll do
+    defstruct [
+      path: nil,
+      value: nil,
+      value_type: nil
+    ]
+
+    defimpl Jason.Encoder do
+      def encode(this, opts) do
+        value_type = case this.value_type do
+          :value_int -> "valueInt"
+          :value_boolean -> "valueBoolean"
+          :value_string -> "valueString"
+          :value_text -> "valueText"
+          :value_number -> "valueNumber"
+          :value_date -> "valueDate"
+        end
+        """
+        {
+          operator: ContainsAll,
+          #{value_type}: #{inspect(this.value)},
+          path: #{inspect this.path}
+        }
+        """ |> String.trim()
+      end
+    end
+  end
+
+  defmodule ContainsNone do
+    defstruct [
+      path: nil,
+      value: nil,
+      value_type: nil
+    ]
+
+    defimpl Jason.Encoder do
+      def encode(this, opts) do
+        value_type = case this.value_type do
+          :value_int -> "valueInt"
+          :value_boolean -> "valueBoolean"
+          :value_string -> "valueString"
+          :value_text -> "valueText"
+          :value_number -> "valueNumber"
+          :value_date -> "valueDate"
+        end
+        """
+        {
+          operator: ContainsNone,
+          #{value_type}: #{inspect(this.value)},
+          path: #{inspect this.path}
         }
         """ |> String.trim()
       end
@@ -364,6 +482,36 @@ defmodule Noizu.Weaviate.GraphQL.Where do
       operator: :IsNull,
       value: false,
       value_type: :value_boolean
+    }
+  end
+
+  def not_operator(operand) do
+    %Noizu.Weaviate.GraphQL.Where.Not{
+      operands: [operand]
+    }
+  end
+
+  def contains_any(path, value_type, values) do
+    %Noizu.Weaviate.GraphQL.Where.ContainsAny{
+      path: Noizu.Weaviate.GraphQL.Where.extract_path(path),
+      value: values,
+      value_type: Noizu.Weaviate.GraphQL.Where.type_lookup(value_type)
+    }
+  end
+
+  def contains_all(path, value_type, values) do
+    %Noizu.Weaviate.GraphQL.Where.ContainsAll{
+      path: Noizu.Weaviate.GraphQL.Where.extract_path(path),
+      value: values,
+      value_type: Noizu.Weaviate.GraphQL.Where.type_lookup(value_type)
+    }
+  end
+
+  def contains_none(path, value_type, values) do
+    %Noizu.Weaviate.GraphQL.Where.ContainsNone{
+      path: Noizu.Weaviate.GraphQL.Where.extract_path(path),
+      value: values,
+      value_type: Noizu.Weaviate.GraphQL.Where.type_lookup(value_type)
     }
   end
 

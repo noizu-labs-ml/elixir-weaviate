@@ -26,7 +26,7 @@ defmodule Noizu.Weaviate.Api.Auth do
   @spec get_openid_configuration(options :: any) :: {:ok, any()} | {:error, any()}
   def get_openid_configuration(options \\ nil) do
     # Construct the request URL
-    url = Weaviate.weaviate_base() <> "/.well-known/openid-configuration"
+    url = Weaviate.weaviate_base() <> "v1/.well-known/openid-configuration"
 
     # Make the API request
     api_call(:get, url, nil, Noizu.Weaviate.Struct.OpenIDConfiguration, options)
@@ -50,10 +50,10 @@ defmodule Noizu.Weaviate.Api.Auth do
   @spec check_liveness(options :: any) :: {:ok, any()} | {:error, any()}
   def check_liveness(options \\ nil) do
     # Construct the request URL
-    url = Weaviate.weaviate_base() <> "/.well-known/live"
+    url = Weaviate.weaviate_base() <> "v1/.well-known/live"
 
     # Make the API request
-    api_call(:get, url, nil, {}, options)
+    api_call(:get, url, nil, :json, options)
   end
 
   # -------------------------------
@@ -74,9 +74,9 @@ defmodule Noizu.Weaviate.Api.Auth do
   @spec check_readiness(options :: any) :: {:ok, any()} | {:error, any()}
   def check_readiness(options \\ nil) do
     # Construct the request URL
-    url = Weaviate.weaviate_base() <> "/.well-known/ready"
+    url = Weaviate.weaviate_base() <> "v1/.well-known/ready"
 
     # Make the API request
-    api_call(:get, url, nil, {}, options)
+    api_call(:get, url, nil, :json, options)
   end
 end

@@ -96,7 +96,7 @@ defmodule Noizu.Weaviate.Api.GraphQLTest do
               |> GraphQL.properties(["title", "body"])
               |> GraphQL.limit(50)
               |> GraphQL.offset(5)
-              |> GraphQL.where(filter: GraphQL.Where.equal("title", :string, "apple"))
+              |> GraphQL.where(GraphQL.Where.equal("title", :string, "apple"))
       {:ok, sut} = Jason.encode(graph)
       expected = """
                  {"query": "{

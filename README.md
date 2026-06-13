@@ -1,6 +1,6 @@
 # Noizu.Weaviate - README
 
-Noizu.Weaviate is a library providing a simple wrapper around Weaviate's API calls. With Noizu.Weaviate, you can easily interact with Weaviate's schema and objects.
+Noizu.Weaviate is an Elixir library providing a wrapper around Weaviate's REST and GraphQL APIs. It supports schema/collection management, object CRUD, batch operations, GraphQL queries (Get, filters, search operators), backups, classification, and more.
 
 ## Table of Contents
 
@@ -11,15 +11,19 @@ Noizu.Weaviate is a library providing a simple wrapper around Weaviate's API cal
     - [Creating Objects](#creating-objects)
     - [Editing Objects](#editing-objects)
     - [Deleting Objects](#deleting-objects)
+    - [GraphQL Queries](#graphql-queries)
 - [API Modules](#api-modules)
-    - [Noizu.Weaviate.Api.Meta](#noizoweaviateapimeta)
-    - [Noizu.Weaviate.Api.Batch](#noizoweaviateapibatch)
-    - [Noizu.Weaviate.Api.Backups](#noizoweaviateapibackups)
-    - [Noizu.Weaviate.Api.Schema](#noizoweaviateapischema)
-    - [Noizu.Weaviate.Api.Nodes](#noizoweaviateapinodes)
-    - [Noizu.Weaviate.Api.Objects](#noizoweaviateapiobjects)
-    - [Noizu.Weaviate.Api.Auth](#noizoweaviateapiauth)
-    - [Noizu.Weaviate.Api.Classification](#noizoweaviateapiclassification)
+    - [Noizu.Weaviate.Api.Meta](#noizuweaviateapimeta)
+    - [Noizu.Weaviate.Api.Batch](#noizuweaviateapibatch)
+    - [Noizu.Weaviate.Api.Backups](#noizuweaviateapibackups)
+    - [Noizu.Weaviate.Api.Schema](#noizuweaviateapischema)
+    - [Noizu.Weaviate.Api.Nodes](#noizuweaviateapinodes)
+    - [Noizu.Weaviate.Api.Objects](#noizuweaviateapiobjects)
+    - [Noizu.Weaviate.Api.Auth](#noizuweaviateapiauth)
+    - [Noizu.Weaviate.Api.Classification](#noizuweaviateapiclassification)
+- [GraphQL Module](#graphql-module)
+- [API Reference Docs](#api-reference-docs)
+- [Weaviate Feature Coverage](#weaviate-feature-coverage)
 
 ## Installation
 
@@ -144,3 +148,107 @@ This module provides functions for classification operations in Weaviate. You ca
 See [Noizu.Weaviate.Api.Classification README](lib/weaviate_api/classification/README.md) for more details.
 
 For more detailed documentation on all available functions and options, please refer to the individual module readmes provided above.
+
+## GraphQL Module
+
+`Noizu.Weaviate.GraphQL` provides a builder-pattern API for constructing Weaviate GraphQL queries.
+
+### Basic Get Query
+
+```elixir
+alias Noizu.Weaviate.GraphQL
+
+query = GraphQL.get("Article")
+  |> GraphQL.properties(["title", "content", "wordCount"])
+  |> GraphQL.limit(10)
+  |> GraphQL.additional([:id, :distance, :creation_time])
+
+# With vector search
+query = GraphQL.get("Article")
+  |> GraphQL.properties(["title", "content"])
+  |> GraphQL.search_operator(%{nearText: %{concepts: ["machine learning"]}})
+  |> GraphQL.limit(5)
+  |> GraphQL.additional([:id, :distance])
+
+# With hybrid search
+query = GraphQL.get("Article")
+  |> GraphQL.properties(["title", "content"])
+  |> GraphQL.search_operator(%{hybrid: %{query: "machine learning", alpha: 0.75}})
+  |> GraphQL.autocut(1)
+
+# With where filter
+alias Noizu.Weaviate.GraphQL.Where
+
+filter = Where.and_operator(
+  Where.equal("category", "Technology"),
+  Where.greater_than("wordCount", 500)
+)
+
+query = GraphQL.get("Article")
+  |> GraphQL.properties(["title", "content"])
+  |> GraphQL.where(filter)
+  |> GraphQL.sort(%{path: ["title"], order: :asc})
+
+# With groupBy
+query = GraphQL.get("Article")
+  |> GraphQL.properties(["title"])
+  |> GraphQL.search_operator(%{nearText: %{concepts: ["AI"]}})
+  |> GraphQL.group_by("category", 5, 3)
+```
+
+### Available Search Operators
+
+| Operator | Description | Status |
+|----------|-------------|--------|
+| `nearText` | Semantic text search | Implemented |
+| `nearVector` | Raw vector similarity | Implemented |
+| `nearObject` | Similar to existing object | Implemented |
+| `nearImage` | Image similarity | Implemented |
+| `bm25` | Keyword (BM25) search | Implemented |
+| `hybrid` | Combined vector + keyword | Implemented |
+| `ask` | Question answering | Implemented |
+| `group` | Grouping (deprecated) | Implemented |
+| `nearAudio` | Audio similarity | Not yet |
+| `nearVideo` | Video similarity | Not yet |
+| `nearDepth` | Depth map similarity | Not yet |
+| `nearThermal` | Thermal image similarity | Not yet |
+| `nearIMU` | IMU sensor data similarity | Not yet |
+
+See [GraphQL API Reference](docs/graphql.md) for full details including Aggregate queries, Explore queries, generative search (RAG), reranking, named vectors, and multi-tenancy.
+
+## API Reference Docs
+
+Comprehensive API reference documentation covering the latest Weaviate features (v1.28+):
+
+- **[GraphQL API Reference](docs/graphql.md)** - Get, Aggregate, Explore queries; search operators; filters; additional properties; generative search; reranking; named vectors
+- **[REST API Reference](docs/rest-api.md)** - All REST endpoints; collections/schema; objects; batch; backups; RBAC; multi-tenancy; cluster
+- **[Modules Reference](docs/modules.md)** - Vectorizer, generative, and reranker module catalog with configuration examples
+
+## Weaviate Feature Coverage
+
+Summary of library coverage vs. current Weaviate API surface (v1.28+):
+
+| Feature Area | Status | Notes |
+|-------------|--------|-------|
+| Schema/Collection CRUD | Implemented | Classes, properties, shards, tenants |
+| Object CRUD | Implemented | Create, get, update, patch, delete, validate |
+| Batch Operations | Implemented | Batch create/delete objects, batch create references |
+| Backups | Implemented | Create, restore, status for all backends |
+| Classification | Implemented | knn, zeroshot |
+| Nodes | Implemented | Cluster node info |
+| Meta | Implemented | Server version and module info |
+| Auth / Well-Known | Implemented | OIDC config, liveness, readiness |
+| GraphQL Get | Implemented | With search operators, filters, pagination, sort |
+| GraphQL Aggregate | Not yet | Count, sum, mean, median, topOccurrences, etc. |
+| GraphQL Explore | Not yet | Cross-collection vector search |
+| Named Vectors | Not yet | Multiple vectors per collection (`vectorConfig`) |
+| Multi-Tenancy in queries | Not yet | `tenant` parameter in Get/Aggregate |
+| Tenant States | Not yet | INACTIVE, OFFLOADED states |
+| RBAC / Authorization | Not yet | Role and permission management |
+| New Search Operators | Not yet | nearAudio, nearVideo, nearDepth, nearThermal, nearIMU |
+| Hybrid Fusion Types | Not yet | rankedFusion, relativeScoreFusion |
+| ContainsAny/ContainsAll | Not yet | Array filter operators |
+| Nested Properties | Not yet | object/object[] data types |
+| Vector Quantization | Not yet | PQ, BQ, SQ compression |
+| Generative Search (RAG) | Partial | Key exists, structured params not built out |
+| Reranking | Partial | Key exists, structured params not built out |

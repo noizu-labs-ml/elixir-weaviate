@@ -1,2 +1,2 @@
 Mimic.copy(Finch)
-ExUnit.start()
+ExUnit.start(exclude: [:live])

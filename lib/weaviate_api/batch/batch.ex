@@ -54,16 +54,23 @@ defmodule Noizu.Weaviate.Api.Batch do
       {:ok, response} = Noizu.Weaviate.Api.Batch.create_objects(objects)
   """
   @spec create_objects([map()], options :: any) ::
-          {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
+          {:ok, :json} | {:error, any()}
   def create_objects(objects, options \\ nil) do
+    query_params =
+      []
+      |> then(& options[:consistency_level] && [{"consistency_level", options[:consistency_level]} | &1] || &1)
+      |> then(& options[:tenant] && [{"tenant", options[:tenant]} | &1] || &1)
+      |> Enum.map(fn {k, v} -> "#{k}=#{v}" end)
+      |> Enum.join("&")
+
     # Construct the request URL
-    url = "/v1/batch/objects"
+    url = Noizu.Weaviate.api_base() <> "v1/batch/objects#{if query_params != "", do: "?" <> query_params, else: ""}"
 
     # Construct the request body
     body = %{objects: objects}
 
     # Make the API request to batch create the objects
-    Noizu.Weaviate.api_call(:post, url, body, Noizu.Weaviate.Struct.RespObj, options)
+    Noizu.Weaviate.api_call(:post, url, body, :json, options)
   end
 
   # -------------------------------
@@ -100,16 +107,23 @@ defmodule Noizu.Weaviate.Api.Batch do
       {:ok, response} = Noizu.Weaviate.Api.Batch.create_references(references)
   """
   @spec create_references([map()], options :: any) ::
-          {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
+          {:ok, :json} | {:error, any()}
   def create_references(references, options \\ nil) do
+    query_params =
+      []
+      |> then(& options[:consistency_level] && [{"consistency_level", options[:consistency_level]} | &1] || &1)
+      |> then(& options[:tenant] && [{"tenant", options[:tenant]} | &1] || &1)
+      |> Enum.map(fn {k, v} -> "#{k}=#{v}" end)
+      |> Enum.join("&")
+
     # Construct the request URL
-    url = "/v1/batch/references"
+    url = Noizu.Weaviate.api_base() <> "v1/batch/references#{if query_params != "", do: "?" <> query_params, else: ""}"
 
     # Construct the request body
     body = %{references: references}
 
     # Make the API request to batch create the references
-    Noizu.Weaviate.api_call(:post, url, body, Noizu.Weaviate.Struct.RespObj, options)
+    Noizu.Weaviate.api_call(:post, url, body, :json, options)
   end
 
   # -------------------------------
@@ -143,10 +157,17 @@ defmodule Noizu.Weaviate.Api.Batch do
       {:ok, response} = Noizu.Weaviate.Api.Batch.delete_objects(match)
   """
   @spec delete_objects(map(), options :: any) ::
-          {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
+          {:ok, :json} | {:error, any()}
   def delete_objects(match, options \\ nil) do
+    query_params =
+      []
+      |> then(& options[:consistency_level] && [{"consistency_level", options[:consistency_level]} | &1] || &1)
+      |> then(& options[:tenant] && [{"tenant", options[:tenant]} | &1] || &1)
+      |> Enum.map(fn {k, v} -> "#{k}=#{v}" end)
+      |> Enum.join("&")
+
     # Construct the request URL
-    url = "/v1/batch/objects"
+    url = Noizu.Weaviate.api_base() <> "v1/batch/objects#{if query_params != "", do: "?" <> query_params, else: ""}"
 
     # Construct the request body
     body = %{
@@ -156,6 +177,6 @@ defmodule Noizu.Weaviate.Api.Batch do
     }
 
     # Make the API request to batch delete the objects
-    Noizu.Weaviate.api_call(:delete, url, body, Noizu.Weaviate.Struct.RespObj, options)
+    Noizu.Weaviate.api_call(:delete, url, body, :json, options)
   end
 end

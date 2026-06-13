@@ -1,6 +1,8 @@
 defmodule Noizu.Weaviate.Struct.MultiTenancyConfig do
   defstruct [
-    :enabled
+    :enabled,
+    :auto_tenant_creation,
+    :auto_tenant_activation
   ]
 
   def from_json(json) when is_list(json) do
@@ -9,14 +11,18 @@ defmodule Noizu.Weaviate.Struct.MultiTenancyConfig do
   def from_json(nil), do: nil
   def from_json(%{} = json) do
     %__MODULE__{
-      enabled: json[:enabled]
+      enabled: json[:enabled],
+      auto_tenant_creation: json[:autoTenantCreation],
+      auto_tenant_activation: json[:autoTenantActivation]
     }
   end
 
   defimpl Jason.Encoder do
     def encode(this, opts) do
       %{
-        enabled: this.enabled
+        enabled: this.enabled,
+        autoTenantCreation: this.auto_tenant_creation,
+        autoTenantActivation: this.auto_tenant_activation
       }
       |> Enum.reject(fn {k,v} -> is_nil(v) end)
       |> Map.new()

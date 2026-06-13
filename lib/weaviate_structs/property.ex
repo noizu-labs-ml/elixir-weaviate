@@ -6,8 +6,10 @@ defmodule Noizu.Weaviate.Struct.Property do
     :index_filterable,
     :index_searchable,
     :index_inverted,
+    :index_range_filters,
     :tokenization,
-    :module_config
+    :module_config,
+    :nested_properties
   ]
 
   def from_json(json) when is_list(json) do
@@ -22,8 +24,10 @@ defmodule Noizu.Weaviate.Struct.Property do
       index_filterable: json[:indexFilterable],
       index_searchable: json[:indexSearchable],
       index_inverted: json[:indexInverted],
+      index_range_filters: json[:indexRangeFilters],
       tokenization: json[:tokenization],
       module_config: json[:moduleConfig],
+      nested_properties: json[:nestedProperties],
     }
   end
 
@@ -36,8 +40,10 @@ defmodule Noizu.Weaviate.Struct.Property do
         indexFilterable: this.index_filterable,
         indexSearchable: this.index_searchable,
         indexInverted: this.index_inverted,
+        indexRangeFilters: this.index_range_filters,
         tokenization: this.tokenization,
-        moduleConfig: this.module_config
+        moduleConfig: this.module_config,
+        nestedProperties: this.nested_properties
       }
       |> Enum.reject(fn {k,v} -> is_nil(v) end)
       |> Map.new()

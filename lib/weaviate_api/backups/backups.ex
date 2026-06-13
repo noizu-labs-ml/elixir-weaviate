@@ -22,7 +22,7 @@ defmodule Noizu.Weaviate.Api.Backups do
 
   ## Returns
 
-  A tuple `{:ok, response}` on successful API call, where `response` is of type `Noizu.Weaviate.Struct.RespObj`.
+  A tuple `{:ok, response}` on successful API call, where `response` is of type `:json`.
   Returns `{:error, term}` on failure, where `term` contains error details.
 
   ## Examples
@@ -30,16 +30,16 @@ defmodule Noizu.Weaviate.Api.Backups do
       {:ok, response} = Noizu.Weaviate.Api.Backups.create_backup("s3", "my-backup", include: ["Product"], exclude: ["User"])
   """
   @spec create_backup(String.t(), String.t(), Keyword.t(), map()) ::
-          {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
+          {:ok, :json} | {:error, any()}
   def create_backup(backend, backup_id, options \\ [], opts \\ %{}) do
-    url = weaviate_base() <> "backups"
+    url = weaviate_base() <> "v1/backups"
 
     body =
       %{backend: backend, id: backup_id}
       |> put_field(:include, options)
       |> put_field(:exclude, options)
 
-    api_call(:post, url, body, Noizu.Weaviate.Struct.RespObj, opts)
+    api_call(:post, url, body, :json, opts)
   end
 
   # -------------------------------
@@ -56,7 +56,7 @@ defmodule Noizu.Weaviate.Api.Backups do
 
   ## Returns
 
-  A tuple `{:ok, response}` on successful API call, where `response` is of type `Noizu.Weaviate.Struct.RespObj`.
+  A tuple `{:ok, response}` on successful API call, where `response` is of type `:json`.
   Returns `{:error, term}` on failure, where `term` contains error details.
 
   ## Examples
@@ -64,10 +64,10 @@ defmodule Noizu.Weaviate.Api.Backups do
       {:ok, response} = Noizu.Weaviate.Api.Backups.get_status("s3", "my-backup")
   """
   @spec get_status(String.t(), String.t(), map()) ::
-          {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
+          {:ok, :json} | {:error, any()}
   def get_status(backend, backup_id, opts \\ %{}) do
-    url = weaviate_base() <> "backups/#{backend}/#{backup_id}"
-    api_call(:get, url, nil, Noizu.Weaviate.Struct.RespObj, opts)
+    url = weaviate_base() <> "v1/backups/#{backend}/#{backup_id}"
+    api_call(:get, url, nil, :json, opts)
   end
 
   # -------------------------------
@@ -86,7 +86,7 @@ defmodule Noizu.Weaviate.Api.Backups do
 
   ## Returns
 
-  A tuple `{:ok, response}` on successful API call, where `response` is of type `Noizu.Weaviate.Struct.RespObj`.
+  A tuple `{:ok, response}` on successful API call, where `response` is of type `:json`.
   Returns `{:error, term}` on failure, where `term` contains error details.
 
   ## Examples
@@ -94,16 +94,16 @@ defmodule Noizu.Weaviate.Api.Backups do
       {:ok, response} = Noizu.Weaviate.Api.Backups.restore_backup("s3", "my-backup", include: ["Product"], exclude: ["User"])
   """
   @spec restore_backup(String.t(), String.t(), Keyword.t(), map()) ::
-          {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
+          {:ok, :json} | {:error, any()}
   def restore_backup(backend, backup_id, options \\ [], opts \\ %{}) do
-    url = weaviate_base() <> "backups/#{backend}/#{backup_id}/restore"
+    url = weaviate_base() <> "v1/backups/#{backend}/#{backup_id}/restore"
 
     body =
       %{}
       |> put_field(:include, options)
       |> put_field(:exclude, options)
 
-    api_call(:post, url, body, Noizu.Weaviate.Struct.RespObj, opts)
+    api_call(:post, url, body, :json, opts)
   end
 
   # -------------------------------
@@ -120,7 +120,7 @@ defmodule Noizu.Weaviate.Api.Backups do
 
   ## Returns
 
-  A tuple `{:ok, response}` on successful API call, where `response` is of type `Noizu.Weaviate.Struct.RespObj`.
+  A tuple `{:ok, response}` on successful API call, where `response` is of type `:json`.
   Returns `{:error, term}` on failure, where `term` contains error details.
 
   ## Examples
@@ -128,9 +128,64 @@ defmodule Noizu.Weaviate.Api.Backups do
       {:ok, response} = Noizu.Weaviate.Api.Backups.get_restore_status("s3", "my-backup")
   """
   @spec get_restore_status(String.t(), String.t(), map()) ::
-          {:ok, Noizu.Weaviate.Struct.RespObj} | {:error, any()}
+          {:ok, :json} | {:error, any()}
   def get_restore_status(backend, backup_id, opts \\ []) do
-    url = weaviate_base() <> "backups/#{backend}/#{backup_id}/restore"
-    api_call(:get, url, nil, Noizu.Weaviate.Struct.RespObj, opts)
+    url = weaviate_base() <> "v1/backups/#{backend}/#{backup_id}/restore"
+    api_call(:get, url, nil, :json, opts)
+  end
+
+  # -------------------------------
+  # List Backups
+  # -------------------------------
+  @doc """
+  List all backups for a given backend.
+
+  ## Parameters
+
+  - `backend` (required) - The name of the backup provider module.
+  - `options` (optional) - Additional options for the API call.
+
+  ## Returns
+
+  A tuple `{:ok, response}` on successful API call, where `response` is the API response.
+  Returns `{:error, term}` on failure, where `term` contains error details.
+
+  ## Examples
+
+      {:ok, response} = Noizu.Weaviate.Api.Backups.list_backups("s3")
+  """
+  @spec list_backups(String.t(), map()) ::
+          {:ok, any()} | {:error, any()}
+  def list_backups(backend, options \\ nil) do
+    url = weaviate_base() <> "v1/backups/#{backend}"
+    api_call(:get, url, nil, :json, options)
+  end
+
+  # -------------------------------
+  # Cancel Backup
+  # -------------------------------
+  @doc """
+  Cancel a backup in Weaviate.
+
+  ## Parameters
+
+  - `backend` (required) - The name of the backup provider module.
+  - `backup_id` (required) - The ID of the backup to cancel.
+  - `options` (optional) - Additional options for the API call.
+
+  ## Returns
+
+  A tuple `{:ok, response}` on successful API call, where `response` is the API response.
+  Returns `{:error, term}` on failure, where `term` contains error details.
+
+  ## Examples
+
+      {:ok, response} = Noizu.Weaviate.Api.Backups.cancel_backup("s3", "my-backup")
+  """
+  @spec cancel_backup(String.t(), String.t(), map()) ::
+          {:ok, any()} | {:error, any()}
+  def cancel_backup(backend, backup_id, options \\ nil) do
+    url = weaviate_base() <> "v1/backups/#{backend}/#{backup_id}"
+    api_call(:delete, url, nil, :json, options)
   end
 end

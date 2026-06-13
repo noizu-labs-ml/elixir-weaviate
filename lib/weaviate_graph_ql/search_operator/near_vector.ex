@@ -2,15 +2,22 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearVector do
   defstruct [
     vector: nil,
     distance: nil,
-    certainty: nil
+    certainty: nil,
+    target_vectors: nil
   ]
 
 
   def filter(container, vector, options \\ nil) do
+    target_vectors = case options[:target_vectors] do
+      v when is_bitstring(v) -> [v]
+      v when is_list(v) -> v
+      _ -> nil
+    end
     operator = %__MODULE__{
       vector: vector,
       distance: options[:distance],
-      certainty: options[:certainty]
+      certainty: options[:certainty],
+      target_vectors: target_vectors
     }
     container.__struct__.search_operator(container, operator)
   end
@@ -24,7 +31,8 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearVector do
         |> then(& [{:vector, this.vector} | &1])
         |> then(& this.distance && [{:distance, this.distance} | &1] || &1)
         |> then(& this.certainty && [{:certainty, this.certainty} | &1] || &1)
-        |> Enum.map(fn {k,v} -> "#{k}: #{inspect v}" end)
+        |> then(& this.target_vectors && [{:targetVectors, this.target_vectors} | &1] || &1)
+        |> Enum.map(fn {k,v} -> "#{k}: #{Noizu.Weaviate.GraphQL.encode_value(v)}" end)
         |> Enum.join(",\n  ")
       """
       nearVector: {

@@ -16,6 +16,7 @@ defmodule Noizu.Weaviate.GraphQL.Get do
 
 
     group_by: nil,
+    tenant: nil,
 
     autocut: nil,
     sort: nil, # {path: [], order: asc | desc}
@@ -63,6 +64,10 @@ defmodule Noizu.Weaviate.GraphQL.Get do
     %{this| where: value}
   end
 
+  def tenant(%Noizu.Weaviate.GraphQL.Get{} = this, value) do
+    %{this| tenant: value}
+  end
+
   def property(%Noizu.Weaviate.GraphQL.Get{} = this, property) do
     update_in(this, [Access.key(:properties)], &([property|&1]))
   end
@@ -73,6 +78,15 @@ defmodule Noizu.Weaviate.GraphQL.Get do
 
 
   defimpl Jason.Encoder do
+    defp encode_sort(%{path: path, order: order}) do
+      path_str = inspect(path)
+      "{path: #{path_str}, order: #{order}}"
+    end
+    defp encode_sort(%{path: path}) do
+      path_str = inspect(path)
+      "{path: #{path_str}}"
+    end
+
     defp nest(string, prefix) do
       prepared = String.trim(string)
                  |> String.split("\n")
@@ -88,14 +102,24 @@ defmodule Noizu.Weaviate.GraphQL.Get do
         |> then(& this.offset && [{:offset, this.offset}|&1] || &1)
         |> then(& this.after_call && [{:after, this.after_call}|&1] || &1)
         |> then(& this.include && [{:include, this.include}|&1] || &1)
-        |> then(& this.sort && [{:sort, this.sort}|&1] || &1)
+        |> then(fn acc ->
+          case this.sort do
+            nil -> acc
+            sorts when is_list(sorts) ->
+              encoded = Enum.map(sorts, &encode_sort/1) |> Enum.join(", ")
+              ["sort: [#{encoded}]" | acc]
+            sort when is_map(sort) ->
+              ["sort: [#{encode_sort(sort)}]" | acc]
+          end
+        end)
         |> then(& this.order && [{:order, this.order}|&1] || &1)
+        |> then(& this.tenant && ["tenant: #{inspect(this.tenant)}"|&1] || &1)
         |> then(& this.consistency_level && ["consistencyLevel: #{this.consistency_level}"|&1] || &1)
         |> then(& this.where && ["where: #{nest(Jason.encode!(this.where) , "  ")}"|&1] || &1)
         |> then(& this.autocut && [{:autocut, this.autocut}|&1] || &1)
         |> then(& this.search_operator && [Jason.encode!(this.search_operator)|&1] || &1)
         |> Enum.map(fn
-          ({k,v}) -> "#{k}: #{inspect v}"
+          ({k,v}) -> "#{k}: #{Noizu.Weaviate.GraphQL.encode_value(v)}"
           (k) -> k
           end
         )

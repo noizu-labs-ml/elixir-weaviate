@@ -202,6 +202,34 @@ defmodule Noizu.Weaviate.Api.Schema do
         end
         api_call(:delete, url, tenants, :json, options)
       end
+
+      @spec get_tenant(class :: module | String.t, tenant_name :: String.t, options :: any) ::
+              {:ok, any()} | {:error, any()}
+      def get_tenant(class, tenant_name, options \\ nil) do
+        class = case class do
+          %Noizu.Weaviate.Struct.Class{name: name} -> name
+          name when is_bitstring(name) -> name
+          m -> Noizu.Weaviate.Class.definition(class).name
+        end
+        url = api_base() <> "v1/schema/#{class}/tenants/#{tenant_name}"
+        api_call(:get, url, nil, :json, options)
+      end
+
+      @spec update(class :: module | String.t, tenants :: list | map, options :: any) ::
+              {:ok, any()} | {:error, any()}
+      def update(class, tenants, options \\ nil) do
+        class = case class do
+          %Noizu.Weaviate.Struct.Class{name: name} -> name
+          name when is_bitstring(name) -> name
+          m -> Noizu.Weaviate.Class.definition(class).name
+        end
+        url = api_base() <> "v1/schema/#{class}/tenants"
+        tenants = cond do
+          is_list(tenants) -> tenants
+          :else -> [tenants]
+        end
+        api_call(:put, url, tenants, :json, options)
+      end
     end
   end
 end

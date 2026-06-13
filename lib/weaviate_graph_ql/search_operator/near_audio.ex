@@ -1,28 +1,20 @@
-defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearObject do
+defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearAudio do
   defstruct [
-    id: nil,
-    beacon: nil,
+    audio: nil,
     distance: nil,
     certainty: nil,
     target_vectors: nil
   ]
 
 
-  def filter(container, resource, options \\ nil) do
-    {id, beacon} = cond do
-      String.starts_with?(resource, "weaviate://") -> {nil, resource}
-      :else -> {resource, nil}
-    end
-
+  def filter(container, audio, options \\ nil) do
     target_vectors = case options[:target_vectors] do
       v when is_bitstring(v) -> [v]
       v when is_list(v) -> v
       _ -> nil
     end
-
     operator = %__MODULE__{
-      id: id,
-      beacon: beacon,
+      audio: audio,
       distance: options[:distance],
       certainty: options[:certainty],
       target_vectors: target_vectors
@@ -35,15 +27,14 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearObject do
     def encode(this, opts) do
       contents =
         []
-        |> then(& this.id && [{:id, this.id} | &1] || &1)
-        |> then(& this.beacon && [{:beacon, this.beacon} | &1] || &1)
+        |> then(& [{:audio, this.audio} | &1])
         |> then(& this.distance && [{:distance, this.distance} | &1] || &1)
         |> then(& this.certainty && [{:certainty, this.certainty} | &1] || &1)
         |> then(& this.target_vectors && [{:targetVectors, this.target_vectors} | &1] || &1)
         |> Enum.map(fn {k,v} -> "#{k}: #{Noizu.Weaviate.GraphQL.encode_value(v)}" end)
         |> Enum.join(",\n  ")
       """
-      nearObject: {
+      nearAudio: {
         #{contents}
       }
       """ |> String.trim()

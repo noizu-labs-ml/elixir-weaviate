@@ -40,7 +40,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.Ask do
         |> then(& this.properties && [{:properties, this.properties} | &1] || &1)
         |> then(& this.rerank in [true, false] && [{:rerank, this.rerank} | &1] || &1)
         |> Enum.map(fn
-          {k,v} -> "#{k}: #{inspect v}"
+          {k,v} -> "#{k}: #{Noizu.Weaviate.GraphQL.encode_value(v)}"
           {k} -> k
         end)
         |> Enum.join(",\n")
