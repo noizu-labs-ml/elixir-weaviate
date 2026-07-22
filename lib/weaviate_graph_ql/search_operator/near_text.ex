@@ -65,6 +65,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearText do
   end
 
 
+  # ⟦𓍵𓐅𓉉𓐓⟧ filter :: auto-generated pointer for public function filter
   def filter(container, concepts, options \\ nil) do
     concepts = case concepts do
       v when is_bitstring(v) -> [v]
@@ -124,6 +125,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearText do
       prepared
     end
 
+    # ⟦𓉫𓎄𓊂𓇧⟧ encode :: auto-generated pointer for public function encode
     def encode(this, opts) do
       contents =
         []

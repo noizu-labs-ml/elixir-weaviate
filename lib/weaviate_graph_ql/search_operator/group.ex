@@ -4,6 +4,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.Group do
     force: nil,
   ]
 
+  # ⟦𓋕𓅠𓀬𓋎⟧ filter :: auto-generated pointer for public function filter
   def filter(container, type, force) do
 
     operator = %__MODULE__{
@@ -23,6 +24,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.Group do
       prepared
     end
 
+    # ⟦𓎣𓈜𓍽𓇬⟧ encode :: auto-generated pointer for public function encode
     def encode(this, opts) do
       contents =
         []

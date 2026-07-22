@@ -16,6 +16,7 @@ defmodule Noizu.Weaviate.Struct.VectorIndexConfig do
     :skip
   ]
 
+  # ⟦𓎹𓈦𓇰𓈪⟧ from_json :: auto-generated pointer for public function from_json
   def from_json(json) when is_list(json) do
     Enum.map(json, & from_json(&1))
   end
@@ -40,6 +41,7 @@ defmodule Noizu.Weaviate.Struct.VectorIndexConfig do
   end
 
   defimpl Jason.Encoder do
+    # ⟦𓀗𓏠𓎄𓂟⟧ encode :: auto-generated pointer for public function encode
     def encode(this, opts) do
       %{
         distance: this.distance,

@@ -29,6 +29,7 @@ defmodule Noizu.Weaviate.Class do
     ]
   end
 
+  # ⟦𓊆𓊙𓄤𓇼⟧ __using__ :: auto-generated pointer for public function __using__
   defmacro __using__(options \\ nil) do
     quote do
       Module.register_attribute(__MODULE__, :properties, accumulate: true)
@@ -48,6 +49,7 @@ defmodule Noizu.Weaviate.Class do
     end
   end
 
+  # ⟦𓅢𓄛𓍈𓄰⟧ weaviate_class :: auto-generated pointer for public function weaviate_class
   defmacro weaviate_class(class_name, [do: block]) do
     quote do
       import Noizu.Weaviate.Class
@@ -72,10 +74,14 @@ defmodule Noizu.Weaviate.Class do
       @derive Noizu.Weaviate.Class.Protocol
       defstruct struct_params
 
+      # ⟦𓄬𓈕𓀪𓍴⟧ __class__ :: auto-generated pointer for public function __class__
       def __class__(), do: unquote(class_name)
+      # ⟦𓈝𓏙𓌆𓐈⟧ __properties__ :: auto-generated pointer for public function __properties__
       def __properties__(), do: @properties
+      # ⟦𓊷𓎚𓆂𓄦⟧ __property__ :: auto-generated pointer for public function __property__
       def __property__(name), do: Enum.find_value(@properties, fn {k,v} -> k == name && v end)
 
+      # ⟦𓁉𓂟𓎖𓁕⟧ definition :: auto-generated pointer for public function definition
       def definition() do
         %Noizu.Weaviate.Struct.Class{
           name: unquote(class_name),
@@ -93,6 +99,7 @@ defmodule Noizu.Weaviate.Class do
         }
       end
 
+      # ⟦𓁷𓏃𓋍𓏑⟧ from_json :: auto-generated pointer for public function from_json
       def from_json(json) do
         meta = %Noizu.Weaviate.Class.Meta{
           id: json[:id],
@@ -111,6 +118,7 @@ defmodule Noizu.Weaviate.Class do
 
 
       defimpl Jason.Encoder do
+        # ⟦𓃎𓎊𓏷𓍮⟧ encode :: auto-generated pointer for public function encode
         def encode(this, opts) do
           [
             id: this.id,
@@ -142,6 +150,7 @@ defmodule Noizu.Weaviate.Class do
   def definition(%Noizu.Weaviate.Struct.Class{} = class, options), do: class
   def definition(class, options), do: apply(class, :definition, [])
 
+  # ⟦𓋕𓅺𓏙𓎯⟧ json_handler :: auto-generated pointer for public function json_handler
   def json_handler(class, options \\ nil)
   def json_handler(%Noizu.Weaviate.Struct.Class{}, _options), do: Noizu.Weaviate.Struct.Class
   def json_handler(class, _options) when is_atom(class), do: class
@@ -151,57 +160,68 @@ defmodule Noizu.Weaviate.Class do
   # Macros
   #===================================
 
+  # ⟦𓁡𓇜𓆘𓎦⟧ description :: auto-generated pointer for public function description
   defmacro description(value) do
     quote do
       Module.put_attribute(__MODULE__, :class_description, unquote(value))
     end
   end
+  # ⟦𓏵𓆏𓁖𓋠⟧ vector_index_type :: auto-generated pointer for public function vector_index_type
   defmacro vector_index_type(value) do
     quote do
       Module.put_attribute(__MODULE__, :class_vector_index_type, unquote(value))
     end
   end
+  # ⟦𓄷𓏄𓆈𓋊⟧ vector_index_config :: auto-generated pointer for public function vector_index_config
   defmacro vector_index_config(value) do
     quote do
       Module.put_attribute(__MODULE__, :class_vector_index_config, unquote(value))
     end
   end
+  # ⟦𓎊𓆔𓋶𓉬⟧ vectorizer :: auto-generated pointer for public function vectorizer
   defmacro vectorizer(value) do
     quote do
       Module.put_attribute(__MODULE__, :class_vectorizer, unquote(value))
     end
   end
+  # ⟦𓏿𓅝𓂔𓊬⟧ module_config :: auto-generated pointer for public function module_config
   defmacro module_config(value) do
     quote do
       Module.put_attribute(__MODULE__, :class_module_config, unquote(value))
     end
   end
+  # ⟦𓉓𓁋𓇟𓄬⟧ inverted_index_config :: auto-generated pointer for public function inverted_index_config
   defmacro inverted_index_config(value) do
     quote do
       Module.put_attribute(__MODULE__, :class_inverted_index_config, unquote(value))
     end
   end
+  # ⟦𓆾𓉎𓉠𓏔⟧ replication_config :: auto-generated pointer for public function replication_config
   defmacro replication_config(value) do
     quote do
       Module.put_attribute(__MODULE__, :class_replication_config, unquote(value))
     end
   end
+  # ⟦𓅈𓏿𓃫𓈴⟧ multi_tenancy_config :: auto-generated pointer for public function multi_tenancy_config
   defmacro multi_tenancy_config(value) do
     quote do
       Module.put_attribute(__MODULE__, :class_multi_tenancy_config, unquote(value))
     end
   end
+  # ⟦𓀾𓉩𓐫𓀐⟧ vector_config :: auto-generated pointer for public function vector_config
   defmacro vector_config(value) do
     quote do
       Module.put_attribute(__MODULE__, :class_vector_config, unquote(value))
     end
   end
+  # ⟦𓍼𓀇𓀖𓀙⟧ sharding_config :: auto-generated pointer for public function sharding_config
   defmacro sharding_config(value) do
     quote do
       Module.put_attribute(__MODULE__, :class_sharding_config, unquote(value))
     end
   end
 
+  # ⟦𓂀𓈩𓎠𓄧⟧ property :: auto-generated pointer for public function property
   defmacro property(name, data_type, opts \\ []) do
     quote do
       Module.put_attribute(__MODULE__, :properties, {unquote(name), %Noizu.Weaviate.Struct.Property{

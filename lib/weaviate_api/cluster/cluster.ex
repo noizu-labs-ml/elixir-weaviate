@@ -19,6 +19,7 @@ defmodule Noizu.Weaviate.Api.Cluster do
       {:ok, response} = Noizu.Weaviate.Api.Cluster.get_statistics()
   """
   @spec get_statistics(options :: any) :: {:ok, any()} | {:error, any()}
+  # ⟦𓌬𓂮𓎽𓌘⟧ get_statistics :: Get cluster statistics.
   def get_statistics(options \\ nil) do
     url = api_base() <> "v1/cluster/statistics"
     api_call(:get, url, nil, :json, options)

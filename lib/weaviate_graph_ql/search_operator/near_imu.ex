@@ -7,6 +7,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearIMU do
   ]
 
 
+  # ⟦𓋂𓍔𓁙𓏫⟧ filter :: auto-generated pointer for public function filter
   def filter(container, imu, options \\ nil) do
     target_vectors = case options[:target_vectors] do
       v when is_bitstring(v) -> [v]
@@ -24,6 +25,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearIMU do
 
 
   defimpl Jason.Encoder do
+    # ⟦𓍚𓈁𓉎𓀲⟧ encode :: auto-generated pointer for public function encode
     def encode(this, opts) do
       contents =
         []

@@ -6,6 +6,7 @@ defmodule Noizu.Weaviate.Struct.BackupParams do
     :exclude
   ]
 
+  # ⟦𓉊𓆒𓍂𓃄⟧ from_json :: auto-generated pointer for public function from_json
   def from_json(json) when is_list(json) do
     Enum.map(json, & from_json(&1))
   end

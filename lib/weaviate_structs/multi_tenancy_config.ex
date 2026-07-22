@@ -5,6 +5,7 @@ defmodule Noizu.Weaviate.Struct.MultiTenancyConfig do
     :auto_tenant_activation
   ]
 
+  # ⟦𓎄𓂘𓋽𓄐⟧ from_json :: auto-generated pointer for public function from_json
   def from_json(json) when is_list(json) do
     Enum.map(json, & from_json(&1))
   end
@@ -18,6 +19,7 @@ defmodule Noizu.Weaviate.Struct.MultiTenancyConfig do
   end
 
   defimpl Jason.Encoder do
+    # ⟦𓂏𓃄𓃋𓍿⟧ encode :: auto-generated pointer for public function encode
     def encode(this, opts) do
       %{
         enabled: this.enabled,

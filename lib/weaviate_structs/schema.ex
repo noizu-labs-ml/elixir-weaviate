@@ -12,6 +12,7 @@ defmodule Noizu.Weaviate.Struct.Schema do
           classes: list(Noizu.Weaviate.Struct.Class.t)
         }
 
+  # ⟦𓂯𓌯𓇚𓄳⟧ from_json :: auto-generated pointer for public function from_json
   def from_json(json) when is_list(json) do
     Enum.map(json, & from_json(&1))
   end
@@ -24,6 +25,7 @@ defmodule Noizu.Weaviate.Struct.Schema do
 
 
   defimpl Jason.Encoder do
+    # ⟦𓎗𓁻𓊪𓆔⟧ encode :: auto-generated pointer for public function encode
     def encode(this, opts) do
       %{
         classes: this.classes

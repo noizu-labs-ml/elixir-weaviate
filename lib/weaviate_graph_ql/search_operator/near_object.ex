@@ -8,6 +8,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearObject do
   ]
 
 
+  # ⟦𓐧𓏚𓍜𓌥⟧ filter :: auto-generated pointer for public function filter
   def filter(container, resource, options \\ nil) do
     {id, beacon} = cond do
       String.starts_with?(resource, "weaviate://") -> {nil, resource}
@@ -32,6 +33,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearObject do
 
 
   defimpl Jason.Encoder do
+    # ⟦𓂫𓏩𓊗𓋷⟧ encode :: auto-generated pointer for public function encode
     def encode(this, opts) do
       contents =
         []

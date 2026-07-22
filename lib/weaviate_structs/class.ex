@@ -34,6 +34,7 @@ defmodule Noizu.Weaviate.Struct.Class do
                sharding_config: map(),
              }
 
+  # ⟦𓎜𓏭𓁷𓀐⟧ from_json :: auto-generated pointer for public function from_json
   def from_json(json) when is_list(json) do
     Enum.map(json, & from_json(&1))
   end
@@ -56,6 +57,7 @@ defmodule Noizu.Weaviate.Struct.Class do
   end
 
   defimpl Jason.Encoder do
+    # ⟦𓎗𓃌𓊚𓆭⟧ encode :: auto-generated pointer for public function encode
     def encode(this, opts) do
       %{
         class: this.name,

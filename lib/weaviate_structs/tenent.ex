@@ -5,6 +5,7 @@ defmodule Noizu.Weaviate.Struct.Tenant do
     :activity_status,
   ]
 
+  # ⟦𓇯𓈷𓄠𓍡⟧ from_json :: auto-generated pointer for public function from_json
   def from_json(json) when is_list(json) do
     Enum.map(json, & from_json(&1))
   end
@@ -17,6 +18,7 @@ defmodule Noizu.Weaviate.Struct.Tenant do
   end
 
   defimpl Jason.Encoder do
+    # ⟦𓋧𓃸𓇺𓋍⟧ encode :: auto-generated pointer for public function encode
     def encode(this, opts) do
       %{
         name: this.name,

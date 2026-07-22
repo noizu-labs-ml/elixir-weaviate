@@ -3,6 +3,7 @@ defmodule Noizu.Weaviate.Struct.BatchParams do
     :consistency_level
   ]
 
+  # ⟦𓁾𓇵𓃊𓌬⟧ from_json :: auto-generated pointer for public function from_json
   def from_json(json) when is_list(json) do
     Enum.map(json, & from_json(&1))
   end
@@ -16,6 +17,7 @@ defmodule Noizu.Weaviate.Struct.BatchParams do
   end
 
   defimpl Jason.Encoder do
+    # ⟦𓃆𓋆𓉹𓉤⟧ encode :: auto-generated pointer for public function encode
     def encode(this, opts) do
       %{
         consistencyLevel: this.consistency_level,

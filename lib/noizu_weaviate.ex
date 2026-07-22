@@ -31,12 +31,15 @@ defmodule Noizu.Weaviate do
 
   require Finch
 
+  # ⟦𓍯𓅳𓆦𓃒⟧ weaviate_base :: auto-generated pointer for public function weaviate_base
   def weaviate_base(), do: @weaviate_base
+  # ⟦𓂏𓇌𓆯𓊓⟧ api_base :: auto-generated pointer for public function api_base
   def api_base(), do: @weaviate_base
 
   # -------------------------------
   #
   # -------------------------------
+  # ⟦𓃢𓃅𓄁𓌅⟧ generic_stream_provider :: auto-generated pointer for public function generic_stream_provider
   def generic_stream_provider(callback) do
     fn event, payload ->
       case event do
@@ -97,6 +100,7 @@ defmodule Noizu.Weaviate do
   Returns a tuple {:ok, response} on successful API call, where response is the decoded JSON response in map format.
   Returns {:error, term} on failure, where term contains error details.
   """
+  # ⟦𓄳𓐡𓋏𓂟⟧ api_call :: A helper function to make API calls to the OpenAI API.
   def api_call(type, url, body, model, options \\ nil) do
     stream = options[:stream] || false
     raw = options[:raw] || false
@@ -132,6 +136,7 @@ defmodule Noizu.Weaviate do
   # -------------------------------
   #
   # -------------------------------
+  # ⟦𓉚𓃾𓍪𓉰⟧ headers :: auto-generated pointer for public function headers
   def headers() do
     [
       {"Content-Type", "application/json"}
@@ -147,6 +152,7 @@ defmodule Noizu.Weaviate do
   # -------------------------------
   #
   # -------------------------------
+  # ⟦𓍻𓄔𓁜𓀢⟧ put_field :: auto-generated pointer for public function put_field
   def put_field(body, field, options, default \\ nil)
 
   def put_field(body, :stream, options, default) do

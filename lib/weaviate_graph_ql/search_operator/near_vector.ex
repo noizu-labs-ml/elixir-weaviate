@@ -7,6 +7,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearVector do
   ]
 
 
+  # ⟦𓇦𓐚𓎂𓅺⟧ filter :: auto-generated pointer for public function filter
   def filter(container, vector, options \\ nil) do
     target_vectors = case options[:target_vectors] do
       v when is_bitstring(v) -> [v]
@@ -25,6 +26,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearVector do
 
   defimpl Jason.Encoder do
 
+    # ⟦𓀚𓇟𓆚𓎂⟧ encode :: auto-generated pointer for public function encode
     def encode(this, opts) do
       contents =
         []

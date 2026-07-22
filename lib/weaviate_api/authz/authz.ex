@@ -23,6 +23,7 @@ defmodule Noizu.Weaviate.Api.Authz do
       {:ok, response} = Noizu.Weaviate.Api.Authz.list_roles()
   """
   @spec list_roles(options :: any) :: {:ok, any()} | {:error, any()}
+  # ⟦𓎊𓃀𓂗𓀇⟧ list_roles :: List all roles.
   def list_roles(options \\ nil) do
     url = api_base() <> "v1/authz/roles"
     api_call(:get, url, nil, :json, options)
@@ -41,6 +42,7 @@ defmodule Noizu.Weaviate.Api.Authz do
       {:ok, response} = Noizu.Weaviate.Api.Authz.create_role(%{name: "editor", permissions: [...]})
   """
   @spec create_role(map(), options :: any) :: {:ok, any()} | {:error, any()}
+  # ⟦𓊶𓍶𓎋𓆶⟧ create_role :: Create a new role.
   def create_role(role, options \\ nil) do
     url = api_base() <> "v1/authz/roles"
     api_call(:post, url, role, :json, options)
@@ -59,6 +61,7 @@ defmodule Noizu.Weaviate.Api.Authz do
       {:ok, response} = Noizu.Weaviate.Api.Authz.get_role("editor")
   """
   @spec get_role(String.t(), options :: any) :: {:ok, any()} | {:error, any()}
+  # ⟦𓋶𓉑𓆲𓁲⟧ get_role :: Get a role by name.
   def get_role(role_name, options \\ nil) do
     url = api_base() <> "v1/authz/roles/#{role_name}"
     api_call(:get, url, nil, :json, options)
@@ -77,6 +80,7 @@ defmodule Noizu.Weaviate.Api.Authz do
       {:ok, response} = Noizu.Weaviate.Api.Authz.delete_role("editor")
   """
   @spec delete_role(String.t(), options :: any) :: {:ok, any()} | {:error, any()}
+  # ⟦𓂈𓈧𓁼𓈊⟧ delete_role :: Delete a role by name.
   def delete_role(role_name, options \\ nil) do
     url = api_base() <> "v1/authz/roles/#{role_name}"
     api_call(:delete, url, nil, :json, options)
@@ -96,6 +100,7 @@ defmodule Noizu.Weaviate.Api.Authz do
       {:ok, response} = Noizu.Weaviate.Api.Authz.add_permissions("editor", [%{action: "read", collection: "*"}])
   """
   @spec add_permissions(String.t(), list(), options :: any) :: {:ok, any()} | {:error, any()}
+  # ⟦𓊣𓎬𓋳𓄻⟧ add_permissions :: Add permissions to a role.
   def add_permissions(role_name, permissions, options \\ nil) do
     url = api_base() <> "v1/authz/roles/#{role_name}/add-permissions"
     body = %{permissions: permissions}
@@ -116,6 +121,7 @@ defmodule Noizu.Weaviate.Api.Authz do
       {:ok, response} = Noizu.Weaviate.Api.Authz.remove_permissions("editor", [%{action: "read", collection: "*"}])
   """
   @spec remove_permissions(String.t(), list(), options :: any) :: {:ok, any()} | {:error, any()}
+  # ⟦𓌴𓏤𓆉𓆽⟧ remove_permissions :: Remove permissions from a role.
   def remove_permissions(role_name, permissions, options \\ nil) do
     url = api_base() <> "v1/authz/roles/#{role_name}/remove-permissions"
     body = %{permissions: permissions}
@@ -135,6 +141,7 @@ defmodule Noizu.Weaviate.Api.Authz do
       {:ok, response} = Noizu.Weaviate.Api.Authz.get_role_users("editor")
   """
   @spec get_role_users(String.t(), options :: any) :: {:ok, any()} | {:error, any()}
+  # ⟦𓌞𓀇𓄰𓏭⟧ get_role_users :: Get users assigned to a role.
   def get_role_users(role_name, options \\ nil) do
     url = api_base() <> "v1/authz/roles/#{role_name}/users"
     api_call(:get, url, nil, :json, options)
@@ -158,6 +165,7 @@ defmodule Noizu.Weaviate.Api.Authz do
       {:ok, response} = Noizu.Weaviate.Api.Authz.assign_roles("user123", ["editor", "viewer"])
   """
   @spec assign_roles(String.t(), list(), options :: any) :: {:ok, any()} | {:error, any()}
+  # ⟦𓐇𓌃𓆘𓄍⟧ assign_roles :: Assign roles to a user.
   def assign_roles(user_id, roles, options \\ nil) do
     url = api_base() <> "v1/authz/users/#{user_id}/assign"
     body = %{roles: roles}
@@ -178,6 +186,7 @@ defmodule Noizu.Weaviate.Api.Authz do
       {:ok, response} = Noizu.Weaviate.Api.Authz.revoke_roles("user123", ["editor"])
   """
   @spec revoke_roles(String.t(), list(), options :: any) :: {:ok, any()} | {:error, any()}
+  # ⟦𓄊𓆎𓄶𓂽⟧ revoke_roles :: Revoke roles from a user.
   def revoke_roles(user_id, roles, options \\ nil) do
     url = api_base() <> "v1/authz/users/#{user_id}/revoke"
     body = %{roles: roles}
@@ -197,6 +206,7 @@ defmodule Noizu.Weaviate.Api.Authz do
       {:ok, response} = Noizu.Weaviate.Api.Authz.get_user_roles("user123")
   """
   @spec get_user_roles(String.t(), options :: any) :: {:ok, any()} | {:error, any()}
+  # ⟦𓇳𓅾𓏡𓐫⟧ get_user_roles :: Get roles assigned to a user.
   def get_user_roles(user_id, options \\ nil) do
     url = api_base() <> "v1/authz/users/#{user_id}/roles"
     api_call(:get, url, nil, :json, options)

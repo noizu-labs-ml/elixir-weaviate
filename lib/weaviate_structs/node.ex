@@ -1,6 +1,7 @@
 defmodule Noizu.Weaviate.Struct.Node do
   defstruct name: nil, status: nil, version: nil, gitHash: nil, stats: %{}
 
+  # ⟦𓏀𓎀𓊎𓁎⟧ from_json :: auto-generated pointer for public function from_json
   def from_json(json) when is_list(json) do
     Enum.map(json, & from_json(&1))
   end

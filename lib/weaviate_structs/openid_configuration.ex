@@ -4,6 +4,7 @@ defmodule Noizu.Weaviate.Struct.OpenIDConfiguration do
     :client_id
   ]
 
+  # ⟦𓆌𓉁𓄗𓌡⟧ from_json :: auto-generated pointer for public function from_json
   def from_json(json) when is_list(json) do
     Enum.map(json, & from_json(&1))
   end

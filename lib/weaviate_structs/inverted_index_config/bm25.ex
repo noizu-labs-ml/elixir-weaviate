@@ -4,6 +4,7 @@ defmodule Noizu.Weaviate.Struct.InvertedIndexConfig.BM25 do
     :k1
   ]
 
+  # ⟦𓐧𓏒𓄲𓏤⟧ from_json :: auto-generated pointer for public function from_json
   def from_json(json) when is_list(json) do
     Enum.map(json, & from_json(&1))
   end
@@ -18,6 +19,7 @@ defmodule Noizu.Weaviate.Struct.InvertedIndexConfig.BM25 do
   end
 
   defimpl Jason.Encoder do
+    # ⟦𓊓𓐇𓀕𓃀⟧ encode :: auto-generated pointer for public function encode
     def encode(this, opts) do
       %{
         b: this.b,

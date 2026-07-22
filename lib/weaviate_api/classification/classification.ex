@@ -34,6 +34,7 @@ defmodule Noizu.Weaviate.Api.Classification do
 
   @spec get_classification_status(String.t(), options :: any) ::
           {:ok, classification_response()} | {:error, any()}
+  # ⟦𓏜𓅳𓈘𓄵⟧ get_classification_status :: auto-generated pointer for public function get_classification_status
   def get_classification_status(classification_id, options \\ nil) do
     url = "#{weaviate_base()}v1/classifications/#{classification_id}"
     api_call(:get, url, nil, :json, options)
@@ -68,6 +69,7 @@ defmodule Noizu.Weaviate.Api.Classification do
 
   @spec start_classification(String.t(), [String.t()], [String.t()], String.t(), options :: any) ::
           {:ok, classification_start_response()} | {:error, any()}
+  # ⟦𓋴𓂯𓐢𓎷⟧ start_classification :: auto-generated pointer for public function start_classification
   def start_classification(
         class_name,
         classify_properties,

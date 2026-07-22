@@ -55,6 +55,7 @@ defmodule Noizu.Weaviate.Api.Batch do
   """
   @spec create_objects([map()], options :: any) ::
           {:ok, :json} | {:error, any()}
+  # ⟦𓃙𓍶𓈮𓂅⟧ create_objects :: auto-generated pointer for public function create_objects
   def create_objects(objects, options \\ nil) do
     query_params =
       []
@@ -108,6 +109,7 @@ defmodule Noizu.Weaviate.Api.Batch do
   """
   @spec create_references([map()], options :: any) ::
           {:ok, :json} | {:error, any()}
+  # ⟦𓊼𓁶𓁗𓇼⟧ create_references :: auto-generated pointer for public function create_references
   def create_references(references, options \\ nil) do
     query_params =
       []
@@ -158,6 +160,7 @@ defmodule Noizu.Weaviate.Api.Batch do
   """
   @spec delete_objects(map(), options :: any) ::
           {:ok, :json} | {:error, any()}
+  # ⟦𓏅𓋼𓇴𓄘⟧ delete_objects :: auto-generated pointer for public function delete_objects
   def delete_objects(match, options \\ nil) do
     query_params =
       []

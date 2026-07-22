@@ -7,22 +7,27 @@ defmodule Noizu.Weaviate.GraphQL.Explore do
     offset: nil
   ]
 
+  # ⟦𓋛𓌿𓐩𓐅⟧ near_text :: auto-generated pointer for public function near_text
   def near_text(%Noizu.Weaviate.GraphQL.Explore{} = this, value) do
     %{this | near_text: value}
   end
 
+  # ⟦𓆿𓇒𓀋𓃙⟧ near_vector :: auto-generated pointer for public function near_vector
   def near_vector(%Noizu.Weaviate.GraphQL.Explore{} = this, value) do
     %{this | near_vector: value}
   end
 
+  # ⟦𓍖𓋧𓇨𓋚⟧ near_object :: auto-generated pointer for public function near_object
   def near_object(%Noizu.Weaviate.GraphQL.Explore{} = this, value) do
     %{this | near_object: value}
   end
 
+  # ⟦𓋢𓏜𓎟𓁓⟧ limit :: auto-generated pointer for public function limit
   def limit(%Noizu.Weaviate.GraphQL.Explore{} = this, value) do
     %{this | limit: value}
   end
 
+  # ⟦𓂸𓎱𓎹𓐎⟧ offset :: auto-generated pointer for public function offset
   def offset(%Noizu.Weaviate.GraphQL.Explore{} = this, value) do
     %{this | offset: value}
   end
@@ -35,6 +40,7 @@ defmodule Noizu.Weaviate.GraphQL.Explore do
       prepared
     end
 
+    # ⟦𓈂𓉀𓌓𓋇⟧ encode :: auto-generated pointer for public function encode
     def encode(this, _opts) do
       class_attributes =
         []

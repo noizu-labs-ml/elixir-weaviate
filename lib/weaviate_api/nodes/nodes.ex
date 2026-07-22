@@ -19,6 +19,7 @@ defmodule Noizu.Weaviate.Api.Nodes do
       {:ok, response} = Noizu.Weaviate.Api.Nodes.get_information_about_nodes()
   """
   @spec get_information_about_nodes(options :: any) :: {:ok, any()} | {:error, any()}
+  # ⟦𓌆𓍺𓏝𓉗⟧ get_information_about_nodes :: Get information about the Weaviate nodes.
   def get_information_about_nodes(options \\ nil) do
     query_params =
       []
@@ -51,6 +52,7 @@ defmodule Noizu.Weaviate.Api.Nodes do
       {:ok, response} = Noizu.Weaviate.Api.Nodes.get_nodes_for_collection("Product", output: "verbose")
   """
   @spec get_nodes_for_collection(String.t(), options :: any) :: {:ok, any()} | {:error, any()}
+  # ⟦𓋸𓂡𓈒𓁵⟧ get_nodes_for_collection :: Get nodes for a specific collection/class.
   def get_nodes_for_collection(class_name, options \\ nil) do
     query_params =
       []

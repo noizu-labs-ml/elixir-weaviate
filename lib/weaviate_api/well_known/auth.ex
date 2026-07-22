@@ -24,6 +24,7 @@ defmodule Noizu.Weaviate.Api.Auth do
       {:ok, response} = Noizu.Weaviate.Api.Auth.get_openid_configuration()
   """
   @spec get_openid_configuration(options :: any) :: {:ok, any()} | {:error, any()}
+  # ⟦𓐎𓈛𓇕𓈣⟧ get_openid_configuration :: Get the OpenID configuration in Weaviate.
   def get_openid_configuration(options \\ nil) do
     # Construct the request URL
     url = Weaviate.weaviate_base() <> "v1/.well-known/openid-configuration"
@@ -48,6 +49,7 @@ defmodule Noizu.Weaviate.Api.Auth do
       {:ok, response} = Noizu.Weaviate.Api.Auth.check_liveness()
   """
   @spec check_liveness(options :: any) :: {:ok, any()} | {:error, any()}
+  # ⟦𓂳𓈟𓅄𓌿⟧ check_liveness :: Check if the Weaviate application is alive.
   def check_liveness(options \\ nil) do
     # Construct the request URL
     url = Weaviate.weaviate_base() <> "v1/.well-known/live"
@@ -72,6 +74,7 @@ defmodule Noizu.Weaviate.Api.Auth do
       {:ok, response} = Noizu.Weaviate.Api.Auth.check_readiness()
   """
   @spec check_readiness(options :: any) :: {:ok, any()} | {:error, any()}
+  # ⟦𓇛𓅨𓅄𓉧⟧ check_readiness :: Check if the Weaviate application is ready to receive traffic.
   def check_readiness(options \\ nil) do
     # Construct the request URL
     url = Weaviate.weaviate_base() <> "v1/.well-known/ready"

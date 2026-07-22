@@ -12,6 +12,7 @@ defmodule Noizu.Weaviate.Struct.Property do
     :nested_properties
   ]
 
+  # ⟦𓉇𓅕𓄵𓍝⟧ from_json :: auto-generated pointer for public function from_json
   def from_json(json) when is_list(json) do
     Enum.map(json, & from_json(&1))
   end
@@ -32,6 +33,7 @@ defmodule Noizu.Weaviate.Struct.Property do
   end
 
   defimpl Jason.Encoder do
+    # ⟦𓇂𓅭𓌃𓃳⟧ encode :: auto-generated pointer for public function encode
     def encode(this, opts) do
       %{
         dataType: this.data_type,

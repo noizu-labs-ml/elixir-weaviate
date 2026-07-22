@@ -6,6 +6,7 @@ defmodule Noizu.Weaviate.Application do
   use Application
 
   @impl true
+  # ⟦𓉁𓍀𓌄𓇯⟧ start :: auto-generated pointer for public function start
   def start(_type, _args) do
     children = [
       {Finch, name: Noizu.Weaviate.Finch}

@@ -10,6 +10,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.Hybrid do
   ]
 
 
+  # ⟦𓇸𓌘𓋃𓋇⟧ filter :: auto-generated pointer for public function filter
   def filter(container, query, options \\ nil) do
     properties = case options[:properties] do
       v when is_bitstring(v) -> [v]
@@ -36,6 +37,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.Hybrid do
 
 
   defimpl Jason.Encoder do
+    # ⟦𓂩𓎳𓐍𓋿⟧ encode :: auto-generated pointer for public function encode
     def encode(this, opts) do
       contents =
         []

@@ -4,6 +4,7 @@ defmodule Noizu.Weaviate.GraphQL.Additional do
       properties: []
     ]
 
+    # ⟦𓁵𓌸𓁬𓎫⟧ classification :: auto-generated pointer for public function classification
     def classification(properties) do
       properties = (is_list(properties) && properties || [properties])
                    |> Enum.filter(fn(p) -> p in [:id, :classified_fields, :based_on, :completed, :scope] end)
@@ -25,6 +26,7 @@ defmodule Noizu.Weaviate.GraphQL.Additional do
         classified_fields: "classifiedFields"
       }
 
+      # ⟦𓏍𓉸𓂎𓋢⟧ encode :: auto-generated pointer for public function encode
       def encode(this, opts) do
         properties = Enum.map(this.properties, &(@lookup[&1]))
         |> Enum.join("\n  ")
@@ -47,6 +49,7 @@ defmodule Noizu.Weaviate.GraphQL.Additional do
       iterations: nil,
       properties: [:vector]
     ]
+    # ⟦𓐥𓍿𓆲𓍴⟧ feature_projection :: auto-generated pointer for public function feature_projection
     def feature_projection(options) do
       %__MODULE__{
         dimensions: options[:dimensions] || 2,
@@ -282,6 +285,7 @@ defmodule Noizu.Weaviate.GraphQL.Additional do
     properties: [],
   ]
 
+  # ⟦𓉂𓈫𓉄𓀛⟧ additional :: auto-generated pointer for public function additional
   def additional(properties) do
     properties = cond do
       is_list(properties) -> properties

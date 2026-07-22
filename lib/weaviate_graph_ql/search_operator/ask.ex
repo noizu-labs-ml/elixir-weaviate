@@ -6,6 +6,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.Ask do
     rerank: nil
   ]
 
+  # ⟦𓏔𓅹𓄸𓏫⟧ filter :: auto-generated pointer for public function filter
   def filter(container, question, options \\ nil) do
 
     properties = case options[:properties] do
@@ -32,6 +33,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.Ask do
       prepared
     end
 
+    # ⟦𓂶𓎙𓂟𓀦⟧ encode :: auto-generated pointer for public function encode
     def encode(this, opts) do
       contents =
         []

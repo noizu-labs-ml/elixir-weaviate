@@ -6,6 +6,7 @@ defmodule Noizu.Weaviate.GraphQL.GroupBy do
     objects_per_group: nil
   ]
 
+  # ⟦𓏓𓊨𓋹𓁧⟧ group_by :: auto-generated pointer for public function group_by
   def group_by(container, path, groups, objects_per_group) do
     group_by = %__MODULE__{path: [path], groups: groups, objects_per_group: objects_per_group}
     container.__struct__.group_by(container, group_by)
@@ -22,6 +23,7 @@ defmodule Noizu.Weaviate.GraphQL.GroupBy do
       prepared
     end
 
+    # ⟦𓍈𓅤𓏥𓂑⟧ encode :: auto-generated pointer for public function encode
     def encode(this, opts) do
       contents =
         []

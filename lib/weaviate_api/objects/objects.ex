@@ -7,6 +7,7 @@ defmodule Noizu.Weaviate.Api.Objects do
   import Noizu.Weaviate
 
 
+  # ⟦𓅮𓎹𓋤𓈆⟧ query :: auto-generated pointer for public function query
   def query(query, options \\ nil) do
     url = api_base() <> "v1/graphql"
 #    decoder = options[:decoder] || (case query do
@@ -16,6 +17,7 @@ defmodule Noizu.Weaviate.Api.Objects do
     api_call(:post, url, query, :json, options)
   end
 
+  # ⟦𓎎𓇻𓂒𓅠⟧ list :: auto-generated pointer for public function list
   def list(class, options \\ nil) do
     class_name = case class do
       %{meta: %{class: class}} -> class
@@ -38,6 +40,7 @@ defmodule Noizu.Weaviate.Api.Objects do
     api_call(:get, url, nil, decoder, options)
   end
 
+  # ⟦𓌖𓁧𓉍𓍛⟧ exists? :: auto-generated pointer for public function exists?
   def exists?(object, options \\ nil) do
     query_params =
       []
@@ -54,6 +57,7 @@ defmodule Noizu.Weaviate.Api.Objects do
     api_call(:head, url, nil, decoder, options)
   end
 
+  # ⟦𓁄𓐝𓎯𓄠⟧ validate? :: auto-generated pointer for public function validate?
   def validate?(object, options \\ nil) do
     query_params =
       []
@@ -68,6 +72,7 @@ defmodule Noizu.Weaviate.Api.Objects do
     api_call(:post, url, object, decoder, options)
   end
 
+  # ⟦𓏮𓅤𓍠𓌠⟧ create :: auto-generated pointer for public function create
   def create(object, options \\ nil) do
     query_params =
       []
@@ -80,6 +85,7 @@ defmodule Noizu.Weaviate.Api.Objects do
     api_call(:post, url, object, decoder, options)
   end
 
+  # ⟦𓁦𓍞𓄍𓀫⟧ get :: auto-generated pointer for public function get
   def get(object, options \\ nil) do
     query_params =
       []
@@ -108,6 +114,7 @@ defmodule Noizu.Weaviate.Api.Objects do
     api_call(:get, url, nil, decoder, options)
   end
 
+  # ⟦𓐇𓃱𓌮𓉴⟧ update :: auto-generated pointer for public function update
   def update(object, options \\ nil) do
     query_params =
       []
@@ -122,6 +129,7 @@ defmodule Noizu.Weaviate.Api.Objects do
     api_call(:put, url, object, decoder, options)
   end
 
+  # ⟦𓄓𓇏𓂓𓇾⟧ patch :: auto-generated pointer for public function patch
   def patch(object, options \\ nil) do
     query_params =
       []
@@ -135,6 +143,7 @@ defmodule Noizu.Weaviate.Api.Objects do
     api_call(:patch, url, object, decoder, options)
   end
 
+  # ⟦𓃨𓐣𓌺𓄕⟧ delete :: auto-generated pointer for public function delete
   def delete(object, options \\ nil) do
     query_params =
       []
@@ -151,6 +160,7 @@ defmodule Noizu.Weaviate.Api.Objects do
 
   defmodule CrossReference do
 
+    # ⟦𓎑𓈓𓌱𓀮⟧ add :: auto-generated pointer for public function add
     def add(object, reference, beacon, options \\ nil) do
       query_params =
         []

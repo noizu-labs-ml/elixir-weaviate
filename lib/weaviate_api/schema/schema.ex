@@ -22,6 +22,7 @@ defmodule Noizu.Weaviate.Api.Schema do
   # -------------------------------
   @spec get(options :: any) ::
           {:ok, any()} | {:error, any()}
+  # ⟦𓆗𓀭𓃜𓋓⟧ get :: auto-generated pointer for public function get
   def get(options \\ nil) do
     url = api_base() <> "v1/schema"
     api_call(:get, url, nil, Noizu.Weaviate.Struct.Schema, options)
@@ -38,6 +39,7 @@ defmodule Noizu.Weaviate.Api.Schema do
 
     @spec create(class :: module, options :: any) ::
             {:ok, any()} | {:error, any()}
+    # ⟦𓎈𓎄𓐗𓀮⟧ create :: auto-generated pointer for public function create
     def create(class, options \\ nil) do
       url = api_base() <> "v1/schema"
       api_call(:post, url, Noizu.Weaviate.Class.definition(class), Noizu.Weaviate.Class.json_handler(class), options)
@@ -57,6 +59,7 @@ defmodule Noizu.Weaviate.Api.Schema do
 
     @spec update(class :: module, options :: any) ::
             {:ok, any()} | {:error, any()}
+    # ⟦𓂤𓀈𓆲𓉚⟧ update :: auto-generated pointer for public function update
     def update(class, options \\ nil) do
       class = case class do
         %Noizu.Weaviate.Struct.Class{} -> class
@@ -68,6 +71,7 @@ defmodule Noizu.Weaviate.Api.Schema do
 
     @spec delete(class :: String.t | module, options :: any) ::
             {:ok, any()} | {:error, any()}
+    # ⟦𓅌𓅝𓇑𓐄⟧ delete :: auto-generated pointer for public function delete
     def delete(class, options \\ nil) do
       class = case class do
         %Noizu.Weaviate.Struct.Class{name: name} -> name
@@ -87,6 +91,7 @@ defmodule Noizu.Weaviate.Api.Schema do
 
       @spec add(class :: module | String.t, property :: Noizu.Weaviate.Struct.Property.t, options :: any) ::
               {:ok, any()} | {:error, any()}
+      # ⟦𓌁𓆧𓀚𓇉⟧ add :: auto-generated pointer for public function add
       def add(class, property, options \\ nil) do
         class = case class do
           %Noizu.Weaviate.Struct.Class{name: name} -> name
@@ -179,6 +184,7 @@ defmodule Noizu.Weaviate.Api.Schema do
 
       @spec remove(class :: module | String.t, tenants :: Noizu.Weaviate.Struct.Tenant.t | [Noizu.Weaviate.Struct.Tenant.t], options :: any) ::
               {:ok, any()} | {:error, any()}
+      # ⟦𓁡𓇂𓌋𓎝⟧ remove :: auto-generated pointer for public function remove
       def remove(class, tenants, options \\ nil) do
         class = case class do
           %Noizu.Weaviate.Struct.Class{name: name} -> name
@@ -205,6 +211,7 @@ defmodule Noizu.Weaviate.Api.Schema do
 
       @spec get_tenant(class :: module | String.t, tenant_name :: String.t, options :: any) ::
               {:ok, any()} | {:error, any()}
+      # ⟦𓈳𓇘𓅋𓅥⟧ get_tenant :: auto-generated pointer for public function get_tenant
       def get_tenant(class, tenant_name, options \\ nil) do
         class = case class do
           %Noizu.Weaviate.Struct.Class{name: name} -> name

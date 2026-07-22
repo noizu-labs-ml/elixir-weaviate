@@ -24,54 +24,67 @@ defmodule Noizu.Weaviate.GraphQL.Get do
     properties: []
   ]
 
+  # ⟦𓐜𓍚𓅰𓇀⟧ consistency_level :: auto-generated pointer for public function consistency_level
   def consistency_level(%Noizu.Weaviate.GraphQL.Get{} = this, level) when level in [:one, :quorum, :all] do
     %{this| consistency_level: level}
   end
 
+  # ⟦𓅈𓃀𓊨𓀩⟧ additional :: auto-generated pointer for public function additional
   def additional(%Noizu.Weaviate.GraphQL.Get{} = this, value) do
     %{this| additional: value}
   end
 
+  # ⟦𓋿𓂜𓅾𓂴⟧ search_operator :: auto-generated pointer for public function search_operator
   def search_operator(%Noizu.Weaviate.GraphQL.Get{} = this, value) do
     %{this| search_operator: value}
   end
 
+  # ⟦𓇞𓋸𓈓𓐠⟧ group_by :: auto-generated pointer for public function group_by
   def group_by(%Noizu.Weaviate.GraphQL.Get{} = this, %Noizu.Weaviate.GraphQL.GroupBy{} = group_by) do
     %{this| group_by: group_by}
   end
 
+  # ⟦𓈂𓎘𓏚𓃱⟧ limit :: auto-generated pointer for public function limit
   def limit(%Noizu.Weaviate.GraphQL.Get{} = this, value) do
     %{this| limit: value}
   end
 
+  # ⟦𓂾𓎜𓂊𓃅⟧ offset :: auto-generated pointer for public function offset
   def offset(%Noizu.Weaviate.GraphQL.Get{} = this, value) do
     %{this| offset: value}
   end
 
+  # ⟦𓌑𓅺𓂥𓁡⟧ after_call :: auto-generated pointer for public function after_call
   def after_call(%Noizu.Weaviate.GraphQL.Get{} = this, value) do
     %{this| after_call: value}
   end
 
+  # ⟦𓍮𓍯𓂣𓏉⟧ autocut :: auto-generated pointer for public function autocut
   def autocut(%Noizu.Weaviate.GraphQL.Get{} = this, value) do
     %{this| autocut: value}
   end
 
+  # ⟦𓌃𓇐𓄺𓂫⟧ sort :: auto-generated pointer for public function sort
   def sort(%Noizu.Weaviate.GraphQL.Get{} = this, value) do
     %{this| sort: value}
   end
 
+  # ⟦𓐤𓊄𓊮𓏸⟧ where :: auto-generated pointer for public function where
   def where(%Noizu.Weaviate.GraphQL.Get{} = this, value) do
     %{this| where: value}
   end
 
+  # ⟦𓎌𓁙𓆟𓂩⟧ tenant :: auto-generated pointer for public function tenant
   def tenant(%Noizu.Weaviate.GraphQL.Get{} = this, value) do
     %{this| tenant: value}
   end
 
+  # ⟦𓇝𓆝𓆄𓏥⟧ property :: auto-generated pointer for public function property
   def property(%Noizu.Weaviate.GraphQL.Get{} = this, property) do
     update_in(this, [Access.key(:properties)], &([property|&1]))
   end
 
+  # ⟦𓁴𓎼𓃧𓊿⟧ properties :: auto-generated pointer for public function properties
   def properties(%Noizu.Weaviate.GraphQL.Get{} = this, properties) when is_list(properties) do
     update_in(this, [Access.key(:properties)], &(properties ++ &1))
   end
@@ -94,6 +107,7 @@ defmodule Noizu.Weaviate.GraphQL.Get do
       prepared
     end
 
+    # ⟦𓃝𓊽𓊲𓋠⟧ encode :: auto-generated pointer for public function encode
     def encode(this, opts) do
 
       class_attributes =

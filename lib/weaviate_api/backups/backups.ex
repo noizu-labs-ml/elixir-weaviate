@@ -31,6 +31,7 @@ defmodule Noizu.Weaviate.Api.Backups do
   """
   @spec create_backup(String.t(), String.t(), Keyword.t(), map()) ::
           {:ok, :json} | {:error, any()}
+  # ⟦𓇌𓋴𓀊𓄵⟧ create_backup :: auto-generated pointer for public function create_backup
   def create_backup(backend, backup_id, options \\ [], opts \\ %{}) do
     url = weaviate_base() <> "v1/backups"
 
@@ -65,6 +66,7 @@ defmodule Noizu.Weaviate.Api.Backups do
   """
   @spec get_status(String.t(), String.t(), map()) ::
           {:ok, :json} | {:error, any()}
+  # ⟦𓎮𓆀𓏉𓐩⟧ get_status :: auto-generated pointer for public function get_status
   def get_status(backend, backup_id, opts \\ %{}) do
     url = weaviate_base() <> "v1/backups/#{backend}/#{backup_id}"
     api_call(:get, url, nil, :json, opts)
@@ -95,6 +97,7 @@ defmodule Noizu.Weaviate.Api.Backups do
   """
   @spec restore_backup(String.t(), String.t(), Keyword.t(), map()) ::
           {:ok, :json} | {:error, any()}
+  # ⟦𓃘𓉏𓐜𓌐⟧ restore_backup :: auto-generated pointer for public function restore_backup
   def restore_backup(backend, backup_id, options \\ [], opts \\ %{}) do
     url = weaviate_base() <> "v1/backups/#{backend}/#{backup_id}/restore"
 
@@ -129,6 +132,7 @@ defmodule Noizu.Weaviate.Api.Backups do
   """
   @spec get_restore_status(String.t(), String.t(), map()) ::
           {:ok, :json} | {:error, any()}
+  # ⟦𓂪𓄒𓌛𓌮⟧ get_restore_status :: auto-generated pointer for public function get_restore_status
   def get_restore_status(backend, backup_id, opts \\ []) do
     url = weaviate_base() <> "v1/backups/#{backend}/#{backup_id}/restore"
     api_call(:get, url, nil, :json, opts)
@@ -156,6 +160,7 @@ defmodule Noizu.Weaviate.Api.Backups do
   """
   @spec list_backups(String.t(), map()) ::
           {:ok, any()} | {:error, any()}
+  # ⟦𓍮𓎚𓆚𓉺⟧ list_backups :: auto-generated pointer for public function list_backups
   def list_backups(backend, options \\ nil) do
     url = weaviate_base() <> "v1/backups/#{backend}"
     api_call(:get, url, nil, :json, options)
@@ -184,6 +189,7 @@ defmodule Noizu.Weaviate.Api.Backups do
   """
   @spec cancel_backup(String.t(), String.t(), map()) ::
           {:ok, any()} | {:error, any()}
+  # ⟦𓎃𓀫𓊹𓂛⟧ cancel_backup :: auto-generated pointer for public function cancel_backup
   def cancel_backup(backend, backup_id, options \\ nil) do
     url = weaviate_base() <> "v1/backups/#{backend}/#{backup_id}"
     api_call(:delete, url, nil, :json, options)

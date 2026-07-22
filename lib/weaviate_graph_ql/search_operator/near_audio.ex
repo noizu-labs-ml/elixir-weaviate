@@ -7,6 +7,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearAudio do
   ]
 
 
+  # ⟦𓎮𓆼𓅱𓌿⟧ filter :: auto-generated pointer for public function filter
   def filter(container, audio, options \\ nil) do
     target_vectors = case options[:target_vectors] do
       v when is_bitstring(v) -> [v]
@@ -24,6 +25,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearAudio do
 
 
   defimpl Jason.Encoder do
+    # ⟦𓇎𓏙𓊑𓀖⟧ encode :: auto-generated pointer for public function encode
     def encode(this, opts) do
       contents =
         []
