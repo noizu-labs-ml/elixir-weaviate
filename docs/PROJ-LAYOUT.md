@@ -7,12 +7,17 @@ elixir-weaviate/
 │   ├── dev.exs                     #   Dev overrides
 │   └── test.exs                    #   Test overrides (Mimic)
 ├── docs/                           # Documentation
+│   ├── arch/                       #   Architecture deep-dives (class-macro, data-flow, layers)
 │   ├── layout/                     #   Detailed layout breakdowns
 │   ├── graphql.md                  #   GraphQL API reference
 │   ├── modules.md                  #   Vectorizer/generative module catalog
 │   ├── rest-api.md                 #   REST API reference (v1.28+)
+│   ├── PROJ-ARCH.md                #   Architecture doc (+ PROJ-ARCH.summary.md)
 │   ├── PROJ-LAYOUT.md              #   This file
-│   └── PROJ-LAYOUT.summary.md     #   Companion tree summary
+│   ├── PROJ-LAYOUT.summary.md     #   Companion tree summary
+│   ├── PROJ-SCHEMA.md              #   Data-contract/config schema reference
+│   ├── PROJ-SCHEMA.summary.md     #   Companion schema summary
+│   └── THREAT-MODEL.md            #   Threat model (+ THREAT-MODEL.summary.md)
 ├── lib/                            # Application source → [layout/lib.md](layout/lib.md)
 │   ├── weaviate_api/               #   REST API wrappers (1:1 with endpoints)
 │   ├── weaviate_classes/           #   `weaviate_class` macro and protocol
@@ -28,6 +33,8 @@ elixir-weaviate/
 ├── .formatter.exs                  # Elixir formatter config
 ├── .gitignore                      # Git ignore rules
 ├── .tool-versions                  # asdf — Elixir 1.20.1, Erlang 29.0.2
+├── AGENT.md                        # AGENTS.md-style guidance (Codex/Grok/Cursor)
+├── AGENTS.md                       # Agent instructions (same policy as AGENT.md)
 ├── CLAUDE.md                       # Claude Code project instructions
 ├── docker-compose.yml              # Weaviate + modules on localhost:9004
 ├── LICENSE                         # MIT license

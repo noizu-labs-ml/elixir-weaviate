@@ -43,3 +43,6 @@ npm-debug.log
 prod/
 .idea/
 priv/static
+
+# Canonical worktree placement
+.claude/worktrees/

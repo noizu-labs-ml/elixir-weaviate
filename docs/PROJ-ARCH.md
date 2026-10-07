@@ -33,10 +33,12 @@ graph TB
 | HTTP Core | `Noizu.Weaviate` | `api_call/5` — unified HTTP dispatch, JSON encode/decode, response routing |
 | REST API | `Noizu.Weaviate.Api.*` | Thin wrappers mapping 1:1 to Weaviate REST endpoints |
 | GraphQL | `Noizu.Weaviate.GraphQL` | Builder-pattern query structs (Get, Aggregate, Explore) |
-| Search Operators | `Noizu.Weaviate.GraphQL.*` | NearText, BM25, Hybrid, NearVector, and 10 more |
+| Search Operators | `Noizu.Weaviate.GraphQL.*` | NearText, BM25, Hybrid, NearVector, and 9 more (13 total) |
 | Class Macro | `Noizu.Weaviate.Class` | `weaviate_class/2` — generates struct, encoder, introspection |
 | Data Structs | `Noizu.Weaviate.Struct.*` | Typed representations of Weaviate schema concepts |
-| Application | `Noizu.Weaviate.Application` | OTP app — supervises Finch pool |
+| Application | `Noizu.Weaviate.Application` | OTP app — supervises Finch pool (`Noizu.Weaviate.Supervisor` → `Noizu.Weaviate.Finch`) |
+
+→ *Components ↔ directories: see [PROJ-LAYOUT.md](PROJ-LAYOUT.md) (detail in [layout/lib.md](layout/lib.md)); data contract in [PROJ-SCHEMA.md](PROJ-SCHEMA.md)*
 
 ## Three-Layer Architecture
 
