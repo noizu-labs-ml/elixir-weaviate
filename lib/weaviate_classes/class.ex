@@ -29,7 +29,7 @@ defmodule Noizu.Weaviate.Class do
     ]
   end
 
-  defmacro __using__(options \\ nil) do
+  defmacro __using__(_options \\ nil) do
     quote do
       Module.register_attribute(__MODULE__, :properties, accumulate: true)
       Module.register_attribute(__MODULE__, :class_description, accumulate: false)
@@ -139,8 +139,8 @@ defmodule Noizu.Weaviate.Class do
   end
 
   def definition(class, options \\ nil)
-  def definition(%Noizu.Weaviate.Struct.Class{} = class, options), do: class
-  def definition(class, options), do: apply(class, :definition, [])
+  def definition(%Noizu.Weaviate.Struct.Class{} = class, _options), do: class
+  def definition(class, _options), do: apply(class, :definition, [])
 
   def json_handler(class, options \\ nil)
   def json_handler(%Noizu.Weaviate.Struct.Class{}, _options), do: Noizu.Weaviate.Struct.Class

@@ -24,7 +24,7 @@ defmodule Noizu.Weaviate.Struct.MultiTenancyConfig do
         autoTenantCreation: this.auto_tenant_creation,
         autoTenantActivation: this.auto_tenant_activation
       }
-      |> Enum.reject(fn {k,v} -> is_nil(v) end)
+      |> Enum.reject(fn {_k,v} -> is_nil(v) end)
       |> Map.new()
       |> Jason.Encode.map(opts)
     end

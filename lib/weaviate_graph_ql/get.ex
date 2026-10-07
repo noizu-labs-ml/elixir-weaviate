@@ -5,7 +5,6 @@ defmodule Noizu.Weaviate.GraphQL.Get do
     offset: nil,
     after_call: nil,
     include: nil,
-    sort: nil,
     order: nil,
 
     consistency_level: nil, # ONE, QUORUM, ALL
@@ -94,7 +93,7 @@ defmodule Noizu.Weaviate.GraphQL.Get do
       prepared
     end
 
-    def encode(this, opts) do
+    def encode(this, _opts) do
 
       class_attributes =
         []
@@ -139,7 +138,7 @@ defmodule Noizu.Weaviate.GraphQL.Get do
 
       class = case this.class do
         v when is_bitstring(v) -> v
-        v when is_atom(v) -> v.__class__
+        v when is_atom(v) -> v.__class__()
       end
 
       query = if class_attributes do

@@ -23,7 +23,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.Group do
       prepared
     end
 
-    def encode(this, opts) do
+    def encode(this, _opts) do
       contents =
         []
         |> then(& this.type && [{:type, this.type} | &1] || &1)

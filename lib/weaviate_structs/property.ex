@@ -45,7 +45,7 @@ defmodule Noizu.Weaviate.Struct.Property do
         moduleConfig: this.module_config,
         nestedProperties: this.nested_properties
       }
-      |> Enum.reject(fn {k,v} -> is_nil(v) end)
+      |> Enum.reject(fn {_k,v} -> is_nil(v) end)
       |> Map.new()
       |> Jason.Encode.map(opts)
     end

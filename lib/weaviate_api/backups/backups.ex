@@ -3,7 +3,6 @@ defmodule Noizu.Weaviate.Api.Backups do
   Functions for working with backups in Weaviate.
   """
 
-  require Noizu.Weaviate
   import Noizu.Weaviate
 
   # -------------------------------

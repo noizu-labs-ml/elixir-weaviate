@@ -25,10 +25,10 @@ defmodule Noizu.Weaviate.GraphQL.Additional do
         classified_fields: "classifiedFields"
       }
 
-      def encode(this, opts) do
+      def encode(this, _opts) do
         properties = Enum.map(this.properties, &(@lookup[&1]))
         |> Enum.join("\n  ")
-        encoded = """
+        """
         classification {
           #{properties}
         }
@@ -64,7 +64,7 @@ defmodule Noizu.Weaviate.GraphQL.Additional do
         vector: "vector",
       }
 
-      def encode(this, opts) do
+      def encode(this, _opts) do
         properties = Enum.map(this.properties, &(@lookup[&1]))
                      |> Enum.join("\n  ")
         options =
@@ -77,7 +77,7 @@ defmodule Noizu.Weaviate.GraphQL.Additional do
           |> Enum.map(fn({k,v}) -> "#{k}: #{inspect v}" end)
           |> Enum.join(", ")
 
-        encoded = """
+        """
                   featureProjection(#{options}) {
                     #{properties}
                   }
@@ -305,7 +305,7 @@ defmodule Noizu.Weaviate.GraphQL.Additional do
       is_consistent: "isConsistent",
     }
 
-    def encode(this, opts) do
+    def encode(this, _opts) do
       contents = Enum.map(this.properties,
         fn
           (property) when property in [:id, :vector, :generate, :rerank, :creation_time, :last_update_time, :distance, :certainty, :score, :explain_score, :is_consistent] -> @lookup[property]

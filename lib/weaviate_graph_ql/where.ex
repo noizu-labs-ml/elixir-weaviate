@@ -1,14 +1,5 @@
 defmodule Noizu.Weaviate.GraphQL.Where do
 
-  @value_types [
-    :value_int,
-    :value_boolean,
-    :value_string,
-    :value_text,
-    :value_number,
-    :value_date
-  ]
-
   @value_type_lookup %{
     int: :value_int,
     bool: :value_boolean,
@@ -23,14 +14,7 @@ defmodule Noizu.Weaviate.GraphQL.Where do
   ]
 
   defimpl Jason.Encoder do
-    defp nest(string, prefix) do
-      prepared = String.trim(string)
-                 |> String.split("\n")
-                 |> Enum.join("\n#{prefix}")
-      prepared
-    end
-
-    def encode(this, opts) do
+    def encode(this, _opts) do
       Jason.encode!(this.operator) |> String.trim()
     end
   end
@@ -49,7 +33,7 @@ defmodule Noizu.Weaviate.GraphQL.Where do
         prepared
       end
 
-      def encode(this, opts) do
+      def encode(this, _opts) do
         contents =
           this.operands
           |> Enum.map(fn
@@ -83,7 +67,7 @@ defmodule Noizu.Weaviate.GraphQL.Where do
         prepared
       end
 
-      def encode(this, opts) do
+      def encode(this, _opts) do
         contents =
           this.operands
           |> Enum.map(fn
@@ -116,7 +100,7 @@ defmodule Noizu.Weaviate.GraphQL.Where do
         prepared
       end
 
-      def encode(this, opts) do
+      def encode(this, _opts) do
         contents =
           this.operands
           |> Enum.map(fn
@@ -143,7 +127,7 @@ defmodule Noizu.Weaviate.GraphQL.Where do
     ]
 
     defimpl Jason.Encoder do
-      def encode(this, opts) do
+      def encode(this, _opts) do
         value_type = case this.value_type do
           :value_int -> "valueInt"
           :value_boolean -> "valueBoolean"
@@ -171,7 +155,7 @@ defmodule Noizu.Weaviate.GraphQL.Where do
     ]
 
     defimpl Jason.Encoder do
-      def encode(this, opts) do
+      def encode(this, _opts) do
         value_type = case this.value_type do
           :value_int -> "valueInt"
           :value_boolean -> "valueBoolean"
@@ -199,7 +183,7 @@ defmodule Noizu.Weaviate.GraphQL.Where do
     ]
 
     defimpl Jason.Encoder do
-      def encode(this, opts) do
+      def encode(this, _opts) do
         value_type = case this.value_type do
           :value_int -> "valueInt"
           :value_boolean -> "valueBoolean"
@@ -235,13 +219,7 @@ defmodule Noizu.Weaviate.GraphQL.Where do
         prepared
       end
 
-      def encode(this, opts) do
-        contents =
-          this.operands
-          |> Enum.map(fn
-            {k} -> "#{nest(Jason.encode!(k), "  ")}"
-          end)
-          |> Enum.join(",\n")
+      def encode(this, _opts) do
         """
         {
           operator: WithinGeoRange,
@@ -249,7 +227,7 @@ defmodule Noizu.Weaviate.GraphQL.Where do
             latitude: #{this.coordinates.latitude},
             longitude: #{this.coordinates.longitude},
           }
-          distance: #{Jason.encode(this.distance) |> nest("  ")}
+          distance: #{Jason.encode!(this.distance) |> nest("  ")}
           path: #{inspect this.path}
         }
         """ |> String.trim()
@@ -268,14 +246,7 @@ defmodule Noizu.Weaviate.GraphQL.Where do
 
 
     defimpl Jason.Encoder do
-      defp nest(string, prefix) do
-        prepared = String.trim(string)
-                   |> String.split("\n")
-                   |> Enum.join("\n#{prefix}")
-        prepared
-      end
-
-      def encode(this, opts) do
+      def encode(this, _opts) do
         value_type = case this.value_type do
           :value_int -> "valueInt"
           :value_boolean -> "valueBoolean"

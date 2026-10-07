@@ -29,7 +29,6 @@ defmodule Noizu.Weaviate do
 
   @weaviate_base Application.compile_env(:noizu_weaviate, :endpoint, "http://api.weaviate.com/")
 
-  require Finch
 
   def weaviate_base(), do: @weaviate_base
   def api_base(), do: @weaviate_base
@@ -108,7 +107,7 @@ defmodule Noizu.Weaviate do
         # apply(model, :from_json, [json])
       else
         error ->
-          Logger.warn("STREAM API ERROR: \n #{inspect(error)}")
+          Logger.warning("STREAM API ERROR: \n #{inspect(error)}")
           error
       end
     else
@@ -123,7 +122,7 @@ defmodule Noizu.Weaviate do
         end
       else
         error ->
-          Logger.warn("API ERROR: \n #{inspect(error)}")
+          Logger.warning("API ERROR: \n #{inspect(error)}")
           error
       end
     end
@@ -179,7 +178,7 @@ defmodule Noizu.Weaviate do
     request =
       Finch.build(type, url, headers(), body)
       |> tap(fn finch ->
-        case request_log_callback = options[:request_log_callback] do
+        case options[:request_log_callback] do
           nil -> :nop
           v when is_function(v, 1) -> v.(finch)
           {m, f} -> apply(m, f, [finch])
@@ -195,7 +194,7 @@ defmodule Noizu.Weaviate do
       request_timeout: 600_000
     )
     |> tap(fn finch ->
-      case response_log_callback = options[:response_log_callback] do
+      case options[:response_log_callback] do
         nil -> :nop
         v when is_function(v, 3) -> v.(finch, request, ts)
         {m, f} -> apply(m, f, [finch, request, ts])
@@ -215,7 +214,7 @@ defmodule Noizu.Weaviate do
     request =
       Finch.build(type, url, headers(), body)
       |> tap(fn finch ->
-        case request_log_callback = options[:request_log_callback] do
+        case options[:request_log_callback] do
           nil -> :nop
           v when is_function(v, 1) -> v.(finch)
           {m, f} -> apply(m, f, [finch])
@@ -229,7 +228,7 @@ defmodule Noizu.Weaviate do
       receive_timeout: 600_000
     )
     |> tap(fn finch ->
-      case response_log_callback = options[:response_log_callback] do
+      case options[:response_log_callback] do
         nil -> :nop
         v when is_function(v, 3) -> v.(finch, request, ts)
         {m, f} -> apply(m, f, [finch, request, ts])

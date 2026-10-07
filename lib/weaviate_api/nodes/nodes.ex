@@ -3,8 +3,6 @@ defmodule Noizu.Weaviate.Api.Nodes do
   Functions for getting information about the Weaviate nodes.
   """
 
-  require Noizu.Weaviate
-  import Noizu.Weaviate
 
   @doc """
   Get information about the Weaviate nodes.

@@ -32,7 +32,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearObject do
 
 
   defimpl Jason.Encoder do
-    def encode(this, opts) do
+    def encode(this, _opts) do
       contents =
         []
         |> then(& this.id && [{:id, this.id} | &1] || &1)

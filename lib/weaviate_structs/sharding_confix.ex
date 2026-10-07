@@ -39,7 +39,7 @@ defmodule Noizu.Weaviate.Struct.ShardingConfig do
         strategy: this.strategy,
         function: this.function
       }
-      |> Enum.reject(fn {k,v} -> is_nil(v) end)
+      |> Enum.reject(fn {_k,v} -> is_nil(v) end)
       |> Map.new()
       |> Jason.Encode.map(opts)
     end

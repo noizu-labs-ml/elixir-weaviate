@@ -3,7 +3,6 @@ defmodule Noizu.Weaviate.Api.Authz do
   Functions for interacting with the Weaviate RBAC authorization API.
   """
 
-  require Noizu.Weaviate
   import Noizu.Weaviate
 
   # -------------------------------

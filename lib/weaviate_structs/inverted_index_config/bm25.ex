@@ -23,7 +23,7 @@ defmodule Noizu.Weaviate.Struct.InvertedIndexConfig.BM25 do
         b: this.b,
         k1: this.k1
       }
-      |> Enum.reject(fn {k,v} -> is_nil(v) end)
+      |> Enum.reject(fn {_k,v} -> is_nil(v) end)
       |> Map.new()
       |> Jason.Encode.map(opts)
     end

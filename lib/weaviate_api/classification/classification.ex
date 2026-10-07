@@ -3,7 +3,6 @@ defmodule Noizu.Weaviate.Api.Classification do
   Functions for classification operations in Weaviate.
   """
 
-  require Noizu.Weaviate
   import Noizu.Weaviate
 
   @doc """

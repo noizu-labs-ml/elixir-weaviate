@@ -24,7 +24,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearImage do
 
 
   defimpl Jason.Encoder do
-    def encode(this, opts) do
+    def encode(this, _opts) do
       contents =
         []
         |> then(& [{:image, this.image} | &1])

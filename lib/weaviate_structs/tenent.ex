@@ -22,7 +22,7 @@ defmodule Noizu.Weaviate.Struct.Tenant do
         name: this.name,
         activityStatus: this.activity_status,
       }
-      |> Enum.reject(fn {k,v} -> is_nil(v) end)
+      |> Enum.reject(fn {_k,v} -> is_nil(v) end)
       |> Map.new()
       |> Jason.Encode.map(opts)
     end

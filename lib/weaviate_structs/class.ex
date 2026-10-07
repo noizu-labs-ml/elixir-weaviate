@@ -71,7 +71,7 @@ defmodule Noizu.Weaviate.Struct.Class do
         vectorConfig: this.vector_config,
         shardingConfig: this.sharding_config
       }
-      |> Enum.reject(fn {k,v} -> is_nil(v) end)
+      |> Enum.reject(fn {_k,v} -> is_nil(v) end)
       |> Map.new()
       |> Jason.Encode.map(opts)
     end

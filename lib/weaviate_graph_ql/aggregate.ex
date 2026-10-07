@@ -89,7 +89,7 @@ defmodule Noizu.Weaviate.GraphQL.Aggregate do
     def encode(this, _opts) do
       class = case this.class do
         v when is_bitstring(v) -> v
-        v when is_atom(v) -> v.__class__
+        v when is_atom(v) -> v.__class__()
       end
 
       class_attributes =

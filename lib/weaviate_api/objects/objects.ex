@@ -3,7 +3,6 @@ defmodule Noizu.Weaviate.Api.Objects do
   Functions for interacting with data objects in Weaviate.
   """
 
-  require Noizu.Weaviate
   import Noizu.Weaviate
 
 
@@ -19,7 +18,7 @@ defmodule Noizu.Weaviate.Api.Objects do
   def list(class, options \\ nil) do
     class_name = case class do
       %{meta: %{class: class}} -> class
-      v when is_bitstring(class) -> class
+      _ when is_bitstring(class) -> class
     end
     decoder = options[:decoder] || Noizu.Weaviate.Class.Protocol.decoder(class, options)
     query_params =

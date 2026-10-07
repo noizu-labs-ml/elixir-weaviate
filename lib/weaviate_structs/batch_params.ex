@@ -20,7 +20,7 @@ defmodule Noizu.Weaviate.Struct.BatchParams do
       %{
         consistencyLevel: this.consistency_level,
       }
-      |> Enum.reject(fn {k,v} -> is_nil(v) end)
+      |> Enum.reject(fn {_k,v} -> is_nil(v) end)
       |> Map.new()
       |> Jason.Encode.map(opts)
     end

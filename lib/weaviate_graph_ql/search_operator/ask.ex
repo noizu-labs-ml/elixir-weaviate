@@ -32,7 +32,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.Ask do
       prepared
     end
 
-    def encode(this, opts) do
+    def encode(this, _opts) do
       contents =
         []
         |> then(& this.question && [{:question, this.question} | &1] || &1)

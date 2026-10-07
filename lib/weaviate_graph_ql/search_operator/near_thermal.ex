@@ -24,7 +24,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearThermal do
 
 
   defimpl Jason.Encoder do
-    def encode(this, opts) do
+    def encode(this, _opts) do
       contents =
         []
         |> then(& [{:thermal, this.thermal} | &1])

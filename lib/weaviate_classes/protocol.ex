@@ -1,25 +1,25 @@
 defprotocol Noizu.Weaviate.Class.Protocol do
-  def id(subject, options \\ nil)
-  def class(subject, options \\ nil)
-  def decoder(subject, options \\ nil)
+  def id(subject, options)
+  def class(subject, options)
+  def decoder(subject, options)
 end
 
 
 defimpl Noizu.Weaviate.Class.Protocol, for: Any do
-  def id(subject, options \\ nil), do: nil
-  def class(subject, options \\ nil), do: nil
-  def decoder(subject, options \\ nil), do: :json
+  def id(_subject, _options), do: nil
+  def class(_subject, _options), do: nil
+  def decoder(_subject, _options), do: :json
 
-  defmacro __deriving__(module, struct, options) do
+  defmacro __deriving__(module, _struct, _options) do
     quote do
       defimpl Noizu.Weaviate.Class.Protocol, for: [unquote(module)] do
-        def id(subject, options \\ nil) do
+        def id(subject, _options) do
           subject.meta.id
         end
-        def class(subject, options \\ nil) do
+        def class(subject, _options) do
           subject.meta.class
         end
-        def decoder(subject, options \\ nil) do
+        def decoder(subject, _options) do
           subject.__struct__
         end
       end
@@ -28,13 +28,13 @@ defimpl Noizu.Weaviate.Class.Protocol, for: Any do
 end
 
 defimpl Noizu.Weaviate.Class.Protocol, for: Noizu.Weaviate.Class do
-  def id(subject, options \\ nil) do
+  def id(subject, _options) do
     subject.meta.id
   end
-  def class(subject, options \\ nil) do
+  def class(subject, _options) do
     subject.meta.class
   end
-  def decoder(subject, options \\ nil) do
+  def decoder(subject, _options) do
     subject.__struct__
   end
 end

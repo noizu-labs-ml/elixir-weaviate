@@ -15,7 +15,6 @@ defmodule Noizu.Weaviate.Api.Schema do
       {:ok, response} = Noizu.Weaviate.Api.Schema.configure_class(class_name, class_config)
   """
 
-  alias Noizu.Weaviate
   import Noizu.Weaviate
   # -------------------------------
   # Schema
@@ -32,7 +31,6 @@ defmodule Noizu.Weaviate.Api.Schema do
   # Noizu.Weaviate.Api.Schema.Class
   #------------------------------------------------
   defmodule Class do
-    alias Noizu.Weaviate
     import Noizu.Weaviate
 
 
@@ -49,7 +47,7 @@ defmodule Noizu.Weaviate.Api.Schema do
       class = case class do
         %Noizu.Weaviate.Struct.Class{name: name} -> name
         name when is_bitstring(name) -> name
-        m -> Noizu.Weaviate.Class.definition(class).name
+        _ -> Noizu.Weaviate.Class.definition(class).name
       end
       url = api_base() <> "v1/schema/#{class}"
       api_call(:get, url, nil, Noizu.Weaviate.Class.json_handler(class), options)
@@ -60,7 +58,7 @@ defmodule Noizu.Weaviate.Api.Schema do
     def update(class, options \\ nil) do
       class = case class do
         %Noizu.Weaviate.Struct.Class{} -> class
-        m -> Noizu.Weaviate.Class.definition(class)
+        _ -> Noizu.Weaviate.Class.definition(class)
       end
       url = api_base() <> "v1/schema/#{class.name}"
       api_call(:put, url, Noizu.Weaviate.Class.definition(class), Noizu.Weaviate.Class.json_handler(class), options)
@@ -72,7 +70,7 @@ defmodule Noizu.Weaviate.Api.Schema do
       class = case class do
         %Noizu.Weaviate.Struct.Class{name: name} -> name
         name when is_bitstring(name) -> name
-        m -> Noizu.Weaviate.Class.definition(class).name
+        _ -> Noizu.Weaviate.Class.definition(class).name
       end
       url = api_base() <> "v1/schema/#{class}"
       api_call(:delete, url, nil, :json, options)
@@ -82,7 +80,6 @@ defmodule Noizu.Weaviate.Api.Schema do
     # Noizu.Weaviate.Api.Schema.Class.Properties
     #------------------------------------------------
     defmodule Properties do
-      alias Noizu.Weaviate
       import Noizu.Weaviate
 
       @spec add(class :: module | String.t, property :: Noizu.Weaviate.Struct.Property.t, options :: any) ::
@@ -91,7 +88,7 @@ defmodule Noizu.Weaviate.Api.Schema do
         class = case class do
           %Noizu.Weaviate.Struct.Class{name: name} -> name
           name when is_bitstring(name) -> name
-          m -> Noizu.Weaviate.Class.definition(class).name
+          _ -> Noizu.Weaviate.Class.definition(class).name
         end
         url = api_base() <> "v1/schema/#{class}/properties"
         api_call(:post, url, property, Noizu.Weaviate.Struct.Property, options)
@@ -103,7 +100,6 @@ defmodule Noizu.Weaviate.Api.Schema do
     # Noizu.Weaviate.Api.Schema.Class.Shards
     #------------------------------------------------
     defmodule Shards do
-      alias Noizu.Weaviate
       import Noizu.Weaviate
 
       @spec get(class :: module | String.t, options :: any) ::
@@ -112,7 +108,7 @@ defmodule Noizu.Weaviate.Api.Schema do
         class = case class do
           %Noizu.Weaviate.Struct.Class{name: name} -> name
           name when is_bitstring(name) -> name
-          m -> Noizu.Weaviate.Class.definition(class).name
+          _ -> Noizu.Weaviate.Class.definition(class).name
         end
         url = api_base() <> "v1/schema/#{class}/shards"
         api_call(:get, url, nil, :json, options)
@@ -124,7 +120,7 @@ defmodule Noizu.Weaviate.Api.Schema do
         class = case class do
           %Noizu.Weaviate.Struct.Class{name: name} -> name
           name when is_bitstring(name) -> name
-          m -> Noizu.Weaviate.Class.definition(class).name
+          _ -> Noizu.Weaviate.Class.definition(class).name
         end
         shard = case shard do
           %{name: name} -> name
@@ -143,7 +139,6 @@ defmodule Noizu.Weaviate.Api.Schema do
     # Noizu.Weaviate.Api.Schema.Class.Tenants
     #------------------------------------------------
     defmodule Tenants do
-      alias Noizu.Weaviate
       import Noizu.Weaviate
 
       # -------------------------------
@@ -155,7 +150,7 @@ defmodule Noizu.Weaviate.Api.Schema do
         class = case class do
           %Noizu.Weaviate.Struct.Class{name: name} -> name
           name when is_bitstring(name) -> name
-          m -> Noizu.Weaviate.Class.definition(class).name
+          _ -> Noizu.Weaviate.Class.definition(class).name
         end
         url = api_base() <> "v1/schema/#{class}/tenants"
         api_call(:get, url, nil, :json, options)
@@ -167,7 +162,7 @@ defmodule Noizu.Weaviate.Api.Schema do
         class = case class do
           %Noizu.Weaviate.Struct.Class{name: name} -> name
           name when is_bitstring(name) -> name
-          m -> Noizu.Weaviate.Class.definition(class).name
+          _ -> Noizu.Weaviate.Class.definition(class).name
         end
         url = api_base() <> "v1/schema/#{class}/tenants"
         tenants = cond do
@@ -183,7 +178,7 @@ defmodule Noizu.Weaviate.Api.Schema do
         class = case class do
           %Noizu.Weaviate.Struct.Class{name: name} -> name
           name when is_bitstring(name) -> name
-          m -> Noizu.Weaviate.Class.definition(class).name
+          _ -> Noizu.Weaviate.Class.definition(class).name
         end
         url = api_base() <> "v1/schema/#{class}/tenants"
         tenants = cond do
@@ -209,7 +204,7 @@ defmodule Noizu.Weaviate.Api.Schema do
         class = case class do
           %Noizu.Weaviate.Struct.Class{name: name} -> name
           name when is_bitstring(name) -> name
-          m -> Noizu.Weaviate.Class.definition(class).name
+          _ -> Noizu.Weaviate.Class.definition(class).name
         end
         url = api_base() <> "v1/schema/#{class}/tenants/#{tenant_name}"
         api_call(:get, url, nil, :json, options)
@@ -221,7 +216,7 @@ defmodule Noizu.Weaviate.Api.Schema do
         class = case class do
           %Noizu.Weaviate.Struct.Class{name: name} -> name
           name when is_bitstring(name) -> name
-          m -> Noizu.Weaviate.Class.definition(class).name
+          _ -> Noizu.Weaviate.Class.definition(class).name
         end
         url = api_base() <> "v1/schema/#{class}/tenants"
         tenants = cond do

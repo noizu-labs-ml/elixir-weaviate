@@ -3,7 +3,6 @@ defmodule Noizu.Weaviate.Api.Meta do
   Functions for getting meta information about the Weaviate instance.
   """
 
-  require Noizu.Weaviate
   import Noizu.Weaviate
 
   # -------------------------------

@@ -23,7 +23,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.BM25 do
 
 
   defimpl Jason.Encoder do
-    def encode(this, opts) do
+    def encode(this, _opts) do
       contents =
         []
         |> then(& this.query && [{:query, this.query} | &1] || &1)

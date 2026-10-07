@@ -22,7 +22,7 @@ defmodule Noizu.Weaviate.GraphQL.GroupBy do
       prepared
     end
 
-    def encode(this, opts) do
+    def encode(this, _opts) do
       contents =
         []
         |> then(& this.path && [{:path, this.path} | &1] || &1)

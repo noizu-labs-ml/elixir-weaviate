@@ -3,8 +3,6 @@ defmodule Noizu.Weaviate.Api.Batch do
   Functions for batch operations in Weaviate.
   """
 
-  require Noizu.Weaviate
-  import Noizu.Weaviate
 
   # -------------------------------
   # Batch create objects

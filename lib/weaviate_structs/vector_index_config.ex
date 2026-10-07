@@ -57,7 +57,7 @@ defmodule Noizu.Weaviate.Struct.VectorIndexConfig do
         sq: this.sq,
         skip: this.skip
       }
-      |> Enum.reject(fn {k,v} -> is_nil(v) end)
+      |> Enum.reject(fn {_k,v} -> is_nil(v) end)
       |> Map.new()
       |> Jason.Encode.map(opts)
     end

@@ -3,9 +3,8 @@ defmodule Noizu.Weaviate.Struct.DataObject do
   Struct for representing a data object in Weaviate.
   """
 
-  defstruct [:class_name, :properties, :additional_properties, :id, :vector, :tenant]
-
   @enforce_keys [:class_name, :properties]
+  defstruct [:class_name, :properties, :additional_properties, :id, :vector, :tenant]
 
   @type t :: %__MODULE__{
           class_name: String.t(),

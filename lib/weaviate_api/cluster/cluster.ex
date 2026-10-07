@@ -3,7 +3,6 @@ defmodule Noizu.Weaviate.Api.Cluster do
   Functions for interacting with the Weaviate cluster API.
   """
 
-  require Noizu.Weaviate
   import Noizu.Weaviate
 
   @doc """

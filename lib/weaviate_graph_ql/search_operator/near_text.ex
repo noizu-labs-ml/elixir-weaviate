@@ -30,7 +30,6 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearText do
     target_vectors: nil,
   ]
 
-  defp from_option(nil), do: nil
   defp from_options(options) do
     concepts = case options[:concepts] do
       v when is_bitstring(v) -> [v]
@@ -124,7 +123,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearText do
       prepared
     end
 
-    def encode(this, opts) do
+    def encode(this, _opts) do
       contents =
         []
         |> then(& this.concepts && [{:concepts, this.concepts} | &1] || &1)

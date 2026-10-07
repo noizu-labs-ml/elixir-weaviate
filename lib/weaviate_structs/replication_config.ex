@@ -24,7 +24,7 @@ defmodule Noizu.Weaviate.Struct.ReplicationConfig do
         deletionStrategy: this.deletion_strategy,
         asyncEnabled: this.async_enabled
       }
-      |> Enum.reject(fn {k,v} -> is_nil(v) end)
+      |> Enum.reject(fn {_k,v} -> is_nil(v) end)
       |> Map.new()
       |> Jason.Encode.map(opts)
     end

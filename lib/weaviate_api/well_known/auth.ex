@@ -4,7 +4,6 @@ defmodule Noizu.Weaviate.Api.Auth do
   """
 
   alias Noizu.Weaviate
-  require Noizu.Weaviate
   import Noizu.Weaviate
 
 

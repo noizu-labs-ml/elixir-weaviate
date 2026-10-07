@@ -25,7 +25,7 @@ defmodule Noizu.Weaviate.GraphQL.SearchOperator.NearVector do
 
   defimpl Jason.Encoder do
 
-    def encode(this, opts) do
+    def encode(this, _opts) do
       contents =
         []
         |> then(& [{:vector, this.vector} | &1])
