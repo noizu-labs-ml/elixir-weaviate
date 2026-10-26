@@ -16,6 +16,7 @@ elixir-weaviate/
 │   ├── api/                        #   Unit tests (mocked)
 │   ├── live/                       #   Integration tests
 │   └── support/                    #   Test helpers
+├── .github/                        # CI (GitHub Actions)
 ├── .tool-versions                  # asdf versions
 ├── docker-compose.yml              # Local Weaviate
 ├── mix.exs                         # Project definition

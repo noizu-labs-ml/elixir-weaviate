@@ -31,6 +31,7 @@ elixir-weaviate/
 │   ├── support/                    #   Test helper modules and class definitions
 │   └── test_helper.exs             #   Test setup (ExUnit, Mimic)
 ├── .formatter.exs                  # Elixir formatter config
+├── .github/                        # GitHub Actions CI (compile + test workflow)
 ├── .gitignore                      # Git ignore rules
 ├── .tool-versions                  # asdf — Elixir 1.20.1, Erlang 29.0.2
 ├── AGENT.md                        # AGENTS.md-style guidance (Codex/Grok/Cursor)

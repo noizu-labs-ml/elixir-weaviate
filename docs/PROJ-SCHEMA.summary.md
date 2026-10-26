@@ -6,7 +6,7 @@ No relational store — schema surface is config env + struct data contract. Det
 
 | Key | Type | Default | Notes |
 |-----|------|---------|-------|
-| `endpoint` | String | prod `http://api.weaviate.com/`; dev/test `http://localhost:9004/` (`WEAVIATE_ENDPOINT`) | Compile-time (`Application.compile_env`) |
+| `endpoint` | String | prod `http://api.weaviate.com/`; test `http://localhost:9004/` (`WEAVIATE_ENDPOINT`); dev hardcoded `http://localhost:9004/` | Compile-time (`Application.compile_env`) |
 | `weaviate_api_key` | String \| nil | nil (`WEAVIATE_API_KEY`) | Bearer token |
 
 ## Struct contract (`lib/weaviate_structs/`)

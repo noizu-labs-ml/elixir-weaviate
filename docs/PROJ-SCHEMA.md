@@ -6,8 +6,8 @@
 
 | Key | Type | Default | Source | Description |
 |-----|------|---------|--------|-------------|
-| `endpoint` | `String.t()` | `"http://api.weaviate.com/"` (prod) / `"http://localhost:9004/"` (dev, test) | `config/{env}.exs`; test/dev read `WEAVIATE_ENDPOINT` | Weaviate base URL. **Compile-time** — baked into `Noizu.Weaviate` via `Application.compile_env/3`; changing it requires recompiling consumers |
-| `weaviate_api_key` | `String.t() \| nil` | `nil` | `WEAVIATE_API_KEY` env | API key sent as bearer token on every request |
+| `endpoint` | `String.t()` | `"http://api.weaviate.com/"` (prod) / `"http://localhost:9004/"` (dev, test) | `config/{env}.exs` — test.exs reads `WEAVIATE_ENDPOINT`; dev.exs hardcodes localhost:9004 | Weaviate base URL. **Compile-time** — baked into `Noizu.Weaviate` via `Application.compile_env/3`; changing it requires recompiling consumers |
+| `weaviate_api_key` | `String.t() \| nil` | `nil` | test.exs maps `WEAVIATE_API_KEY` env; read from app env per request (`headers/0`) | API key sent as bearer token on every request |
 
 Related (not library-owned): `config :junit_formatter, report_file: "results.xml"` in dev/test.
 

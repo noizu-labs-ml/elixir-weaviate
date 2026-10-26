@@ -27,7 +27,7 @@ Grounding: components and data flow per [PROJ-ARCH.md](PROJ-ARCH.md); dispatch c
 |----|----------|--------|-----------|--------|
 | T-001 | High | Spoofing / Info disclosure | Default endpoint `http://api.weaviate.com/` is plain HTTP — credential and vector data in cleartext if consumer does not override | Open (documented; consumer must set HTTPS `endpoint`) |
 | T-002 | Medium | DoS | `Jason.decode(body, keys: :atoms)` in `api_call/5` and streaming path creates atoms from response keys — atom-table exhaustion if the endpoint is hostile/MITM'd | Open (accepted: endpoint is trusted infra; would require `keys: :atoms_existing` + struct-key prelude to fix) |
-| T-003 | Low | Info disclosure | `Logger.warn("API ERROR: #{inspect(error)}")` can write full response/request bodies (incl. bearer header via Finch request inspect in callbacks) into host logs | Open (accepted: aids debugging; consumers should scrub logs) |
+| T-003 | Low | Info disclosure | `Logger.warning("API ERROR: #{inspect(error)}")` can write full response/request bodies (incl. bearer header via Finch request inspect in callbacks) into host logs | Open (accepted: aids debugging; consumers should scrub logs) |
 | T-004 | Low | DoS | Fixed 600 s pool/receive/request timeouts hold Finch pool members on slow endpoints | Open (accepted: batch/import workloads need long timeouts) |
 | T-005 | Info | — | `docker-compose.yml` runs Weaviate 1.20.4 with `AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'` | Mitigated by scope (dev-only, bound port; never deploy this compose as-is) |
 
