@@ -1,5 +1,7 @@
 defmodule Noizu.Weaviate.Struct.Class do
   @moduledoc """
+  〚📦:98e5f22d-228b-53cd-91ca-38076d873687〛 Noizu.Weaviate.Struct.Class :: Weaviate schema-class struct and wire decoding (from_json).
+
   Struct for representing a class in Weaviate schema.
   """
 

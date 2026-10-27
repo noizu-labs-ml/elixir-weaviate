@@ -1,4 +1,8 @@
 defmodule Noizu.Weaviate.GraphQL do
+  @moduledoc """
+  〚📦:2aff2912-924b-5d35-92a9-4d18abbee76f〛 Noizu.Weaviate.GraphQL :: GraphQL query builder entrypoints (get/aggregate/explore) and clause helpers.
+  """
+
   def encode_value(v) when is_atom(v) and v not in [nil, true, false], do: "#{v}"
   def encode_value(v), do: inspect(v)
   def get(class) do

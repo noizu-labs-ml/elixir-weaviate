@@ -1,4 +1,7 @@
 defprotocol Noizu.Weaviate.Class.Protocol do
+  @moduledoc """
+  〚🔌:19f61d0d-d477-5fff-aa6e-c50c11ab768a〛 Noizu.Weaviate.Class.Protocol :: Class-identity contract — id/class/decoder for structs sent to the API.
+  """
   def id(subject, options)
   def class(subject, options)
   def decoder(subject, options)

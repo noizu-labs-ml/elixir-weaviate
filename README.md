@@ -1,5 +1,7 @@
 # Noizu.Weaviate - README
 
+<!-- 〚📁:85ceb218-f289-5f0a-b527-f969c3657515〛 Noizu.Weaviate README :: Project entry point — install, configure, and use the Weaviate REST/GraphQL wrapper. -->
+
 Noizu.Weaviate is an Elixir library providing a wrapper around Weaviate's REST and GraphQL APIs. It supports schema/collection management, object CRUD, batch operations, GraphQL queries (Get, filters, search operators), backups, classification, and more.
 
 ## Table of Contents

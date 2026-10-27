@@ -1,5 +1,7 @@
 defmodule Noizu.Weaviate do
   @moduledoc """
+  〚📦:79686c14-784b-5904-8769-e8c66bb90b7a〛 Noizu.Weaviate :: Core client entrypoint — transport, auth headers, api_call dispatch.
+
   Noizu.Weaviate is a library providing a simple wrapper around Weaviate's API calls.
   It handles various API features such as meta information, batch operations, backups,
   schema operations, nodes information, data objects, and classification.
@@ -77,6 +79,8 @@ defmodule Noizu.Weaviate do
   #
   # -------------------------------
   @doc """
+  〚🔧:d9bac577-ee6c-57b4-9c6c-c05f39b90a1e〛 api_call :: Single entry for all HTTP calls — fetch or stream, JSON decode, model decode.
+
   A helper function to make API calls to the OpenAI API. This function handles both non-stream and stream API calls.
 
   ## Parameters
@@ -131,6 +135,9 @@ defmodule Noizu.Weaviate do
   # -------------------------------
   #
   # -------------------------------
+  @doc """
+  〚🔧:294b35ed-ccdc-59a4-afc5-5f193167a4b8〛 headers :: Base JSON headers + Bearer auth from app env (read per request).
+  """
   def headers() do
     [
       {"Content-Type", "application/json"}

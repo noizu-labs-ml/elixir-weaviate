@@ -1,5 +1,7 @@
 defmodule Noizu.Weaviate.Api.Objects do
   @moduledoc """
+  〚📦:387a3bb3-87ff-5780-ab03-dcd5bdd37f61〛 Noizu.Weaviate.Api.Objects :: Data-object CRUD against the v1/objects REST surface.
+
   Functions for interacting with data objects in Weaviate.
   """
 
