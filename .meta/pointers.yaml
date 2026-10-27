@@ -1,0 +1,98 @@
+---
+pointers:
+  19f61d0d-d477-5fff-aa6e-c50c11ab768a:
+    created_at: 2026-10-27T02:02:41.427615Z
+    description: Class-identity contract — id/class/decoder for structs sent to the API.
+    file_path: lib/weaviate_classes/protocol.ex
+    function: Noizu.Weaviate.Class.Protocol
+    kind: interface
+    line: 3
+    locations:
+      - file_path: lib/weaviate_classes/protocol.ex
+        line: 3
+    token: 𔉇𔋠𔌩𔖪
+    updated_at: 2026-10-27T02:02:41.427615Z
+  294b35ed-ccdc-59a4-afc5-5f193167a4b8:
+    created_at: 2026-10-27T02:02:41.427610Z
+    description: Base JSON headers + Bearer auth from app env (read per request).
+    file_path: lib/noizu_weaviate.ex
+    function: headers
+    kind: function
+    line: 139
+    locations:
+      - file_path: lib/noizu_weaviate.ex
+        line: 139
+    token: 𓿇𓪤𓰦𔌨
+    updated_at: 2026-10-27T02:02:41.427610Z
+  2aff2912-924b-5d35-92a9-4d18abbee76f:
+    created_at: 2026-10-27T02:02:41.427606Z
+    description: GraphQL query builder entrypoints (get/aggregate/explore) and clause helpers.
+    file_path: lib/weaviate_graph_ql/graph_ql.ex
+    function: Noizu.Weaviate.GraphQL
+    kind: module
+    line: 3
+    locations:
+      - file_path: lib/weaviate_graph_ql/graph_ql.ex
+        line: 3
+    token: 𓽨𓖽𓬒𓶟
+    updated_at: 2026-10-27T02:02:41.427606Z
+  387a3bb3-87ff-5780-ab03-dcd5bdd37f61:
+    created_at: 2026-10-27T02:02:41.427603Z
+    description: Data-object CRUD against the v1/objects REST surface.
+    file_path: lib/weaviate_api/objects/objects.ex
+    function: Noizu.Weaviate.Api.Objects
+    kind: module
+    line: 3
+    locations:
+      - file_path: lib/weaviate_api/objects/objects.ex
+        line: 3
+    token: 𓭟𔄮𓉄𓶱
+    updated_at: 2026-10-27T02:02:41.427603Z
+  79686c14-784b-5904-8769-e8c66bb90b7a:
+    created_at: 2026-10-27T02:02:41.427593Z
+    description: Core client entrypoint — transport, auth headers, api_call dispatch.
+    file_path: lib/noizu_weaviate.ex
+    function: Noizu.Weaviate
+    kind: module
+    line: 3
+    locations:
+      - file_path: lib/noizu_weaviate.ex
+        line: 3
+    token: 𓨓𓩐𓯙𓶚
+    updated_at: 2026-10-27T02:02:41.427593Z
+  85ceb218-f289-5f0a-b527-f969c3657515:
+    created_at: 2026-10-27T02:02:41.427574Z
+    description: Project entry point — install, configure, and use the Weaviate REST/GraphQL wrapper.
+    file_path: README.md
+    function: Noizu.Weaviate README
+    kind: file
+    line: 3
+    locations:
+      - file_path: README.md
+        line: 3
+    token: 𓞗𐦒𓾗𓸕
+    updated_at: 2026-10-27T02:02:41.427574Z
+  98e5f22d-228b-53cd-91ca-38076d873687:
+    created_at: 2026-10-27T02:02:41.427619Z
+    description: Weaviate schema-class struct and wire decoding (from_json).
+    file_path: lib/weaviate_structs/class.ex
+    function: Noizu.Weaviate.Struct.Class
+    kind: module
+    line: 3
+    locations:
+      - file_path: lib/weaviate_structs/class.ex
+        line: 3
+    token: 𔓁𓮕𓫼𓈧
+    updated_at: 2026-10-27T02:02:41.427619Z
+  d9bac577-ee6c-57b4-9c6c-c05f39b90a1e:
+    created_at: 2026-10-27T02:02:41.427622Z
+    description: Single entry for all HTTP calls — fetch or stream, JSON decode, model decode.
+    file_path: lib/noizu_weaviate.ex
+    function: api_call
+    kind: function
+    line: 82
+    locations:
+      - file_path: lib/noizu_weaviate.ex
+        line: 82
+    token: 𔖈𔐚𓫚𓯎
+    updated_at: 2026-10-27T02:02:41.427622Z
